@@ -76,8 +76,8 @@ cd %{name}-%{ver}.CVS
 rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure \
 	--without-socks \
 	--with-bot \
@@ -96,20 +96,12 @@ rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
 autoheader
-autoconf
-automake -a -c -f
-%configure -with-irssi=../irssi-0.8.4.CVS
+%{__autoconf}
+%{__automake}
+%configure \
+	--with-irssi=../irssi-0.8.4.CVS
 
-# Disabled, becouse there's in irssi new connect function...
-#%{__make}
-#cd ../%{name}-icq
-#libtoolize --copy --force
-#aclocal -I %{_aclocaldir}/gnome
-#autoheader
-#autoconf
-#automake -a -c -f
-#%configure -with-irssi=../irssi-0.8.4.CVS
-#%{__make}
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
