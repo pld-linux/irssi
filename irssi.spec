@@ -1,6 +1,9 @@
-%{!?_without_perl:%include	/usr/lib/rpm/macros.perl}
+# Conditional build:
+%bcond_without  perl	# without perl support
+%bcond_without  ipv6	# without IPv6 support
+#
 %define		_idea_ver	0.1.46
-
+%{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
@@ -28,7 +31,7 @@ BuildRequires:	glib-devel
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	openssl-devel >= 0.9.7c
-%{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
+%{?with_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
@@ -75,10 +78,10 @@ rm -f missing
 	--with-proxy \
 	--with-terminfo \
 	--with-modules \
-	%{?!_without_perl:--with-perl=yes} \
-	%{?!_without_perl:--with-perl-lib=vendor} \
-	%{?_without_perl:--with-perl=no} \
-	--enable-ipv6 \
+	%{?with_perl:--with-perl=yes} \
+	%{?with_perl:--with-perl-lib=vendor} \
+	%{!?with_perl:--with-perl=no} \
+	%{?with_ipv6:--enable-ipv6} \
 	--enable-nls
 
 %{__make}
@@ -125,7 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/irssi.conf
 %{_mandir}/man1/*
 
-%if %{?!_without_perl:1}0
+%if %{with perl}
 %{perl_vendorarch}/*.pm
 %dir %{perl_vendorarch}/Irssi
 %{perl_vendorarch}/Irssi/*.pm
