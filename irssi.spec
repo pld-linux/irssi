@@ -1,7 +1,7 @@
 #
 # Conditional build:
-%bcond_without  perl	# without perl support
-%bcond_without  ipv6	# without IPv6 support
+%bcond_without	perl	# without perl support
+%bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 #
 %define		_idea_ver	0.1.46
