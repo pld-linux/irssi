@@ -1,6 +1,6 @@
 %define	ver	0.7.97
 %define	plev	2
-%{?bcond_off_perl:%include	/usr/lib/rpm/macros.perl}
+%{?bcond_off_perl:#}%include	/usr/lib/rpm/macros.perl
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
@@ -60,7 +60,7 @@ NOCONFIGURE=1 ./autogen.sh
 %configure \
 	--without-socks \
 	--with-textui=ncurses \
-	--with-bot \
+	--without-bot \
 	--with-proxy \
 	--with-modules \
 	%{?bcond_on_gnome:--with-gnome} \
