@@ -1,0 +1,15 @@
+--- irssi-0.7.98.4/configure.in~	Sat Jan 19 23:50:09 2002
++++ irssi-0.7.98.4/configure.in	Sat Jan 19 23:50:09 2002
+@@ -186,8 +186,10 @@
+ 	PROG_LIBS="$PROG_LIBS -lsocket"
+ ])
+ 
+-AC_CHECK_LIB(nsl, inet_addr, [
+-	PROG_LIBS="$PROG_LIBS -lnsl"
++AC_CHECK_FUNC(inet_addr, [], [
++	AC_CHECK_LIB(nsl, inet_addr,
++		PROG_LIBS="$PROG_LIBS -lnsl"
++	)
+ ], -lsocket)
+ 
+ dnl * gcc specific options
