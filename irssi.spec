@@ -3,12 +3,12 @@ Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
-Version:	0.8.4
-Release:	4
+Version:	0.8.5
+Release:	1
 License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
-Source0:	http://real.irssi.org/files/%{name}-%{version}a.tar.bz2
+Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		%{name}-dcc-send-limit.patch
