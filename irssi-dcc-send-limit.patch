@@ -3,7 +3,7 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h irssi-0.8.4/src/irc/dcc/dcc-rec.
 +++ irssi-0.8.4/src/irc/dcc/dcc-rec.h	Thu Mar 14 02:20:25 2002
 @@ -20,6 +20,12 @@
  time_t starttime; /* transfer start time */
- unsigned long transfd; /* bytes transferred */
+ uoff_t transfd; /* bytes transferred */
  
 +int timeout_tag;
 +
@@ -17,14 +17,17 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h irssi-0.8.4/src/irc/dcc/dcc-rec.
 diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-send.c
 --- irssi-0.8.4.orig/src/irc/dcc/dcc-send.c	Sun Jan 20 04:10:27 2002
 +++ irssi-0.8.4/src/irc/dcc/dcc-send.c	Thu Mar 14 02:21:22 2002
-@@ -50,14 +50,84 @@
+@@ -217,17 +217,87 @@
  {
  	if (!IS_DCC_SEND(dcc)) return;
  
 +	if (dcc->timeout_tag != -1)
 +		g_source_remove(dcc->timeout_tag);
 +
- 	if (dcc->fhandle != -1) close(dcc->fhandle);
+ 	if (dcc->fhandle != -1)
+ 		close(dcc->fhandle);
+ 
+ 	dcc_queue_send_next(dcc->queue);
  }
  
 +static int sent_too_much(SEND_DCC_REC *dcc)
@@ -103,7 +106,7 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  
  	ret = read(dcc->fhandle, buffer, sizeof(buffer));
  	if (ret <= 0) {
-@@ -118,6 +188,7 @@
+@@ -282,6 +352,7 @@
          GIOChannel *handle;
  	IPADDR addr;
  	int port;
@@ -111,7 +114,7 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  
  	/* accept connection */
  	handle = net_accept(dcc->handle, &addr, &port);
-@@ -132,6 +203,13 @@
+@@ -296,6 +366,13 @@
  	g_source_remove(dcc->tagconn);
          dcc->tagconn = -1;
  
@@ -125,19 +128,19 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  	dcc->starttime = time(NULL);
  	dcc->handle = handle;
  	memcpy(&dcc->addr, &addr, sizeof(IPADDR));
-@@ -235,6 +313,7 @@
- 	dcc->size = fsize;
+@@ -390,6 +460,7 @@
  	dcc->fhandle = hfile;
+ 	dcc->queue = queue;
          dcc->file_quoted = strchr(fname, ' ') != NULL;
 +	dcc->timeout_tag = -1;
  	dcc->tagconn = g_input_add(handle, G_INPUT_READ,
  				   (GInputFunction) dcc_send_connected, dcc);
  
-@@ -256,6 +335,7 @@
- {
+@@ -412,6 +490,7 @@
          dcc_register_type("SEND");
  	settings_add_str("dcc", "dcc_upload_path", "~");
+ 	settings_add_bool("dcc", "dcc_send_replace_space_with_underscore", FALSE);
 +	settings_add_int("dcc", "dcc_send_top_speed", 0);
- 
  	signal_add("dcc destroyed", (SIGNAL_FUNC) sig_dcc_destroyed);
  	command_bind("dcc send", NULL, (SIGNAL_FUNC) cmd_dcc_send);
+ 	command_set_options("dcc send", "append flush prepend rmhead rmtail");
