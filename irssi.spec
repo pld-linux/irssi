@@ -1,6 +1,7 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
 %define	snap	20020514
 %define ver	0.8.4
+%define ver_icq 0.1
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
@@ -14,6 +15,7 @@ Source0:	http://irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
 Source1:	xirssi-%{snap}.tar.bz2
 Source2:	%{name}.desktop
 Source3:	%{name}.png
+Source4:	http://irssi.org/files/plugins/icq/%{name}-icq-%{ver_icq}.tgz
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -52,9 +54,21 @@ xirssi is a GTK+2 frontend for irssi.
 %description -n xirssi -l pl
 xirssi jest nak³adk± w GTK+2 na irssi
 
+%package icq
+Summary:	ICQ plugin for irssi
+Summary(pl):	Wtyczka ICQ do irssi
+Group:		Applications/Communications
+Requires:	irssi
+
+%description icq
+With this plugin you can have all irc-chats and icq chats in one window.
+
+%description icq -l pl
+Dziêki temu pluginowi mo¿esz ircowaæ i u¿ywaæ icq - i to wszystko w jednym oknie.
+
 %prep
 #%setup -q -n %{name}-%{ver}.CVS
-%setup -q -c -b 0 -b 1
+%setup -q -c -b 0 -b 1 -b 4
 
 %build
 cd %{name}-%{ver}.CVS
@@ -86,6 +100,14 @@ automake -a -c -f
 %configure -with-irssi=../irssi-0.8.4.CVS
 
 %{__make}
+cd ../%{name}-icq
+libtoolize --copy --force
+aclocal -I %{_aclocaldir}/gnome
+autoheader
+autoconf
+automake -a -c -f
+%configure -with-irssi=../irssi-0.8.4.CVS
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -112,7 +134,11 @@ gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 cd ../xirssi
 install -d $RPM_BUILD_ROOT/usr/X11R6/bin
 install src/xirssi $RPM_BUILD_ROOT/usr/X11R6/bin/
+gzip -9nf AUTHORS ChangeLog TODO
 
+cd ../irssi-icq
+install src/core/.libs/libicq_core.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
+install src/fe-common/.libs/libfe_icq.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
 %clean
 #rm -rf $RPM_BUILD_ROOT
 
@@ -122,7 +148,7 @@ install src/xirssi $RPM_BUILD_ROOT/usr/X11R6/bin/
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
-%attr(755,root,root) %{_libdir}/irssi/modules/*.so*
+%attr(755,root,root) %{_libdir}/irssi/modules/*proxy*.so*
 %{_datadir}/%{name}
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
@@ -148,5 +174,9 @@ install src/xirssi $RPM_BUILD_ROOT/usr/X11R6/bin/
 %{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/UI/*.so
 
 %files -n xirssi
-%defattr(644,root,root,755
+%defattr(644,root,root,755)
 %attr(755,root,root) /usr/X11R6/bin/*
+
+%files icq
+%defattr(644,root,root,755)
+%attr(755,root,root)%{_libdir}/irssi/modules/*icq*so
