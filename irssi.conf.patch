@@ -1,17 +1,15 @@
---- irssi-0.8.4.oryg/irssi.conf	Sun Mar 10 15:10:01 2002
-+++ irssi-0.8.4/irssi.conf	Mon May 13 02:22:21 2002
-@@ -10,7 +10,8 @@
-   { address = "irc.openprojects.net"; chatnet = "OPN"; port = "6667"; },
-   { address = "irc.gnome.org"; chatnet = "GIMPNet"; port = "6667"; },
-   { address = "irc.ptlink.net"; chatnet = "PTlink"; port = "6667"; },
--  { address = "silc.pspt.fi"; chatnet = "SILC"; port = "706"; }
-+  { address = "silc.pspt.fi"; chatnet = "SILC"; port = "706"; },
-+  { address = "irc.pld.org.pl"; chatnet = "PLDNet"; port = "6667"; }
+--- irssi-0.8.6/irssi.conf.orig	Thu Sep 12 01:00:08 2002
++++ irssi-0.8.6/irssi.conf	Tue Nov 19 14:47:41 2002
+@@ -22,6 +22,7 @@
+   },
+   { address = "irc.ptnet.org"; chatnet = "PTnet"; port = "6667"; },
+   { address = "irc.azzurra.org"; chatnet = "AzzurraNET"; port = "6667"; },
++  { address = "irc.pld.org.pl"; chatnet = "PLDNet"; port = "6667"; },
+   { address = "silc.pspt.fi"; chatnet = "SILC"; port = "706"; }
  );
  
- chatnets = {
-@@ -54,12 +55,21 @@
-     max_msgs = "100";
+@@ -104,11 +105,20 @@
+     max_msgs = "3";
    };
    SILC = { type = "SILC"; };
 +  PLDNet = {
@@ -26,10 +24,8 @@
  
  channels = (
    { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-   { name = "#irssi"; chatnet = "opn"; autojoin = "No"; },
--  { name = "#silc"; chatnet = "silc"; autojoin = "No"; }
-+  { name = "#silc"; chatnet = "silc"; autojoin = "No"; },
-+  { name = "#pldhelp"; chatnet = "PLDNet"; autojoin = "No"; }
+   { name = "#irssi"; chatnet = "freenode"; autojoin = "No"; },
++  { name = "#pldhelp"; chatnet = "PLDNet"; autojoin = "No"; },
+   { name = "#silc"; chatnet = "silc"; autojoin = "No"; }
  );
  
- aliases = {
