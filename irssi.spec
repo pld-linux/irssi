@@ -13,7 +13,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -40,9 +40,10 @@ BuildRequires:	ncurses-devel >= 5.0
 %{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
 BuildRequires:	pkgconfig
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Irssi is a textUI IRC client with IPv6 support.
