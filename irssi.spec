@@ -27,6 +27,7 @@ Patch1:		%{name}-tinfo.patch
 Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}.conf.patch
 Patch4:		%{name}-idea-listlen.patch
+Patch5:		%{name}-gcc4.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -71,6 +72,7 @@ Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 rm -f missing
