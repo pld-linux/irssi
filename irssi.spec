@@ -1,5 +1,8 @@
-# _with_glib1	use glib1 instead of glib2
 #
+# Conditional build:
+# _with_glib1		- use glib1 instead of glib2
+# _without_ipv6		- build without IPv6 support
+# _without_perl		- do not use perl
 #
 %{!?_without_perl:%include	/usr/lib/rpm/macros.perl}
 %define         snap 20030710
@@ -46,7 +49,7 @@ rm -f missing
 	%{!?_without_perl:--with-perl=module} \
 	%{!?_without_perl:--with-perl-lib=vendor} \
 	%{?_without_perl:--with-perl=no} \
-	--enable-ipv6 \
+	%{!?_without_ipv6:--enable-ipv6} \
 	%{?_with_glib1:--with-glib1}
 
 %{__make}
