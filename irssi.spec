@@ -2,7 +2,7 @@
 #
 #
 %{!?_without_perl:%include	/usr/lib/rpm/macros.perl}
-%define         snap 20030302
+%define         snap 20030710
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
@@ -13,6 +13,7 @@ License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
+# Source0-md5:	bc81277214421abce02a3b6b2618b099
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
