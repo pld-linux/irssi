@@ -17,10 +17,12 @@ License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}-%{_rc}.tar.gz
 # Source0-md5:	7c0b6c1533c85e918f41ded1238e4ca1
+# Source0-size:	1192158
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
+# Source3-size:	182673
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-tinfo.patch
 Patch2:		%{name}-home_etc.patch
