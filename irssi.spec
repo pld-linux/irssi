@@ -22,11 +22,10 @@ BuildRequires:	XFree86-devel
 BuildRequires:	gettext-devel
 BuildRequires:	mysql-devel
 URL:		http://xlife.dhs.org/irssi/
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
 %define		_sysconfdir	/etc/X11/GNOME
-%define		_applnkdir	%{_datadir}/applnk
 
 %description
 Irssi is a textUI IRC client with IPv6 support  by Timo Sirainen
