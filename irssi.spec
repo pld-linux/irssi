@@ -14,17 +14,21 @@ Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		%{name}-dcc-send-limit.patch
+Patch1:		%{name}-no_libnsl.patch
+Patch2:		%{name}-am15.patch
+Patch3:		%{name}-libtool.patch
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
-BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
+BuildRequires:	gnome-libs-devel
+BuildRequires:	ncurses-devel >= 5.0
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Irssi is a textUI IRC client with IPv6 support.
@@ -38,9 +42,17 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
-%configure2_13 \
+rm -f missing
+libtoolize --copy --force
+aclocal -I %{_aclocaldir}/gnome
+autoconf
+automake -a -c
+%configure \
 	--without-socks \
 	--with-textui=ncurses \
 	--with-bot \
