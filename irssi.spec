@@ -45,8 +45,8 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 rm -f missing
 libtoolize --copy --force
 aclocal -I .
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure \
 	--without-socks \
 	--with-bot \
