@@ -66,7 +66,7 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network/Communications}
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Network/Communications}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
