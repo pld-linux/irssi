@@ -56,7 +56,7 @@ rm -f missing
 	--with-proxy \
 	--with-terminfo \
 	--with-modules \
-	%{?!_without_perl:--with-perl=module} \
+	%{?!_without_perl:--with-perl=yes} \
 	%{?!_without_perl:--with-perl-lib=vendor} \
 	%{?_without_perl:--with-perl=no} \
 	--enable-ipv6 \
