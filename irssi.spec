@@ -1,6 +1,6 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020516
-%define xsnap   20020516
+%define	snap	20020522
+%define xsnap   20020521
 %define ver	0.8.4
 %define ver_icq 0.1
 Summary:	Irssi is a IRC client
@@ -55,17 +55,17 @@ xirssi is a GTK+2 frontend for irssi.
 %description -n xirssi -l pl
 xirssi jest nak³adk± w GTK+2 na irssi
 
-%package icq
-Summary:	ICQ plugin for irssi
-Summary(pl):	Wtyczka ICQ do irssi
-Group:		Applications/Communications
-Requires:	irssi
+#%package icq
+#Summary:	ICQ plugin for irssi
+#Summary(pl):	Wtyczka ICQ do irssi
+#Group:		Applications/Communications
+#Requires:	irssi
 
-%description icq
-With this plugin you can have all irc-chats and icq chats in one window.
+#%description icq
+#With this plugin you can have all irc-chats and icq chats in one window.
 
-%description icq -l pl
-Dziêki temu pluginowi mo¿esz ircowaæ i u¿ywaæ icq - i to wszystko w jednym oknie.
+#%description icq -l pl
+#Dziêki temu pluginowi mo¿esz ircowaæ i u¿ywaæ icq - i to wszystko w jednym oknie.
 
 %prep
 #%setup -q -n %{name}-%{ver}.CVS
@@ -100,15 +100,16 @@ autoconf
 automake -a -c -f
 %configure -with-irssi=../irssi-0.8.4.CVS
 
-%{__make}
-cd ../%{name}-icq
-libtoolize --copy --force
-aclocal -I %{_aclocaldir}/gnome
-autoheader
-autoconf
-automake -a -c -f
-%configure -with-irssi=../irssi-0.8.4.CVS
-%{__make}
+# Disabled, becouse there's in irssi new connect function...
+#%{__make}
+#cd ../%{name}-icq
+#libtoolize --copy --force
+#aclocal -I %{_aclocaldir}/gnome
+#autoheader
+#autoconf
+#automake -a -c -f
+#%configure -with-irssi=../irssi-0.8.4.CVS
+#%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -183,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pixmapsdir}/*.jpg
 %doc xirssi/*.gz
 
-%files icq
-%defattr(644,root,root,755)
-%attr(755,root,root)%{_libdir}/irssi/modules/*icq*so
-%doc irssi-icq/*.gz
+#%files icq
+#%defattr(644,root,root,755)
+#%attr(755,root,root)%{_libdir}/irssi/modules/*icq*so
+#%doc irssi-icq/*.gz
