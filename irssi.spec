@@ -1,5 +1,5 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020509
+%define	snap	20020512
 %define ver	0.8.4
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
@@ -11,8 +11,9 @@ License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
 Source0:	http://irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
-Source1:	%{name}.desktop
-Source2:	%{name}.png
+Source1:	xirssi-%{snap}.tar.bz2
+Source2:	%{name}.desktop
+Source3:	%{name}.png
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -22,6 +23,8 @@ BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.0.1
 BuildRequires:	gnome-libs-devel
 BuildRequires:	ncurses-devel >= 5.0
+BuildRequires:  gtk+2-devel
+BuildRequires:	freetype-devel
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
@@ -36,10 +39,24 @@ Irssi est client IRC.
 %description -l pl
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
+%package -n xirssi
+Summary:	GTK+2 frontend for irssi
+Summary(pl):	Nak³adka na irssi w GTK+2
+Group:		Applications/Communications
+%define         _xprefix         /usr/X11R6
+
+%description -n xirssi
+xirssi is a GTK+2 frontend for irssi.
+
+%description -n xirssi -l pl
+xirssi jest nak³adk± w GTK+2 na irssi
+
 %prep
-%setup -q -n %{name}-%{ver}.CVS
+#%setup -q -n %{name}-%{ver}.CVS
+%setup -q -c -b 0 -b 1
 
 %build
+cd %{name}-%{ver}.CVS
 rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
@@ -58,17 +75,27 @@ automake -a -c -f
 	--with-glib2
 
 %{__make}
+cd ../xirssi
+rm -f missing
+libtoolize --copy --force
+aclocal -I %{_aclocaldir}/gnome
+autoheader
+autoconf
+automake -a -c -f
+%configure --with-irssi=../irssi-0.8.4.CVS
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network/Communications}
 
+cd %{name}-%{ver}.CVS
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %{?_without_perl:#}(
 %{?_without_perl:#}  for name in Irssi Irssi/Irc Irssi/TextUI Irssi/UI; do
@@ -77,6 +104,10 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{?_without_perl:#}  mv .packlist.new .packlist
 %{?_without_perl:#}  done
 %{?_without_perl:#})
+
+%{__make} install \
+	prefix=%{_xprefix} \
+	DESTDIR=$RPM_BUILD_ROOT
 
 gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 
