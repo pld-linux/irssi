@@ -22,7 +22,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
 BuildRequires:	glib2-devel >= 1:2.0.7
 BuildRequires:	ncurses-devel >= 5.0
-BuildRequires:	openssl-devel >= 0.9.6k
+BuildRequires:	openssl-devel >= 0.9.6m
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
