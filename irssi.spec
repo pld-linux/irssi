@@ -139,12 +139,13 @@ gzip -9nf AUTHORS ChangeLog TODO
 cd ../irssi-icq
 install src/core/.libs/libicq_core.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
 install src/fe-common/.libs/libfe_icq.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
+gzip -9nf AUTHORS ChangeLog README
 %clean
 #rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz docs/*.txt.gz
+%doc %{name}-%{ver}.CVS/*.gz %{name}-%{ver}.CVS/docs/*.txt.gz
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
@@ -176,7 +177,9 @@ install src/fe-common/.libs/libfe_icq.so $RPM_BUILD_ROOT/%{_libdir}/irssi/module
 %files -n xirssi
 %defattr(644,root,root,755)
 %attr(755,root,root) /usr/X11R6/bin/*
+%doc xirssi/*.gz
 
 %files icq
 %defattr(644,root,root,755)
 %attr(755,root,root)%{_libdir}/irssi/modules/*icq*so
+%doc irssi-icq/*.gz
