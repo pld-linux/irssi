@@ -1,31 +1,42 @@
+Summary:  	Irssi is a IRC client
+Summary(fr):	Irssi est un client IRC ecrit en GTK
+Summary(pl):	Irssi - klient IRC
 Name: 		irssi
-Version: 	0.7.16
+Version: 	0.7.18.1
 Release: 	1
 Vendor: 	Timo Sirainen <cras@irccrew.org>
-Summary:  	Irssi is a IRC client
 Copyright: 	GPL
 Group: 		Applications/Communications
 Group(pl):      Aplikacje/Komunikacja
-URL: 		http://xlife.dhs.org/irssi/
-Source0: 	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.gz
+Source0: 	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
 BuildRequires:	libPropList-devel
 BuildRequires:	glib-devel
-BuildRequires:	ncurses-devel
+BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	imlib-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	XFree86-devel
+URL: 		http://xlife.dhs.org/irssi/
 BuildRoot: 	/tmp/%{name}-%{version}-root
 
-%define		_sysconfdir	/etc
+%define		_prefix		/usr/X11R6
+%define		_sysconfdir	/etc/X11/GNOME
 
 %description
 Irssi is a textUI IRC client with IPv6 support 
 by Timo Sirainen <cras@irccrew.org>.
 More information can be found at http://xlife.dhs.org/irssi/.
 
+%description -l fr
+Irssi est client IRC écrit en GTK.
+
+%description -l pl
+Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6. Napisany zosta³
+przez Timo Strainen <cras@irccrew.org>.
+
 %package GNOME
 Summary: 	GNOME version of irssi IRC client
+Summary(pl):	Wersja dla ¶rodowiska GNOME klienta IRC irssi
 Group:		X11/Applications/Communications
 Group(pl):	X11/Aplikacje/Komunikacja
 Requires:	%{name} = %{version}
@@ -35,6 +46,10 @@ Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support
 by Timo Sirainen <cras@irccrew.org>.
 More information can be found at http://xlife.dhs.org/irssi/.
 
+%description -l pl GNOME
+Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
+¶rodowisku GNOME. Napisany zosta³ przez Timo Sirainen <cras@irccrew.org>.
+
 %prep
 %setup -q
 
@@ -43,6 +58,7 @@ CPPFLAGS="-I/usr/X11R6/include"; export CPPFLAGS
 LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 %configure \
 	--with-gnome \
+	--disable-static \
 	--with-gnome-panel \
 	--with-imlib \
 	--enable-ipv6 \
@@ -77,7 +93,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so.*.*
 %attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so
 #%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.la
-#%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.a
 
 %files GNOME
 %defattr (644,root,root,755)
