@@ -1,5 +1,5 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020512
+%define	snap	20020514
 %define ver	0.8.4
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
@@ -29,6 +29,7 @@ BuildRequires:	freetype-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
+%define         _prefix_x11        %{_prefix}/X11R6
 
 %description
 Irssi is a textUI IRC client with IPv6 support.
@@ -43,7 +44,7 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 Summary:	GTK+2 frontend for irssi
 Summary(pl):	Nak³adka na irssi w GTK+2
 Group:		Applications/Communications
-%define         _xprefix         /usr/X11R6
+Requires:	irssi >= %{ver}.%{snap}
 
 %description -n xirssi
 xirssi is a GTK+2 frontend for irssi.
@@ -82,7 +83,8 @@ aclocal -I %{_aclocaldir}/gnome
 autoheader
 autoconf
 automake -a -c -f
-%configure --with-irssi=../irssi-0.8.4.CVS
+%configure -with-irssi=../irssi-0.8.4.CVS
+
 %{__make}
 
 %install
@@ -105,14 +107,14 @@ install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{?_without_perl:#}  done
 %{?_without_perl:#})
 
-%{__make} install \
-	prefix=%{_xprefix} \
-	DESTDIR=$RPM_BUILD_ROOT
-
 gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 
+cd ../xirssi
+install -d $RPM_BUILD_ROOT/usr/X11R6/bin
+install src/xirssi $RPM_BUILD_ROOT/usr/X11R6/bin/
+
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
@@ -144,3 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/UI
 %{?_without_perl:#}%{perl_archlib}/auto/Irssi/UI/*.bs
 %{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/UI/*.so
+
+%files -n xirssi
+%defattr(644,root,root,755
+%attr(755,root,root) /usr/X11R6/bin/*
