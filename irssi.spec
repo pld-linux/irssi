@@ -1,5 +1,5 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define         snap 20021230
+%define         snap 20030119
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
