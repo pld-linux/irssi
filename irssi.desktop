@@ -7,5 +7,5 @@ Exec=irssi
 Icon=irssi.png
 Terminal=1
 Type=Application
-Categories=Application;Network;IRCClient;
+Categories=ConsoleOnly;Network;IRCClient;X-Communication
 # vi: encoding=utf-8
