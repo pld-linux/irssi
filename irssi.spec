@@ -1,5 +1,5 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020504
+%define	snap	20020505
 %define ver	0.8.4
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
@@ -53,7 +53,8 @@ automake -a -c -f
 	%{?!_without_perl:--enable-perl=shared} \
 	%{?_without_perl:--enable-perl=no} \
 	--enable-ipv6 \
-	--enable-nls
+	--enable-nls \
+	--with-glib2
 
 %{__make}
 
