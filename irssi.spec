@@ -132,10 +132,6 @@ install pixmaps/irssilogo.jpg $RPM_BUILD_ROOT/%{_pixmapsdir}
 
 gzip -9nf AUTHORS ChangeLog TODO
 
-cd ../irssi-icq
-install src/core/.libs/libicq_core.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
-install src/fe-common/.libs/libfe_icq.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
-gzip -9nf AUTHORS ChangeLog README
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -175,8 +171,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /usr/X11R6/bin/*
 %{_pixmapsdir}/*.jpg
 %doc xirssi/*.gz
-
-#%files icq
-#%defattr(644,root,root,755)
-#%attr(755,root,root)%{_libdir}/irssi/modules/*icq*so
-#%doc irssi-icq/*.gz
