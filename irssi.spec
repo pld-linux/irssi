@@ -16,7 +16,7 @@ Source1:	http://xlife.dhs.org/irssi/%{name}-icon.png
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
-%{?!bcond_off_perl:BuildRequires:	perl}
+%{?!bcond_off_perl:BuildRequires:	perl-devel >= 5.6.1}
 %{?bcond_on_gnome:BuildRequires:	libPropList-devel >= 0.9.1-2}
 %{?bcond_on_gnome:BuildRequires:	imlib-devel}
 %{?bcond_on_gnome:BuildRequires:	gtk+-devel}
