@@ -141,7 +141,7 @@ install src/core/.libs/libicq_core.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
 install src/fe-common/.libs/libfe_icq.so $RPM_BUILD_ROOT/%{_libdir}/irssi/modules/
 gzip -9nf AUTHORS ChangeLog README
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
