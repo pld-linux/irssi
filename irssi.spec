@@ -12,7 +12,7 @@ Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
 %define		_rc	rc5
-Release:	0.%{_rc}.1
+Release:	0.%{_rc}.2
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}-%{_rc}.tar.gz
@@ -119,6 +119,11 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%triggerpostun -- %{name} <= 0.8.9-4
+echo "WARNING!!!"
+echo "Please set your national charset: f.e. /set term_charset ISO8859-2"
+echo
 
 %files
 %defattr(644,root,root,755)
