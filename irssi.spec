@@ -6,7 +6,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
 Version:	%{ver}.%{plev}
-Release:	1
+Release:	2
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
@@ -80,7 +80,7 @@ install -d $RPM_BUILD_ROOT{%{perl_sitearch},/usr/X11R6/share/pixmaps}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version} \
-	desktopdir=%{_applnkdir}/Network/IRC
+	desktopdir=%{_applnkdir}/Network/Communications
 
 %{?!bcond_on_gnome:#}install %{SOURCE1} $RPM_BUILD_ROOT/usr/X11R6/share/pixmaps/irssi-icon.png
 
@@ -123,6 +123,6 @@ rm -rf $RPM_BUILD_ROOT
 %{?!bcond_on_gnome:#}%attr(755,root,root) /usr/X11R6/bin/irssi
 
 %{?!bcond_on_gnome:#}/etc/X11/GNOME/CORBA/servers/irssi.gnorba
-%{?!bcond_on_gnome:#}%{_applnkdir}/Network/IRC/irssi.desktop
+%{?!bcond_on_gnome:#}%{_applnkdir}/Network/Communications/irssi.desktop
 %{?!bcond_on_gnome:#}/usr/X11R6/share/gnome/help/irssi
 %{?!bcond_on_gnome:#}/usr/X11R6/share/pixmaps/*
