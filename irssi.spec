@@ -11,7 +11,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.9
-Release:	4.1
+Release:	4.2
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
@@ -20,7 +20,7 @@ Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
-#Patch0:		%{name}-dcc-send-limit.patch
+Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}-tinfo.patch
 Patch3:		%{name}-home_etc.patch
@@ -64,7 +64,7 @@ Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 
 %prep
 %setup -q -a3
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
