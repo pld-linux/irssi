@@ -1,6 +1,6 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020528
-%define xsnap   20020528
+%define	snap	20020610
+%define xsnap   20020610
 %define ver	0.8.4
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
@@ -11,11 +11,10 @@ Release:	1
 License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
-Source0:	%{name}-%{snap}.tar.bz2
+Source0:	http://www.irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
 Source1:	xirssi-%{xsnap}.tar.bz2
 Source2:	%{name}.desktop
 Source3:	%{name}.png
-#Source4:	http://irssi.org/files/plugins/icq/%{name}-icq-%{ver_icq}.tgz
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -28,7 +27,6 @@ BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:  gtk+2-devel
 BuildRequires:	freetype-devel
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
-BuildRequires:	lynx
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
@@ -73,23 +71,11 @@ xirssi jest nak³adk± w GTK+2 na irssi
 #-b 4
 
 %build
-cd %{name}
+cd %{name}-%{ver}.CVS
 rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
 echo "#undef NCURSES_970530" >> acconfig.h
-# docs create (from ./autogen.sh)
-perl syntax.pl
-
-files=`echo docs/help/in/*.in|sed -e 's,docs/help/in/Makefile.in ,,' -e 's,docs/help/in/,!,g' -e 's/\.in /.in ?/g'`                                             cat docs/help/in/Makefile.am.gen|sed "s/@HELPFILES@/$files/g"|sed 's/?/\\?/g'|tr '!?' '\t\n' > docs/help/in/Makefile.am
-
-files=`echo $files|sed 's/\.in//g'`                                             cat docs/help/Makefile.am.gen|sed "s/@HELPFILES@/$files/g"|sed 's/?/\\?/g'|tr '!?' '\t\n' > docs/help/Makefile.am
-
-# .html -> .txt with lynx
-echo "Documentation: html -> txt..."                                            lynx -dump -nolist docs/startup-HOWTO.html > docs/startup-HOWTO.txt
-lynx -dump -nolist docs/faq.html|perl -pe 's/^ *//; if ($_ eq "\n" && $state eq "Q") { $_ = ""; } elsif (/^([QA]):/) { $state = $1 } elsif ($_ ne "\n") { $_ = "   $_"; };' > docs/faq.txt 
-
-
 autoheader
 %{__autoconf}
 %{__automake}
