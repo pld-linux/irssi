@@ -3,20 +3,30 @@ Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
-Version:	0.7.98.4
-Release:	3
+Version:	0.8.0
+Release:	1
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
+Group(cs):	Aplikace/Komunikace
+Group(da):	Programmer/Kommunikation
 Group(de):	Applikationen/Kommunikation
+Group(es):	Aplicaciones/Comunicaciones
+Group(fr):	Applications/Transmissions
+Group(is):	Forrit/Samskipti
+Group(it):	Applicazioni/Comunicazioni
+Group(ja):	¥¢¥×¥ê¥±¡¼¥·¥ç¥ó/ÄÌ¿®
+Group(no):	Applikasjoner/Kommunikasjon
 Group(pl):	Aplikacje/Komunikacja
+Group(pt):	Aplicações/Comunicações
+Group(ru):	ðÒÉÌÏÖÅÎÉÑ/ëÏÍÍÕÎÉËÁÃÉÉ
+Group(sl):	Programi/Komunikacije
+Group(sv):	Tillämpningar/Kommunikation
+Group(uk):	ðÒÉËÌÁÄÎ¦ ðÒÏÇÒÁÍÉ/ëÏÍÕÎ¦ËÁÃ¦§
 Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		%{name}-dcc-send-limit.patch
-Patch1:		%{name}-no_libnsl.patch
-Patch2:		%{name}-am15.patch
-Patch3:		%{name}-libtool.patch
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -42,9 +52,6 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 rm -f missing
@@ -54,13 +61,12 @@ autoconf
 automake -a -c
 %configure \
 	--without-socks \
-	--with-textui=ncurses \
 	--with-bot \
+	--with-textui \
 	--with-proxy \
 	--with-modules \
-	%{?!_without_perl:--enable-perl=yes} \
+	%{?!_without_perl:--enable-perl=shared} \
 	%{?_without_perl:--enable-perl=no} \
-	--enable-curses-windows \
 	--enable-ipv6 \
 	--enable-nls
 	
@@ -74,16 +80,12 @@ install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
 
-(cd po ; %{__make} install prefix=$RPM_BUILD_ROOT%{_prefix})
-
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-%{?_without_perl:#}mv $RPM_BUILD_ROOT%{_prefix}/*-pld-*/* $RPM_BUILD_ROOT%{perl_sitearch}/
-
 %{?_without_perl:#}(
 %{?_without_perl:#}  for name in Irssi Irssi/Irc; do
-%{?_without_perl:#}  cd $RPM_BUILD_ROOT%{perl_sitearch}/auto/${name}
+%{?_without_perl:#}  cd $RPM_BUILD_ROOT%{perl_archlib}/auto/${name}
 %{?_without_perl:#}  sed -e "s#$RPM_BUILD_ROOT##" .packlist >.packlist.new
 %{?_without_perl:#}  mv .packlist.new .packlist
 %{?_without_perl:#}  done
@@ -91,31 +93,26 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
       
 gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 
-%find_lang %{name}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 %doc *.gz docs/*.txt.gz
 %attr(755,root,root) %{_bindir}/*
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/irssi/*
-%dir %{_sysconfdir}/irssi
-%{_datadir}/irssi
-
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/*.so*
+%{_datadir}/%{name}
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
 
-%{?_without_perl:#}%dir %{perl_sitearch}/Irssi
-%{?_without_perl:#}%{perl_sitearch}/*.pm
-%{?_without_perl:#}%{perl_sitearch}/Irssi/*.pm
-%{?_without_perl:#}%dir %{perl_sitearch}/auto/Irssi
-%{?_without_perl:#}%dir %{perl_sitearch}/auto/Irssi/Irc
-%{?_without_perl:#}%{perl_sitearch}/auto/Irssi/*.bs
-%{?_without_perl:#}%{perl_sitearch}/auto/Irssi/Irc/*.bs
-%{?_without_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
-%{?_without_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/Irc/*.so
+%{?_without_perl:#}%dir %{perl_archlib}/Irssi
+%{?_without_perl:#}%{perl_archlib}/*.pm
+%{?_without_perl:#}%{perl_archlib}/Irssi/*.pm
+%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi
+%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/Irc
+%{?_without_perl:#}%{perl_archlib}/auto/Irssi/*.bs
+%{?_without_perl:#}%{perl_archlib}/auto/Irssi/Irc/*.bs
+%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/*.so
+%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/Irc/*.so
