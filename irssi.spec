@@ -4,6 +4,8 @@
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 #
+%define		_snap		20041010
+%define		_rc		rc5
 %define		_idea_ver	0.1.46
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
@@ -11,18 +13,17 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
-%define		_rc	rc5
-Release:	0.%{_rc}.3
+Release:	0.%{_snap}.1
 License:	GPL
 Group:		Applications/Communications
-Source0:	http://real.irssi.org/files/%{name}-%{version}-%{_rc}.tar.gz
-# Source0-md5:	7c0b6c1533c85e918f41ded1238e4ca1
+Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
+# Source0-md5:	5c243d5b8d8897cf398f9eb639236d32
 # Source0-size:	1192158
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-Source3:	http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
+Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
-# Source3-size:	182673
+# Source0-size:	1192158
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-tinfo.patch
 Patch2:		%{name}-home_etc.patch
@@ -121,11 +122,6 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%triggerpostun -- %{name} <= 0.8.9-4
-echo "WARNING!!!"
-echo "Please set your national charset: f.e. /set term_charset ISO8859-2"
-echo
 
 %files
 %defattr(644,root,root,755)
