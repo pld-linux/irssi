@@ -6,7 +6,6 @@ Name:		irssi
 Version:	0.8.6
 Release:	1
 License:	GPL
-Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
