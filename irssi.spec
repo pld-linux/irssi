@@ -1,5 +1,3 @@
-# TODO:
-# - package with some nice scripts + forwardfix.pl
 #
 # Conditional build:
 %bcond_without	perl	# without perl support
