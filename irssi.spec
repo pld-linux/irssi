@@ -3,10 +3,9 @@ Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
-Version:	0.8.5
+Version:	0.8.6
 Release:	1
 License:	GPL
-Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
@@ -14,13 +13,16 @@ Source2:	%{name}.png
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}.conf.patch
+Patch3:		%{name}-tinfo.patch
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
+BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	ncurses-devel >= 5.0
+BuildRequires:	openssl-devel >= 0.9.6j
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
@@ -37,14 +39,15 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -f missing
-libtoolize --copy --force
-aclocal -I .
+%{__libtoolize}
+%{__aclocal} -I .
 %{__autoconf}
 %{__automake}
 %configure \
@@ -52,6 +55,7 @@ aclocal -I .
 	--with-bot \
 	--with-textui \
 	--with-proxy \
+	--with-terminfo \
 	--with-modules \
 	%{?!_without_perl:--enable-perl=shared} \
 	%{?_without_perl:--enable-perl=no} \
@@ -62,7 +66,7 @@ aclocal -I .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network/Communications}
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Network/Communications}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -79,14 +83,12 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{?_without_perl:#}  done
 %{?_without_perl:#})
 
-gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz docs/*.txt.gz
+%doc AUTHORS ChangeLog README TODO NEWS docs/*.txt
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
@@ -94,6 +96,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
+%{_sysconfdir}/irssi.conf
+%{_mandir}/man1/*
 
 %{?_without_perl:#}%{perl_archlib}/*.pm
 %{?_without_perl:#}%dir %{perl_archlib}/Irssi
