@@ -97,7 +97,7 @@ LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 	--with-plugins \
 	--with-mysql \
 	--enable-perl
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
