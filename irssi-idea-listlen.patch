@@ -1,0 +1,13 @@
+diff -Nur irssi-0.8.9/irssi-idea-0.1.46/src/irc_api.c irssi-0.8.9.mod/irssi-idea-0.1.46/src/irc_api.c
+--- irssi-0.8.9/irssi-idea-0.1.46/src/irc_api.c	2002-04-27 22:46:44.000000000 +0200
++++ irssi-0.8.9.mod/irssi-idea-0.1.46/src/irc_api.c	2004-08-07 03:45:54.221016739 +0200
+@@ -59,7 +59,8 @@
+ 	/* |*E*|type|ver_maj.ver_min|fingerprint|data|  */
+ 	list = g_strsplit(msg, "|", -1);
+         ret = 0;
+-	if (strarray_length(list) == 6 && strcmp(list[1], "*E*") == 0) {
++
++	if (strarray_length(list) == 7 && strcmp(list[1], "*E*") == 0) {
+ 		if (type != NULL)
+ 			*type = g_strdup(list[2]);
+ 
