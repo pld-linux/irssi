@@ -4,7 +4,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
 Version:	0.8.1
-Release:	1
+Release:	2
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
@@ -84,7 +84,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %{?_without_perl:#}(
-%{?_without_perl:#}  for name in Irssi Irssi/Irc; do
+%{?_without_perl:#}  for name in Irssi Irssi/Irc Irssi/TextUI Irssi/UI; do
 %{?_without_perl:#}  cd $RPM_BUILD_ROOT%{perl_archlib}/auto/${name}
 %{?_without_perl:#}  sed -e "s#$RPM_BUILD_ROOT##" .packlist >.packlist.new
 %{?_without_perl:#}  mv .packlist.new .packlist
@@ -107,12 +107,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
 
-%{?_without_perl:#}%dir %{perl_archlib}/Irssi
 %{?_without_perl:#}%{perl_archlib}/*.pm
+%{?_without_perl:#}%dir %{perl_archlib}/Irssi
 %{?_without_perl:#}%{perl_archlib}/Irssi/*.pm
+
 %{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi
-%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/Irc
 %{?_without_perl:#}%{perl_archlib}/auto/Irssi/*.bs
-%{?_without_perl:#}%{perl_archlib}/auto/Irssi/Irc/*.bs
 %{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/*.so
+
+%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/Irc
+%{?_without_perl:#}%{perl_archlib}/auto/Irssi/Irc/*.bs
 %{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/Irc/*.so
+
+%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/TextUI
+%{?_without_perl:#}%{perl_archlib}/auto/Irssi/TextUI/*.bs
+%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/TextUI/*.so
+
+%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/UI
+%{?_without_perl:#}%{perl_archlib}/auto/Irssi/UI/*.bs
+%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/UI/*.so
