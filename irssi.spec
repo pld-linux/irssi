@@ -1,3 +1,4 @@
+#
 # Conditional build:
 %bcond_without  perl	# without perl support
 %bcond_without  ipv6	# without IPv6 support
@@ -10,7 +11,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.9
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
@@ -24,15 +25,15 @@ Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}-tinfo.patch
 Patch3:		%{name}-home_etc.patch
 URL:		http://www.irssi.org/
-BuildRequires:	automake
 BuildRequires:	autoconf
-BuildRequires:	libtool
+BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel
 BuildRequires:	glib2-devel >= 2.1.0
+BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
 %{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7c}
-%{?with_perl:BuildRequires:	perl-devel >= 5.6.1}
+%{?with_perl:BuildRequires:	perl-devel >= 1:5.8.0}
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
@@ -110,8 +111,7 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-cd irssi-idea-%{_idea_ver}
-%{__make} install \
+%{__make} -C irssi-idea-%{_idea_ver} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
