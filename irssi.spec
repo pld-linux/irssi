@@ -2,7 +2,7 @@ Summary:  	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC ecrit en GTK
 Summary(pl):	Irssi - klient IRC
 Name: 		irssi
-Version: 	0.7.19
+Version: 	0.7.20
 Release: 	1
 Vendor: 	Timo Sirainen <cras@irccrew.org>
 Copyright: 	GPL
@@ -16,6 +16,7 @@ BuildRequires:	imlib-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	XFree86-devel
+BuildRequires:	gettext-devel
 URL: 		http://xlife.dhs.org/irssi/
 BuildRoot: 	/tmp/%{name}-%{version}-root
 
@@ -54,6 +55,7 @@ Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
 %setup -q
 
 %build
+gettextixe --copy --force
 CPPFLAGS="-I/usr/X11R6/include"; export CPPFLAGS
 LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 %configure \
@@ -75,10 +77,12 @@ strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/irssi/plugins/lib*.so.*.*
 
 gzip -9fn AUTHORS ChangeLog README TODO NEWS
 
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files 
+%files -f %{name}.lang
 %defattr (644,root,root,755)
 %doc {AUTHORS,ChangeLog,README,TODO,NEWS}.gz
 
