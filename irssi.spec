@@ -1,16 +1,15 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define         snap 20021104
+%define         snap 20021204
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
-Version:	0.8.5.CVS
+Version:	0.8.6.CVS
 Release:	1
 License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
-Source1:	%{name}.desktop
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -53,8 +52,8 @@ install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install %{SOURCE0} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+
 
 %{?_without_perl:#}(
 %{?_without_perl:#}  for name in Irssi Irssi/Irc Irssi/TextUI Irssi/UI; do
@@ -75,8 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
 %{_datadir}/%{name}
-%{_applnkdir}/Network/Communications/irssi.desktop
-%{_pixmapsdir}/*
+
 
 %{?_without_perl:#}%{perl_archlib}/*.pm
 %{?_without_perl:#}%dir %{perl_archlib}/Irssi
