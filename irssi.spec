@@ -20,7 +20,6 @@ BuildRequires:	autoconf
 BuildRequires:	libtool
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
-BuildRequires:	gnome-libs-devel
 BuildRequires:	ncurses-devel >= 5.0
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -45,7 +44,7 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 %build
 rm -f missing
 libtoolize --copy --force
-aclocal -I %{_aclocaldir}/gnome
+aclocal -I .
 autoconf
 automake -a -c -f
 %configure \
