@@ -1,4 +1,6 @@
 %{!?_without_perl:%include	/usr/lib/rpm/macros.perl}
+%define         _idea_ver            0.1.46
+
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
@@ -11,6 +13,8 @@ Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
 # Source0-md5: 6d66982723e2eb8780ae3b8b3a7ba08d
 Source1:	%{name}.desktop
 Source2:	%{name}.png
+Source3:        http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
+# Source3-md5: c326efe317b8f67593a3cd46d5557280
 #Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}.conf.patch
@@ -38,8 +42,17 @@ Irssi est client IRC.
 %description -l pl
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
+%package plugin-idea
+Summary:        Irssi plugin IDEA Crypt
+Summary(pl):    Wtyczka do irssi do kodowania IDEA
+Group:          Applications/Communications
+Requires:       %{name} = %{version}
+
+%description plugin-idea
+IDEA Crypt plugin
+
 %prep
-%setup -q
+%setup -q -a3
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -66,6 +79,17 @@ rm -f missing
 
 %{__make}
 
+cd irssi-idea-%{_idea_ver}
+rm -f missing
+%{__libtoolize}
+%{__aclocal} -I .
+%{__autoconf}
+%{__automake}
+%configure
+
+%{__make}
+
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Network/Communications}
@@ -77,6 +101,10 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Network/Communications}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
+cd irssi-idea-%{_idea_ver}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -86,7 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
-%attr(755,root,root) %{_libdir}/irssi/modules/*.so*
+%attr(755,root,root) %{_libdir}/irssi/modules/libirc_proxy.so*
 %{_datadir}/%{name}
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
@@ -114,3 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/auto/Irssi/UI/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Irssi/UI/*.so
 %endif
+
+%files plugin-idea
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/irssi/modules/libidea.so
