@@ -1,3 +1,6 @@
+# _with_glib1	use glib1 instead of glib2
+#
+#
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
 %define         snap 20030212
 Summary:	Irssi is a IRC client
@@ -15,7 +18,8 @@ BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
 BuildRequires:	gettext-devel
-BuildRequires:	glib-devel >= 1.2.0
+%{?_with_glib1:BuildRequires:	glib-devel >= 1.2.0}
+%{!?_with_glib1:BuildRequires:	glib2-devel}
 BuildRequires:	ncurses-devel >= 5.0
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -38,9 +42,10 @@ rm -f missing
 %{__autoconf}
 %{__automake}
 %configure \
-	%{?!_without_perl:--enable-perl=shared} \
+	%{!?_without_perl:--enable-perl=shared} \
 	%{?_without_perl:--enable-perl=no} \
 	--enable-ipv6 \
+	%{?_with_glib1:--with-glib1}
 
 %{__make}
 
