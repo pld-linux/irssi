@@ -67,8 +67,8 @@ Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_rel} -a3
-#%patch0 -p1
-#%patch1 -p1
+%patch0 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
