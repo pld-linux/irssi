@@ -6,7 +6,7 @@ diff -Nru irssi-0.7.22/Makefile.am irssi-0.7.22.new/Makefile.am
  
  if HAVE_GNOME
 -desktopdir = $(datadir)/gnome/apps/Network
-+desktopdir = $(datadir)/applnk/Network
++desktopdir = $(datadir)/applnk/Networking/Irc
  desktop_DATA = irssi.desktop
  
  corbadir = $(sysconfdir)/CORBA/servers
