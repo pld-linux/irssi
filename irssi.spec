@@ -19,7 +19,7 @@ BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
 BuildRequires:	gettext-devel
-BuildRequires:	glib-devel >= 1.2.0
+BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:  openssl-devel
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
