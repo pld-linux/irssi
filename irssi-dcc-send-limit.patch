@@ -1,6 +1,6 @@
-diff -ur irssi-0.7.98.4/src/irc/dcc/dcc-rec.h irssi-0.7.98.4.limited/src/irc/dcc/dcc-rec.h
---- irssi-0.7.98.4/src/irc/dcc/dcc-rec.h	Mon Feb 19 04:40:06 2001
-+++ irssi-0.7.98.4.limited/src/irc/dcc/dcc-rec.h	Sat Jan 19 19:40:16 2002
+diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h irssi-0.8.4/src/irc/dcc/dcc-rec.h
+--- irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h	Mon Feb 19 04:40:06 2001
++++ irssi-0.8.4/src/irc/dcc/dcc-rec.h	Thu Mar 14 02:20:25 2002
 @@ -20,6 +20,12 @@
  time_t starttime; /* transfer start time */
  unsigned long transfd; /* bytes transferred */
@@ -14,10 +14,10 @@ diff -ur irssi-0.7.98.4/src/irc/dcc/dcc-rec.h irssi-0.7.98.4.limited/src/irc/dcc
  unsigned int destroyed:1; /* We're about to destroy this DCC recond */
  
  GHashTable *module_data;
-diff -ur irssi-0.7.98.4/src/irc/dcc/dcc-send.c irssi-0.7.98.4.limited/src/irc/dcc/dcc-send.c
---- irssi-0.7.98.4/src/irc/dcc/dcc-send.c	Wed Feb 28 20:26:21 2001
-+++ irssi-0.7.98.4.limited/src/irc/dcc/dcc-send.c	Sat Jan 19 19:43:15 2002
-@@ -48,14 +48,84 @@
+diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-send.c
+--- irssi-0.8.4.orig/src/irc/dcc/dcc-send.c	Sun Jan 20 04:10:27 2002
++++ irssi-0.8.4/src/irc/dcc/dcc-send.c	Thu Mar 14 02:21:22 2002
+@@ -50,14 +50,84 @@
  {
  	if (!IS_DCC_SEND(dcc)) return;
  
@@ -103,7 +103,7 @@ diff -ur irssi-0.7.98.4/src/irc/dcc/dcc-send.c irssi-0.7.98.4.limited/src/irc/dc
  
  	ret = read(dcc->fhandle, buffer, sizeof(buffer));
  	if (ret <= 0) {
-@@ -116,6 +185,7 @@
+@@ -118,6 +188,7 @@
          GIOChannel *handle;
  	IPADDR addr;
  	int port;
@@ -111,11 +111,10 @@ diff -ur irssi-0.7.98.4/src/irc/dcc/dcc-send.c irssi-0.7.98.4.limited/src/irc/dc
  
  	/* accept connection */
  	handle = net_accept(dcc->handle, &addr, &port);
-@@ -129,6 +199,14 @@
+@@ -132,6 +203,13 @@
  	g_source_remove(dcc->tagconn);
- 	net_disconnect(dcc->handle);
+         dcc->tagconn = -1;
  
-+	dcc->timeout_tag = -1;
 +	dcc->skip_bytes = 0;
 +	dcc->max_speed = settings_get_int("dcc_send_top_speed");
 +
@@ -126,7 +125,15 @@ diff -ur irssi-0.7.98.4/src/irc/dcc/dcc-send.c irssi-0.7.98.4.limited/src/irc/dc
  	dcc->starttime = time(NULL);
  	dcc->handle = handle;
  	memcpy(&dcc->addr, &addr, sizeof(IPADDR));
-@@ -246,6 +324,7 @@
+@@ -235,6 +313,7 @@
+ 	dcc->size = fsize;
+ 	dcc->fhandle = hfile;
+         dcc->file_quoted = strchr(fname, ' ') != NULL;
++	dcc->timeout_tag = -1;
+ 	dcc->tagconn = g_input_add(handle, G_INPUT_READ,
+ 				   (GInputFunction) dcc_send_connected, dcc);
+ 
+@@ -256,6 +335,7 @@
  {
          dcc_register_type("SEND");
  	settings_add_str("dcc", "dcc_upload_path", "~");
