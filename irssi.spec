@@ -8,21 +8,6 @@ Release:	2
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
-Group(cs):	Aplikace/Komunikace
-Group(da):	Programmer/Kommunikation
-Group(de):	Applikationen/Kommunikation
-Group(es):	Aplicaciones/Comunicaciones
-Group(fr):	Applications/Transmissions
-Group(is):	Forrit/Samskipti
-Group(it):	Applicazioni/Comunicazioni
-Group(ja):	╔╒╔в╔Й╔╠║╪╔╥╔Г╔С/дл©╝
-Group(no):	Applikasjoner/Kommunikasjon
-Group(pl):	Aplikacje/Komunikacja
-Group(pt):	AplicaГУes/ComunicaГУes
-Group(ru):	Приложения/Коммуникации
-Group(sl):	Programi/Komunikacije
-Group(sv):	TillДmpningar/Kommunikation
-Group(uk):	Прикладн╕ Програми/Комун╕кац╕╖
 Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
