@@ -134,6 +134,8 @@ gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 cd ../xirssi
 install -d $RPM_BUILD_ROOT/usr/X11R6/bin
 install src/xirssi $RPM_BUILD_ROOT/usr/X11R6/bin/
+install pixmaps/irssilogo.jpg $RPM_BUILD_ROOT/%{_pixmapsdir}
+
 gzip -9nf AUTHORS ChangeLog TODO
 
 cd ../irssi-icq
@@ -152,7 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/irssi/modules/*proxy*.so*
 %{_datadir}/%{name}
 %{_applnkdir}/Network/Communications/irssi.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/*.png
 
 %{?_without_perl:#}%{perl_archlib}/*.pm
 %{?_without_perl:#}%dir %{perl_archlib}/Irssi
@@ -177,6 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n xirssi
 %defattr(644,root,root,755)
 %attr(755,root,root) /usr/X11R6/bin/*
+%{_pixmapsdir}/*.jpg
 %doc xirssi/*.gz
 
 %files icq
