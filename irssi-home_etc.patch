@@ -12,24 +12,24 @@ diff -Nru irssi-0.8.6.orig/src/core/core.c irssi-0.8.6/src/core/core.c
  		if (home == NULL)
  			home = ".";
  
-diff -Nru irssi-0.8.6.orig/src/core/log-away.c irssi-0.8.6/src/core/log-away.c
---- irssi-0.8.6.orig/src/core/log-away.c	2001-07-15 16:07:48.000000000 +0200
-+++ irssi-0.8.6/src/core/log-away.c	2003-11-09 12:53:24.000000000 +0100
-@@ -104,8 +104,14 @@
- 	awaylog = NULL;
+diff -Nru irssi-0.8.9/src/core/log-away.c.orig irssi-0.8.9/src/core/log-away.c
+--- irssi-0.8.9/src/core/log-away.c.orig	2002-12-28 19:00:03.000000000 +0100
++++ irssi-0.8.9/src/core/log-away.c	2003-12-19 19:34:08.000000000 +0100
+@@ -102,7 +102,15 @@
  	away_filepos = 0;
  	away_msgs = 0;
--
+ 
 -	settings_add_str("log", "awaylog_file", IRSSI_DIR_SHORT"/away.log");
 +	char *home_etc = getenv("HOME_ETC");
 +	
 +	if (home_etc) {
-+		char *log = g_strdup_printf("%s/away.log", home_etc);
++		char *log = g_strdup_printf("%s/.irssi/away.log", home_etc);
 +		
 +		settings_add_str("log", "awaylog_file", log);
 +	} else
 +		settings_add_str("log", "awaylog_file", IRSSI_DIR_SHORT"/away.log");
- 	settings_add_str("log", "awaylog_level", "msgs hilight");
++
+ 	settings_add_level("log", "awaylog_level", "msgs hilight");
  
  	signal_add("log written", (SIGNAL_FUNC) sig_log_written);
 diff -Nru irssi-0.8.6.orig/src/lib-popt/poptconfig.c irssi-0.8.6/src/lib-popt/poptconfig.c
