@@ -1,32 +1,47 @@
 #
 # Conditional build:
-# _with_glib1		- use glib1 instead of glib2
-# _without_ipv6		- build without IPv6 support
-# _without_perl		- do not use perl
+%bcond_without	perl	# without perl support
+%bcond_without	ipv6	# without IPv6 support
+%bcond_without	ssl	# without SSL  support
 #
-%{!?_without_perl:%include	/usr/lib/rpm/macros.perl}
-%define         snap 20030710
+%define		_snap		20041010
+%define		_rc		rc5
+%define		_idea_ver	0.1.46
+%{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
-Version:	0.8.6.%{snap}
-Release:	1
+Version:	0.8.10
+Release:	0.%{_rc}.%{_snap}.1
 License:	GPL
-Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
-Source0:	http://real.irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
-# Source0-md5:	bc81277214421abce02a3b6b2618b099
+Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
+# Source0-md5:	5c243d5b8d8897cf398f9eb639236d32
+Source1:	%{name}.desktop
+Source2:	%{name}.png
+Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
+# Source3-md5:	c326efe317b8f67593a3cd46d5557280
+Patch0:		%{name}-dcc-send-limit.patch
+Patch1:		%{name}-tinfo.patch
+Patch2:		%{name}-home_etc.patch
+Patch3:		%{name}.conf.patch
+Patch4:		%{name}-idea-listlen.patch
 URL:		http://www.irssi.org/
-BuildRequires:	automake
 BuildRequires:	autoconf
-BuildRequires:	libtool
+BuildRequires:	automake
 BuildRequires:	gettext-devel
-%{?_with_glib1:BuildRequires:	glib-devel >= 1.2.0}
-%{!?_with_glib1:BuildRequires:	glib2-devel}
+BuildRequires:	glib-devel
+BuildRequires:	glib2-devel >= 2.1.0
+BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
-%{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
+%{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
+%{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	%{name}-speech
+Obsoletes:	%{name}-sql
+
 %description
 Irssi is a textUI IRC client with IPv6 support.
 
@@ -36,8 +51,25 @@ Irssi est client IRC.
 %description -l pl
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
+%package plugin-idea
+Summary:	Irssi plugin IDEA crypt
+Summary(pl):	Wtyczka do irssi do szyfrowania IDEA
+Group:		Applications/Communications
+Requires:	%{name} = %{version}
+
+%description plugin-idea
+This package contains IDEA Crypt plugin for Irssi.
+
+%description plugin-idea
+Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
+
 %prep
-%setup -q -n %{name}-0.8.6.CVS
+%setup -q -n %{name}-%{version}-%{_rc} -a3
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 rm -f missing
@@ -46,37 +78,68 @@ rm -f missing
 %{__autoconf}
 %{__automake}
 %configure \
-	%{!?_without_perl:--with-perl=module} \
-	%{!?_without_perl:--with-perl-lib=vendor} \
-	%{?_without_perl:--with-perl=no} \
-	%{!?_without_ipv6:--enable-ipv6} \
-	%{?_with_glib1:--with-glib1}
+	--without-socks \
+	--with-bot \
+	--with-textui \
+	--with-proxy \
+	--with-terminfo \
+	--with-modules \
+	%{?with_perl:--with-perl=yes} \
+	%{?with_perl:--with-perl-lib=vendor} \
+	%{!?with_perl:--with-perl=no} \
+	%{?with_ipv6:--enable-ipv6} \
+	--enable-nls \
+	--%{?with_ssl:en}%{!?with_ssl:dis}able-ssl
 
 %{__make}
 
+cd irssi-idea-%{_idea_ver}
+rm -f missing
+%{__libtoolize}
+%{__aclocal} -I .
+%{__autoconf}
+%{__automake}
+%configure
+
+%{__make}
+
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network/Communications}
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
 
-install %{SOURCE0} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+
+%{__make} -C irssi-idea-%{_idea_ver} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+#%triggerpostun -- %{name} <= 0.8.9-4
+#echo "WARNING!!!"
+#echo "Please set your national charset: f.e. /set term_charset ISO8859-2"
+#echo
+
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README TODO NEWS docs/*.txt
+%doc AUTHORS ChangeLog README TODO NEWS docs/*.{txt,html}
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
+%dir %{_libdir}/irssi/modules
+%attr(755,root,root) %{_libdir}/irssi/modules/libirc_proxy.so*
 %{_datadir}/%{name}
+%{_desktopdir}/irssi.desktop
+%{_pixmapsdir}/*
 %{_sysconfdir}/irssi.conf
 %{_mandir}/man1/*
 
-%if %{!?_without_perl:1}0
+%if %{with perl}
 %{perl_vendorarch}/*.pm
 %dir %{perl_vendorarch}/Irssi
 %{perl_vendorarch}/Irssi/*.pm
@@ -97,3 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/auto/Irssi/UI/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Irssi/UI/*.so
 %endif
+
+%files plugin-idea
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/irssi/modules/libidea.so
