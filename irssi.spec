@@ -1,6 +1,7 @@
 # Conditional build:
 %bcond_without  perl	# without perl support
 %bcond_without  ipv6	# without IPv6 support
+%bcond_without	ssl	# without SSL  support
 #
 %define		_idea_ver	0.1.46
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
@@ -30,7 +31,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	glib-devel
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	ncurses-devel >= 5.0
-BuildRequires:	openssl-devel >= 0.9.7c
+%{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7c}
 %{?with_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -82,7 +83,8 @@ rm -f missing
 	%{?with_perl:--with-perl-lib=vendor} \
 	%{!?with_perl:--with-perl=no} \
 	%{?with_ipv6:--enable-ipv6} \
-	--enable-nls
+	--enable-nls \
+	--%{?with_ssl:en}%{!?with_ssl:dis}able-ssl
 
 %{__make}
 
