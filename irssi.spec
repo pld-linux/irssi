@@ -4,7 +4,7 @@
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 #
-%define		_snap		20041010
+%define		_snap		20050301
 %define		_rc		rc5
 %define		_idea_ver	0.1.46
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
@@ -17,7 +17,7 @@ Release:	0.%{_snap}.1
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
-# Source0-md5:	5c243d5b8d8897cf398f9eb639236d32
+# Source0-md5:	f8da44dd0584857168b494f2365c6b2f
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
