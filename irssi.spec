@@ -21,7 +21,7 @@ BuildRequires:	libtool
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	ncurses-devel >= 5.0
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel >= 0.9.7
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
