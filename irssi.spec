@@ -54,7 +54,7 @@ automake -a -c
 	%{?_without_perl:--enable-perl=no} \
 	--enable-ipv6 \
 	--enable-nls
-	
+
 %{__make}
 
 %install
@@ -75,7 +75,7 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{?_without_perl:#}  mv .packlist.new .packlist
 %{?_without_perl:#}  done
 %{?_without_perl:#})
-      
+
 gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 
 %clean
