@@ -1,8 +1,7 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020522
-%define xsnap   20020521
+%define	snap	20020528
+%define xsnap   20020528
 %define ver	0.8.4
-%define ver_icq 0.1
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
@@ -12,11 +11,11 @@ Release:	1
 License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
-Source0:	http://irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
+Source0:	%{name}-%{snap}.tar.bz2
 Source1:	xirssi-%{xsnap}.tar.bz2
 Source2:	%{name}.desktop
 Source3:	%{name}.png
-Source4:	http://irssi.org/files/plugins/icq/%{name}-icq-%{ver_icq}.tgz
+#Source4:	http://irssi.org/files/plugins/icq/%{name}-icq-%{ver_icq}.tgz
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -69,13 +68,15 @@ xirssi jest nak³adk± w GTK+2 na irssi
 
 %prep
 #%setup -q -n %{name}-%{ver}.CVS
-%setup -q -c -b 0 -b 1 -b 4
+%setup -q -c -b 0 -b 1 
+#-b 4
 
 %build
-cd %{name}-%{ver}.CVS
+cd %{name}
 rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
+autoheader
 %{__autoconf}
 %{__automake}
 %configure \
