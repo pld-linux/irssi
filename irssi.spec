@@ -1,12 +1,12 @@
-%define	ver	0.7.97
-%define	plev	2
+%define	ver	0.7.98
+%define	plev	3
 %{?bcond_off_perl:#}%include	/usr/lib/rpm/macros.perl
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
 Version:	%{ver}.%{plev}
-Release:	2
+Release:	1.9
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
@@ -53,7 +53,7 @@ Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
 <cras@irccrew.org>.
 
 %prep
-%setup -q -n %{name}-%{ver}
+%setup -q -n %{name}-%{ver}.%{plev}
 
 %build
 NOCONFIGURE=1 ./autogen.sh
