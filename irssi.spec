@@ -1,6 +1,6 @@
 %define	ver	0.7.98
 %define	plev	3
-%{?bcond_off_perl:#}%include	/usr/lib/rpm/macros.perl
+%{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
@@ -16,11 +16,11 @@ Source1:	http://xlife.dhs.org/irssi/%{name}-icon.png
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
-%{?!bcond_off_perl:BuildRequires:	perl-devel >= 5.6.1}
-%{?bcond_on_gnome:BuildRequires:	libPropList-devel >= 0.9.1-2}
-%{?bcond_on_gnome:BuildRequires:	imlib-devel}
-%{?bcond_on_gnome:BuildRequires:	gtk+-devel}
-%{?bcond_on_gnome:BuildRequires:	gnome-libs-devel}
+%{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
+%{?_with_gnome:BuildRequires:	libPropList-devel >= 0.9.1-2}
+%{?_with_gnome:BuildRequires:	imlib-devel}
+%{?_with_gnome:BuildRequires:	gtk+-devel}
+%{?_with_gnome:BuildRequires:	gnome-libs-devel}
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
 URL:		http://www.irssi.org/
@@ -63,10 +63,10 @@ NOCONFIGURE=1 ./autogen.sh
 	--without-bot \
 	--with-proxy \
 	--with-modules \
-	%{?bcond_on_gnome:--with-gnome} \
-	%{?bcond_on_gnome:--with-gnome-panel} \
-	%{?!bcond_off_perl:--enable-perl=yes} \
-	%{?bcond_off_perl:--enable-perl=no} \
+	%{?_with_gnome:--with-gnome} \
+	%{?_with_gnome:--with-gnome-panel} \
+	%{?!_without_perl:--enable-perl=yes} \
+	%{?_without_perl:--enable-perl=no} \
 	--enable-curses-windows \
 	--enable-ipv6 \
 	--enable-nls
@@ -82,17 +82,17 @@ install -d $RPM_BUILD_ROOT{%{perl_sitearch},/usr/X11R6/share/pixmaps}
 	docdir=%{_datadir}/%{name}-%{version} \
 	desktopdir=%{_applnkdir}/Network/Communications
 
-%{?!bcond_on_gnome:#}install %{SOURCE1} $RPM_BUILD_ROOT/usr/X11R6/share/pixmaps/irssi-icon.png
+%{?!_with_gnome:#}install %{SOURCE1} $RPM_BUILD_ROOT/usr/X11R6/share/pixmaps/irssi-icon.png
 
-%{?bcond_off_perl:#}mv $RPM_BUILD_ROOT%{_prefix}/*-pld-*/* $RPM_BUILD_ROOT%{perl_sitearch}/
+%{?_without_perl:#}mv $RPM_BUILD_ROOT%{_prefix}/*-pld-*/* $RPM_BUILD_ROOT%{perl_sitearch}/
 
-%{?bcond_off_perl:#}(
-%{?bcond_off_perl:#}  for name in Irssi Irssi/Irc; do
-%{?bcond_off_perl:#}  cd $RPM_BUILD_ROOT%{perl_sitearch}/auto/${name}
-%{?bcond_off_perl:#}  sed -e "s#$RPM_BUILD_ROOT##" .packlist >.packlist.new
-%{?bcond_off_perl:#}  mv .packlist.new .packlist
-%{?bcond_off_perl:#}  done
-%{?bcond_off_perl:#})
+%{?_without_perl:#}(
+%{?_without_perl:#}  for name in Irssi Irssi/Irc; do
+%{?_without_perl:#}  cd $RPM_BUILD_ROOT%{perl_sitearch}/auto/${name}
+%{?_without_perl:#}  sed -e "s#$RPM_BUILD_ROOT##" .packlist >.packlist.new
+%{?_without_perl:#}  mv .packlist.new .packlist
+%{?_without_perl:#}  done
+%{?_without_perl:#})
       
 gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
 
@@ -113,16 +113,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/*.so*
 
-%{?bcond_off_perl:#}%{perl_sitearch}/*.pm
-%{?bcond_off_perl:#}%dir %{perl_sitearch}/auto/Irssi
-%{?bcond_off_perl:#}%{perl_sitearch}/auto/Irssi/*.bs
-%{?bcond_off_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
+%{?_without_perl:#}%{perl_sitearch}/*.pm
+%{?_without_perl:#}%dir %{perl_sitearch}/auto/Irssi
+%{?_without_perl:#}%{perl_sitearch}/auto/Irssi/*.bs
+%{?_without_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
 
-%{?!bcond_on_gnome:#}%files GNOME
-%{?!bcond_on_gnome:#}%defattr(644,root,root,755)
-%{?!bcond_on_gnome:#}%attr(755,root,root) /usr/X11R6/bin/irssi
+%{?!_with_gnome:#}%files GNOME
+%{?!_with_gnome:#}%defattr(644,root,root,755)
+%{?!_with_gnome:#}%attr(755,root,root) /usr/X11R6/bin/irssi
 
-%{?!bcond_on_gnome:#}/etc/X11/GNOME/CORBA/servers/irssi.gnorba
-%{?!bcond_on_gnome:#}%{_applnkdir}/Network/Communications/irssi.desktop
-%{?!bcond_on_gnome:#}/usr/X11R6/share/gnome/help/irssi
-%{?!bcond_on_gnome:#}/usr/X11R6/share/pixmaps/*
+%{?!_with_gnome:#}/etc/X11/GNOME/CORBA/servers/irssi.gnorba
+%{?!_with_gnome:#}%{_applnkdir}/Network/Communications/irssi.desktop
+%{?!_with_gnome:#}/usr/X11R6/share/gnome/help/irssi
+%{?!_with_gnome:#}/usr/X11R6/share/pixmaps/*
