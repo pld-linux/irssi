@@ -14,6 +14,7 @@ Source2:	%{name}.png
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}.conf.patch
+Patch3:		%{name}-tinfo.patch
 URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
@@ -41,6 +42,7 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -f missing
@@ -53,6 +55,7 @@ rm -f missing
 	--with-bot \
 	--with-textui \
 	--with-proxy \
+	--with-terminfo \
 	--with-modules \
 	%{?!_without_perl:--enable-perl=shared} \
 	%{?_without_perl:--enable-perl=no} \
