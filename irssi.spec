@@ -13,12 +13,10 @@ Source0:	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
 Source1:	http://xlife.dhs.org/irssi/irssi-icon.png
 Patch0:		irssi-applnk.patch
 BuildRequires:	libPropList-devel >= 0.9.1-2
-BuildRequires:	glib-devel
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	imlib-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gnome-libs-devel
-BuildRequires:	XFree86-devel
 BuildRequires:	gettext-devel
 BuildRequires:	mysql-devel
 URL:		http://xlife.dhs.org/irssi/
