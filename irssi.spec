@@ -3,7 +3,7 @@ Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
-Version:	0.8.5
+Version:	0.8.6
 Release:	1
 License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
@@ -21,6 +21,7 @@ BuildRequires:	libtool
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
 BuildRequires:	ncurses-devel >= 5.0
+BuildRequires:  openssl-devel
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
@@ -37,7 +38,7 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
@@ -79,14 +80,12 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{?_without_perl:#}  done
 %{?_without_perl:#})
 
-gzip -9nf AUTHORS ChangeLog README TODO NEWS docs/*.txt
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz docs/*.txt.gz
+%doc AUTHORS ChangeLog README TODO NEWS docs/*.txt
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
