@@ -17,6 +17,7 @@ URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
+BuildRequires:	pkgconfig
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.0.1
 BuildRequires:	gnome-libs-devel
