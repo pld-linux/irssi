@@ -128,14 +128,14 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  	dcc->starttime = time(NULL);
  	dcc->handle = handle;
  	memcpy(&dcc->addr, &addr, sizeof(IPADDR));
-@@ -390,6 +460,7 @@
+@@ -429,6 +429,7 @@
+ 	dcc->size = st.st_size;
  	dcc->fhandle = hfile;
  	dcc->queue = queue;
-         dcc->file_quoted = strchr(fname, ' ') != NULL;
 +	dcc->timeout_tag = -1;
- 	dcc->tagconn = g_input_add(handle, G_INPUT_READ,
- 				   (GInputFunction) dcc_send_connected, dcc);
- 
+         dcc->file_quoted = strchr(fname, ' ') != NULL;
+ 	if (!passive) {
+ 		dcc->tagconn = g_input_add(handle, G_INPUT_READ,
 @@ -412,6 +490,7 @@
          dcc_register_type("SEND");
  	settings_add_str("dcc", "dcc_upload_path", "~");
