@@ -1,6 +1,5 @@
-diff -Nru irssi-0.7.22/Makefile.am irssi-0.7.22.new/Makefile.am
---- irssi-0.7.22/Makefile.am	Sun Jan 16 16:33:40 2000
-+++ irssi-0.7.22.new/Makefile.am	Mon Jan 17 02:13:45 2000
+--- irssi-0.7.27/Makefile.am.wiget	Fri Feb 25 18:07:57 2000
++++ irssi-0.7.27/Makefile.am	Wed Mar  1 08:30:29 2000
 @@ -20,7 +20,7 @@
  @MAINT@	cd macros && $(MAKE) macros.dep
  
@@ -10,3 +9,13 @@ diff -Nru irssi-0.7.22/Makefile.am irssi-0.7.22.new/Makefile.am
  desktop_DATA = irssi.desktop
  
  corbadir = $(sysconfdir)/CORBA/servers
+--- irssi-0.7.27/irssi.desktop.wiget	Sat Oct 16 19:13:08 1999
++++ irssi-0.7.27/irssi.desktop	Wed Mar  1 08:37:35 2000
+@@ -2,6 +2,7 @@
+ Name=irssi
+ Comment=irssi IRC client
+ Comment[pl]=irssi - klient IRC
++Icon=irssi-icon.png
+ Exec=irssi
+ Terminal=0
+ Type=Application
