@@ -1,16 +1,16 @@
-%{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
+%{!?_without_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.6
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-Patch0:		%{name}-dcc-send-limit.patch
+#Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}.conf.patch
 Patch3:		%{name}-tinfo.patch
@@ -56,8 +56,9 @@ rm -f missing
 	--with-proxy \
 	--with-terminfo \
 	--with-modules \
-	%{?!_without_perl:--enable-perl=shared} \
-	%{?_without_perl:--enable-perl=no} \
+	%{?!_without_perl:--with-perl=module} \
+	%{?!_without_perl:--with-perl-lib=vendor} \
+	%{?_without_perl:--with-perl=no} \
 	--enable-ipv6 \
 	--enable-nls
 
@@ -74,14 +75,6 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Network/Communications}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-%{?_without_perl:#}(
-%{?_without_perl:#}  for name in Irssi Irssi/Irc Irssi/TextUI Irssi/UI; do
-%{?_without_perl:#}  cd $RPM_BUILD_ROOT%{perl_archlib}/auto/${name}
-%{?_without_perl:#}  sed -e "s#$RPM_BUILD_ROOT##" .packlist >.packlist.new
-%{?_without_perl:#}  mv .packlist.new .packlist
-%{?_without_perl:#}  done
-%{?_without_perl:#})
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -95,23 +88,27 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
+%{_sysconfdir}/irssi.conf
+%{_mandir}/man1/*
 
-%{?_without_perl:#}%{perl_archlib}/*.pm
-%{?_without_perl:#}%dir %{perl_archlib}/Irssi
-%{?_without_perl:#}%{perl_archlib}/Irssi/*.pm
+%if %{?!_without_perl:1}0
+%{perl_vendorarch}/*.pm
+%dir %{perl_vendorarch}/Irssi
+%{perl_vendorarch}/Irssi/*.pm
 
-%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi
-%{?_without_perl:#}%{perl_archlib}/auto/Irssi/*.bs
-%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/*.so
+%dir %{perl_vendorarch}/auto/Irssi
+%{perl_vendorarch}/auto/Irssi/*.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/Irssi/*.so
 
-%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/Irc
-%{?_without_perl:#}%{perl_archlib}/auto/Irssi/Irc/*.bs
-%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/Irc/*.so
+%dir %{perl_vendorarch}/auto/Irssi/Irc
+%{perl_vendorarch}/auto/Irssi/Irc/*.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/Irssi/Irc/*.so
 
-%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/TextUI
-%{?_without_perl:#}%{perl_archlib}/auto/Irssi/TextUI/*.bs
-%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/TextUI/*.so
+%dir %{perl_vendorarch}/auto/Irssi/TextUI
+%{perl_vendorarch}/auto/Irssi/TextUI/*.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/Irssi/TextUI/*.so
 
-%{?_without_perl:#}%dir %{perl_archlib}/auto/Irssi/UI
-%{?_without_perl:#}%{perl_archlib}/auto/Irssi/UI/*.bs
-%{?_without_perl:#}%attr(755,root,root) %{perl_archlib}/auto/Irssi/UI/*.so
+%dir %{perl_vendorarch}/auto/Irssi/UI
+%{perl_vendorarch}/auto/Irssi/UI/*.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/Irssi/UI/*.so
+%endif
