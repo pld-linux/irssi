@@ -4,13 +4,14 @@ Summary(fr):	Irssi est un client IRC ecrit en GTK
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
 Version:	0.7.28
-Release:	4
+Release:	5
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
-Group:		Applications/Communications
-Group(pl):	Aplikacje/Komunikacja
+Group:		Applications/Networking
+Group(de):	Applikationen/Netzwerkwesen
+Group(pl):	Aplikacje/Sieciowe
 Source0:	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
-Source1:	http://xlife.dhs.org/irssi/irssi-icon.png
+Source1:	http://xlife.dhs.org/irssi/%{name}-icon.png
 BuildRequires:	libPropList-devel >= 0.9.1-2
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	imlib-devel
@@ -25,36 +26,39 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	/etc/X11/GNOME
 
 %description
-Irssi is a textUI IRC client with IPv6 support  by Timo Sirainen
+Irssi is a textUI IRC client with IPv6 support by Timo Sirainen
 <cras@irccrew.org>.
 
 %description -l fr
 Irssi est client IRC écrit en GTK.
 
 %description -l pl
-Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6. Napisany zosta³
-przez Timo Strainen <cras@irccrew.org>.
+Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6. Napisany
+zosta³ przez Timo Strainen <cras@irccrew.org>.
 
 %package GNOME
 Summary:	GNOME version of irssi IRC client
 Summary(pl):	Wersja dla ¶rodowiska GNOME klienta IRC irssi
-Group:		X11/Applications/Communications
-Group(pl):	X11/Aplikacje/Komunikacja
+Group:		X11/Applications/Networking
+Group(de):	X11/Applikationen/Netzwerkwesen
+Group(pl):	X11/Aplikacje/Sieciowe
 Requires:	%{name} = %{version}
 
 %description GNOME
-Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support by Timo
-Sirainen <cras@irccrew.org>.
+Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support by
+Timo Sirainen <cras@irccrew.org>.
 
 %description -l pl GNOME
 Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
-¶rodowisku GNOME. Napisany zosta³ przez Timo Sirainen <cras@irccrew.org>.
+¶rodowisku GNOME. Napisany zosta³ przez Timo Sirainen
+<cras@irccrew.org>.
 
 %package sql
 Summary:	MySQL plugin to Irssi
 Summary(pl):	Wtyczka MySQL dla Irssi
-Group:		X11/Applications/Communications
-Group(pl):	X11/Aplikacje/Komunikacja
+Group:		Applications/Communications
+Group(de):	Applikationen/Kommunikation
+Group(pl):	Aplikacje/Komunikacja
 Requires:	%{name} = %{version}
 
 %description sql
@@ -64,11 +68,12 @@ MySQL plugin to Irssi.
 Wtyczka MySQL dla Irssi.
 
 %package speech
-Summary:        speech plugin to Irssi
-Summary(pl):    Wtyczka syntezatora mowy dla Irssi
-Group:          X11/Applications/Communications
-Group(pl):      X11/Aplikacje/Komunikacja
-Requires:       %{name} = %{version}
+Summary:	speech plugin to Irssi
+Summary(pl):	Wtyczka syntezatora mowy dla Irssi
+Group:		Applications/Communications
+Group(de):	Applikationen/Kommunikation
+Group(pl):	Aplikacje/Komunikacja
+Requires:	%{name} = %{version}
 Requires:	festival
 
 %description speech
@@ -83,8 +88,7 @@ Wtyczka syntezatora mowy dla Irssi.
 %build
 gettextize --copy --force
 NOCONFIGURE=1 ./autogen.sh
-CPPFLAGS="-I/usr/X11R6/include"; export CPPFLAGS
-LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
+CPPFLAGS="-I%{_includedir}"; export CPPFLAGS
 %configure \
 	--with-gnome \
 	--disable-static \
@@ -101,16 +105,14 @@ LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
-%{__make} DESTDIR=$RPM_BUILD_ROOT \
-	desktopdir=%{_applnkdir}/Network/IRC \
-	install
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	desktopdir=%{_applnkdir}/Network/IRC
 	
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/irssi/plugins/lib*.so.*.*
-
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/pixmaps/irssi-icon.png
+
 gzip -9nf AUTHORS ChangeLog README TODO NEWS
 
 %find_lang %{name}
@@ -158,5 +160,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/irssi/plugins/libsql.so
 
 %files speech
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/irssi/plugins/libspeech.so.*.*
 %attr(755,root,root) %{_libdir}/irssi/plugins/libspeech.so
