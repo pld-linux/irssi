@@ -118,8 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %{?bcond_off_perl:#}%{perl_sitearch}/auto/Irssi/*.bs
 %{?bcond_off_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
 
-%files GNOME
-%defattr(644,root,root,755)
+%{?!bcond_on_gnome:#}%files GNOME
+%{?!bcond_on_gnome:#}%defattr(644,root,root,755)
 %{?!bcond_on_gnome:#}%attr(755,root,root) /usr/X11R6/bin/irssi
 
 %{?!bcond_on_gnome:#}/etc/X11/GNOME/CORBA/servers/irssi.gnorba
