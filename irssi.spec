@@ -1,7 +1,8 @@
-%define		ver 	 0.7.15
-%define		patchlvl 3
+%define		ver 	 0.7.16
+%define		devel	 alpha
+%define		patchlvl 1
 Name: 		irssi
-Version: 	%{ver}_%{patchlvl}
+Version: 	%{ver}%{devel}_%{patchlvl}
 Release: 	1
 Vendor: 	Timo Sirainen <cras@irccrew.org>
 Summary:  	Irssi is a IRC client
@@ -9,8 +10,9 @@ Copyright: 	GPL
 Group: 		Applications/Communications
 Group(pl):      Aplikacje/Komunikacja
 URL: 		http://xlife.dhs.org/irssi/
-Source: 	http://xlife.dhs.org/irssi/files/%{name}-%{ver}-%{patchlvl}.tar.bz2
-Patch:		irssi-DESTDIR.patch
+Source0: 	http://xlife.dhs.org/irssi/files/%{name}-%{ver}%{devel}-%{patchlvl}.tar.bz2
+Source1:	dialog-rawlog.h
+#Patch:		irssi-DESTDIR.patch
 BuildRequires:	libPropList-devel
 BuildRequires:	glib-devel
 BuildRequires:	ncurses-devel
@@ -40,7 +42,7 @@ More information can be found at http://xlife.dhs.org/irssi/.
 
 %prep
 %setup -q -n %{name}-%{ver}
-%patch -p1 
+install %{SOURCE1} src/gui-gnome/dialog-rawlog.h
 
 %build
 automake
@@ -80,7 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/plugins
 %attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so.*.*
-#%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so
+%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so
 #%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.la
 #%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.a
 
