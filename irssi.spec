@@ -2,7 +2,7 @@ Summary:  	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC ecrit en GTK
 Summary(pl):	Irssi - klient IRC
 Name: 		irssi
-Version: 	0.7.20
+Version: 	0.7.20.1
 Release: 	1
 Vendor: 	Timo Sirainen <cras@irccrew.org>
 Copyright: 	GPL
@@ -67,7 +67,8 @@ LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 	--with-textui=ncurses \
 	--with-proplist \
 	--without-socks \
-	--with-plugins
+	--with-plugins \
+	--without-mysql
 make
 
 %install
