@@ -1,14 +1,15 @@
-Summary:  	Irssi is a IRC client
+Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC ecrit en GTK
 Summary(pl):	Irssi - klient IRC
-Name: 		irssi
-Version: 	0.7.21
-Release: 	1
-Vendor: 	Timo Sirainen <cras@irccrew.org>
-Copyright: 	GPL
-Group: 		Applications/Communications
-Group(pl):      Aplikacje/Komunikacja
-Source0: 	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
+Name:		irssi
+Version:	0.7.22
+Release:	1
+Vendor:		Timo Sirainen <cras@irccrew.org>
+License:	GPL
+Group:		Applications/Communications
+Group(pl):	Aplikacje/Komunikacja
+Source0:	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
+Patch:		irssi-applnk.patch
 BuildRequires:	libPropList-devel
 BuildRequires:	glib-devel
 BuildRequires:	ncurses-devel >= 5.0
@@ -17,16 +18,16 @@ BuildRequires:	gtk+-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	gettext-devel
-URL: 		http://xlife.dhs.org/irssi/
-BuildRoot: 	/tmp/%{name}-%{version}-root
+URL:		http://xlife.dhs.org/irssi/
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %define		_prefix		/usr/X11R6
 %define		_sysconfdir	/etc/X11/GNOME
+%define		_applnkdir	%{_datadir}/applnk
 
 %description
-Irssi is a textUI IRC client with IPv6 support 
-by Timo Sirainen <cras@irccrew.org>.
-More information can be found at http://xlife.dhs.org/irssi/.
+Irssi is a textUI IRC client with IPv6 support  by Timo Sirainen
+<cras@irccrew.org>.
 
 %description -l fr
 Irssi est client IRC écrit en GTK.
@@ -36,16 +37,15 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6. Napisany zosta³
 przez Timo Strainen <cras@irccrew.org>.
 
 %package GNOME
-Summary: 	GNOME version of irssi IRC client
+Summary:	GNOME version of irssi IRC client
 Summary(pl):	Wersja dla ¶rodowiska GNOME klienta IRC irssi
 Group:		X11/Applications/Communications
 Group(pl):	X11/Aplikacje/Komunikacja
 Requires:	%{name} = %{version}
 
 %description GNOME
-Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support
-by Timo Sirainen <cras@irccrew.org>.
-More information can be found at http://xlife.dhs.org/irssi/.
+Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support by Timo
+Sirainen <cras@irccrew.org>.
 
 %description -l pl GNOME
 Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
@@ -53,11 +53,13 @@ Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 gettextize --copy --force
 CPPFLAGS="-I/usr/X11R6/include"; export CPPFLAGS
 LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
+automake
 %configure \
 	--with-gnome \
 	--disable-static \
@@ -76,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/irssi/plugins/lib*.so.*.*
 
-gzip -9fn AUTHORS ChangeLog README TODO NEWS
+gzip -9nf AUTHORS ChangeLog README TODO NEWS
 
 %find_lang %{name}
 
@@ -84,7 +86,7 @@ gzip -9fn AUTHORS ChangeLog README TODO NEWS
 rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
-%defattr (644,root,root,755)
+%defattr(644,root,root,755)
 %doc {AUTHORS,ChangeLog,README,TODO,NEWS}.gz
 
 %attr(755,root,root) %{_bindir}/irssi-text
@@ -96,12 +98,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi/plugins
 %attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so.*.*
 %attr(755,root,root) %{_libdir}/irssi/plugins/lib*.so
-#%attr(755,root,root) %{_libdir}/irssi/plugins/lib*.la
 
 %files GNOME
-%defattr (644,root,root,755)
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/irssi
 
 %{_sysconfdir}/CORBA/servers/irssi.gnorba
-%{_datadir}/applets/Network/irssi.desktop
+%{_applnkdir}/Network/irssi.desktop
 %{_datadir}/gnome/help/irssi
