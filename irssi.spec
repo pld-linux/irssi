@@ -8,10 +8,12 @@ Release:	2
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
+Group(de):	Applikationen/Kommunikation
 Group(pl):	Aplikacje/Komunikacja
-Source0:	http://www.irssi.org/files/irssi-%{version}.tar.bz2
+Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
+URL:		http://www.irssi.org/
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
@@ -21,7 +23,6 @@ BuildRequires:	glib-devel >= 1.2.0
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
-URL:		http://www.irssi.org/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
