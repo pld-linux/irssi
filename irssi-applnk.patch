@@ -1,21 +1,12 @@
---- irssi-0.7.27/Makefile.am.wiget	Fri Feb 25 18:07:57 2000
-+++ irssi-0.7.27/Makefile.am	Wed Mar  1 08:30:29 2000
+diff -Nru irssi-0.7.28/Makefile.am irssi-0.7.28.new/Makefile.am
+--- irssi-0.7.28/Makefile.am	Sat Mar 11 19:40:28 2000
++++ irssi-0.7.28.new/Makefile.am	Sat Mar 11 22:35:21 2000
 @@ -20,7 +20,7 @@
  @MAINT@	cd macros && $(MAKE) macros.dep
  
  if HAVE_GNOME
--desktopdir = $(datadir)/gnome/apps/Network
+-desktopdir = $(datadir)/gnome/apps/Internet
 +desktopdir = $(datadir)/applnk/Networking/IRC
  desktop_DATA = irssi.desktop
  
  corbadir = $(sysconfdir)/CORBA/servers
---- irssi-0.7.27/irssi.desktop.wiget	Sat Oct 16 19:13:08 1999
-+++ irssi-0.7.27/irssi.desktop	Wed Mar  1 08:37:35 2000
-@@ -2,6 +2,7 @@
- Name=irssi
- Comment=irssi IRC client
- Comment[pl]=irssi - klient IRC
-+Icon=irssi-icon.png
- Exec=irssi
- Terminal=0
- Type=Application
