@@ -12,7 +12,7 @@ Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
 %define		_rc	rc5
-Release:	0.%{_rc}.2
+Release:	0.%{_rc}.3
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}-%{_rc}.tar.gz
