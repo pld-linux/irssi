@@ -20,7 +20,6 @@ BuildRequires:	glib-devel >= 1.2.0
 BuildRequires:	ncurses-devel >= 5.0
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Obsoletes:	irssi
 %description
 Irssi is a textUI IRC client with IPv6 support.
 
