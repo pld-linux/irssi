@@ -4,14 +4,13 @@ Summary(fr):	Irssi est un client IRC ecrit en GTK
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
 Version:	0.7.28
-Release:	1
+Release:	2
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
 Source0:	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
 Source1:	http://xlife.dhs.org/irssi/irssi-icon.png
-Patch0:		irssi-applnk.patch
 BuildRequires:	libPropList-devel >= 0.9.1-2
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	imlib-devel
@@ -80,7 +79,6 @@ Wtyczka syntezatora mowy dla Irssi.
 
 %prep
 %setup  -q
-%patch0 -p1
 
 %build
 gettextize --copy --force
@@ -106,7 +104,11 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
-make DESTDIR=$RPM_BUILD_ROOT install
+make \ 
+	DESTDIR=$RPM_BUILD_ROOT \
+	desktopdir=%{_applnkdir}/Network/IRC \
+	install
+	
 strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/irssi/plugins/lib*.so.*.*
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/pixmaps/irssi-icon.png
@@ -147,7 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/irssi
 
 %{_sysconfdir}/CORBA/servers/irssi.gnorba
-%{_applnkdir}/Networking/IRC/irssi.desktop
+%{_applnkdir}/Network/IRC/irssi.desktop
 %{_datadir}/gnome/help/irssi
 %{_datadir}/pixmaps/*
 
