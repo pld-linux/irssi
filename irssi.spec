@@ -4,7 +4,7 @@
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 #
-%define		_snap		20041010
+%define		_snap		20050220
 %define		_rc		rc5
 %define		_idea_ver	0.1.46
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
@@ -13,11 +13,11 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
-Release:	0.%{_snap}.2
+Release:	0.%{_snap}.1
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
-# Source0-md5:	5c243d5b8d8897cf398f9eb639236d32
+# Source0-md5:	2f2062f4f5da0a43f9f2b5bced17d460
 # Source0-size:	1192158
 Source1:	%{name}.desktop
 Source2:	%{name}.png
