@@ -11,6 +11,13 @@ Group(pl):      Aplikacje/Komunikacja
 URL: 		http://xlife.dhs.org/irssi/
 Source: 	http://xlife.dhs.org/irssi/files/%{name}-%{ver}-%{patchlvl}.tar.bz2
 Patch:		irssi-DESTDIR.patch
+BuildRequires:	libPropList-devel
+BuildRequires:	glib-devel
+BuildRequires:	ncurses-devel
+BuildRequires:	imlib-devel
+BuildRequires:	gtk+-devel
+BuildRequires:	gnome-libs-devel
+BuildRequires:	XFree86-devel
 BuildRoot: 	/tmp/%{name}-%{version}-root
 
 %define		_sysconfdir	/etc
