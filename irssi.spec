@@ -95,13 +95,13 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_applnkdir}/Network/Communications}
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 cd irssi-idea-%{_idea_ver}
@@ -119,7 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/libirc_proxy.so*
 %{_datadir}/%{name}
-%{_applnkdir}/Network/Communications/irssi.desktop
+%{_desktopdir}/irssi.desktop
 %{_pixmapsdir}/*
 %{_sysconfdir}/irssi.conf
 %{_mandir}/man1/*
