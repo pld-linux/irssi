@@ -1,0 +1,41 @@
+--- irssi-0.7.98.4/src/fe-none/Makefile.am~	Sun Jan 20 00:05:24 2002
++++ irssi-0.7.98.4/src/fe-none/Makefile.am	Sun Jan 20 00:05:24 2002
+@@ -1,7 +1,5 @@
+ bin_PROGRAMS = botti
+ 
+-INCLUDES = $(GLIB_CFLAGS)
+-
+ INCLUDES = \
+ 	$(GLIB_CFLAGS) \
+ 	-I$(top_srcdir)/src \
+--- irssi-0.7.98.4/src/perl/Makefile.am~	Sun Jan 20 00:07:31 2002
++++ irssi-0.7.98.4/src/perl/Makefile.am	Sun Jan 20 00:07:31 2002
+@@ -54,7 +54,7 @@
+ perl-signals-list.h: $(top_srcdir)/docs/signals.txt $(srcdir)/get-signals.pl
+ 	cat $(top_srcdir)/docs/signals.txt | $(perlpath) $(srcdir)/get-signals.pl > perl-signals-list.h
+ 
+-CORE_SOURCES = \
++CORE_SRC = \
+ 	common/Channel.xs \
+ 	common/Core.xs \
+ 	common/Ignore.xs \
+@@ -72,7 +72,7 @@
+ 	common/typemap \
+ 	common/module.h
+ 
+-IRC_SOURCES = \
++IRC_SRC = \
+ 	irc/Dcc.xs \
+ 	irc/IrcChannel.xs \
+ 	irc/IrcQuery.xs \
+@@ -90,8 +90,8 @@
+ 	libperl_dynaloader.la \
+ 	libperl_orig.la \
+ 	get-signals.pl \
+-	$(CORE_SOURCES) \
+-	$(IRC_SOURCES)
++	$(CORE_SRC) \
++	$(IRC_SRC)
+ 
+ noinst_HEADERS = \
+ 	module.h \
