@@ -1,5 +1,6 @@
 %{?_without_perl:#}%include	/usr/lib/rpm/macros.perl
-%define	snap	20020514
+%define	snap	20020515
+%define xsnap   20020514
 %define ver	0.8.4
 %define ver_icq 0.1
 Summary:	Irssi is a IRC client
@@ -12,7 +13,7 @@ License:	GPL
 Vendor:		Timo Sirainen <cras@irccrew.org>
 Group:		Applications/Communications
 Source0:	http://irssi.org/files/snapshots/%{name}-%{snap}.tar.gz
-Source1:	xirssi-%{snap}.tar.bz2
+Source1:	xirssi-%{xsnap}.tar.bz2
 Source2:	%{name}.desktop
 Source3:	%{name}.png
 Source4:	http://irssi.org/files/plugins/icq/%{name}-icq-%{ver_icq}.tgz
