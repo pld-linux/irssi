@@ -18,13 +18,13 @@ Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	6610ee0e27922f447e40828cf7dee507
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-Source3:        http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
+Source3:	http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 #Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-channel_auto_who.patch
 Patch2:		%{name}-tinfo.patch
 Patch3:		%{name}-home_etc.patch
-Patch4:         %{name}.conf.patch
+Patch4:		%{name}.conf.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -50,9 +50,9 @@ Irssi est client IRC.
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %package plugin-idea
-Summary:        Irssi plugin IDEA crypt
-Summary(pl):    Wtyczka do irssi do szyfrowania IDEA
-Group:          Applications/Communications
+Summary:	Irssi plugin IDEA crypt
+Summary(pl):	Wtyczka do irssi do szyfrowania IDEA
+Group:		Applications/Communications
 Requires:	%{name} = %{version}
 
 %description plugin-idea
