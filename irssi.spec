@@ -22,11 +22,10 @@ Source2:	%{name}.png
 Source3:	http://www.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Patch0:		%{name}-dcc-send-limit.patch
-Patch1:		%{name}-channel_auto_who.patch
-Patch2:		%{name}-tinfo.patch
-Patch3:		%{name}-home_etc.patch
-Patch4:		%{name}.conf.patch
-Patch5:		%{name}-idea-listlen.patch
+Patch1:		%{name}-tinfo.patch
+Patch2:		%{name}-home_etc.patch
+Patch3:		%{name}.conf.patch
+Patch4:		%{name}-idea-listlen.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -70,7 +69,6 @@ Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 rm -f missing
