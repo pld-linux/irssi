@@ -8,6 +8,7 @@ Release:	2
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/%{name}-%{version}.tar.bz2
+# Source0-md5: 6d66982723e2eb8780ae3b8b3a7ba08d
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 #Patch0:		%{name}-dcc-send-limit.patch
