@@ -55,7 +55,7 @@ Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
 %setup -q
 
 %build
-gettextixe --copy --force
+gettextize --copy --force
 CPPFLAGS="-I/usr/X11R6/include"; export CPPFLAGS
 LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 %configure \
