@@ -28,6 +28,7 @@ BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:  gtk+2-devel
 BuildRequires:	freetype-devel
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
+BuildRequires:	lynx
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
@@ -77,9 +78,22 @@ rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
 echo "#undef NCURSES_970530" >> acconfig.h
+# docs create (from ./autogen.sh)
+perl syntax.pl
+
+files=`echo docs/help/in/*.in|sed -e 's,docs/help/in/Makefile.in ,,' -e 's,docs/help/in/,!,g' -e 's/\.in /.in ?/g'`                                             cat docs/help/in/Makefile.am.gen|sed "s/@HELPFILES@/$files/g"|sed 's/?/\\?/g'|tr '!?' '\t\n' > docs/help/in/Makefile.am
+
+files=`echo $files|sed 's/\.in//g'`                                             cat docs/help/Makefile.am.gen|sed "s/@HELPFILES@/$files/g"|sed 's/?/\\?/g'|tr '!?' '\t\n' > docs/help/Makefile.am
+
+# .html -> .txt with lynx
+echo "Documentation: html -> txt..."                                            lynx -dump -nolist docs/startup-HOWTO.html > docs/startup-HOWTO.txt
+lynx -dump -nolist docs/faq.html|perl -pe 's/^ *//; if ($_ eq "\n" && $state eq "Q") { $_ = ""; } elsif (/^([QA]):/) { $state = $1 } elsif ($_ ne "\n") { $_ = "   $_"; };' > docs/faq.txt 
+
+
 autoheader
 %{__autoconf}
 %{__automake}
+
 %configure \
 	--without-socks \
 	--with-bot \
