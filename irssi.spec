@@ -83,7 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc {AUTHORS,ChangeLog,README,TODO,NEWS}.gz
 
 %attr(755,root,root) %{_bindir}/irssi-text
-%attr(755,root,root) %{_bindir}/irssi-bot
 
 %dir %{_sysconfdir}/irssi
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/irssi/*
