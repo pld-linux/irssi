@@ -76,6 +76,7 @@ cd %{name}
 rm -f missing
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
+echo "#undef NCURSES_970530" >> acconfig.h
 autoheader
 %{__autoconf}
 %{__automake}
