@@ -4,7 +4,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
 Version:	0.7.98.4
-Release:	1
+Release:	2
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
 Group:		Applications/Communications
@@ -12,7 +12,6 @@ Group(pl):	Aplikacje/Komunikacja
 Source0:	http://www.irssi.org/files/irssi-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-Patch0:		%{name}-am_ac.patch
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	libtool
@@ -36,18 +35,9 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
-ln -s libtool libtool-shared
-NOCONFIGURE=1 ./autogen.sh
-libtoolize --copy --force
-gettextize --copy --force
-aclocal -I .
-autoheader
-autoconf
-automake -a -c
-%configure \
+%configure2_13 \
 	--without-socks \
 	--with-textui=ncurses \
 	--with-bot \
@@ -103,7 +93,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_applnkdir}/Network/Communications/irssi.desktop
 %{_pixmapsdir}/*
 
+%{?_without_perl:#}%dir %{perl_sitearch}/Irssi
 %{?_without_perl:#}%{perl_sitearch}/*.pm
+%{?_without_perl:#}%{perl_sitearch}/Irssi/*.pm
 %{?_without_perl:#}%dir %{perl_sitearch}/auto/Irssi
+%{?_without_perl:#}%dir %{perl_sitearch}/auto/Irssi/Irc
 %{?_without_perl:#}%{perl_sitearch}/auto/Irssi/*.bs
+%{?_without_perl:#}%{perl_sitearch}/auto/Irssi/Irc/*.bs
 %{?_without_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
+%{?_without_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/Irc/*.so
