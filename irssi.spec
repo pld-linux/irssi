@@ -63,7 +63,7 @@ This package contains IDEA Crypt plugin for Irssi.
 Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_rel} -a3
+%setup -q -n %{name}-%{version}-%{_rc} -a3
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
