@@ -4,7 +4,7 @@
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 #
-%define		_snap		20050220
+%define		_snap		20041010
 %define		_rc		rc5
 %define		_idea_ver	0.1.46
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
@@ -17,13 +17,11 @@ Release:	0.%{_snap}.1
 License:	GPL
 Group:		Applications/Communications
 Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
-# Source0-md5:	2f2062f4f5da0a43f9f2b5bced17d460
-# Source0-size:	1192158
+# Source0-md5:	5c243d5b8d8897cf398f9eb639236d32
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
-# Source0-size:	1192158
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-tinfo.patch
 Patch2:		%{name}-home_etc.patch
