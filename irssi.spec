@@ -1,8 +1,5 @@
-%define		ver 	 0.7.16
-%define		devel	 alpha
-%define		patchlvl 1
 Name: 		irssi
-Version: 	%{ver}%{devel}_%{patchlvl}
+Version: 	0.7.16
 Release: 	1
 Vendor: 	Timo Sirainen <cras@irccrew.org>
 Summary:  	Irssi is a IRC client
@@ -10,9 +7,7 @@ Copyright: 	GPL
 Group: 		Applications/Communications
 Group(pl):      Aplikacje/Komunikacja
 URL: 		http://xlife.dhs.org/irssi/
-Source0: 	http://xlife.dhs.org/irssi/files/%{name}-%{ver}%{devel}-%{patchlvl}.tar.bz2
-Source1:	dialog-rawlog.h
-#Patch:		irssi-DESTDIR.patch
+Source0: 	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.gz
 BuildRequires:	libPropList-devel
 BuildRequires:	glib-devel
 BuildRequires:	ncurses-devel
@@ -41,11 +36,9 @@ by Timo Sirainen <cras@irccrew.org>.
 More information can be found at http://xlife.dhs.org/irssi/.
 
 %prep
-%setup -q -n %{name}-%{ver}
-install %{SOURCE1} src/gui-gnome/dialog-rawlog.h
+%setup -q
 
 %build
-automake
 CPPFLAGS="-I/usr/X11R6/include"; export CPPFLAGS
 LDFLAGS="-s -L/usr/X11R6/lib"; export LDFLAGS
 %configure \
