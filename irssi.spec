@@ -10,17 +10,16 @@ License:	GPL
 Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
 Source0:	http://www.irssi.org/files/irssi-%{version}.tar.bz2
-Source1:	http://xlife.dhs.org/irssi/%{name}-icon.png
-Source2:	%{name}.desktop
-Source3:	%{name}.png
+Source1:	%{name}.desktop
+Source2:	%{name}.png
+Patch0:		%{name}-am_ac.patch
+BuildRequires:	automake
+BuildRequires:	autoconf
+BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
 %{?!_without_perl:BuildRequires:	perl-devel >= 5.6.1}
-%{?_with_gnome:BuildRequires:	libPropList-devel >= 0.9.1-2}
-%{?_with_gnome:BuildRequires:	imlib-devel}
-%{?_with_gnome:BuildRequires:	gtk+-devel}
-%{?_with_gnome:BuildRequires:	gnome-libs-devel}
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
 URL:		http://www.irssi.org/
@@ -37,13 +36,21 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+ln -s libtool libtool-shared
 NOCONFIGURE=1 ./autogen.sh
+libtoolize --copy --force
+gettextize --copy --force
+aclocal -I .
+autoheader
+autoconf
+automake -a -c
 %configure \
 	--without-socks \
 	--with-textui=ncurses \
-	--without-bot \
+	--with-bot \
 	--with-proxy \
 	--with-modules \
 	%{?!_without_perl:--enable-perl=yes} \
