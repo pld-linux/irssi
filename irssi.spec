@@ -1,165 +1,91 @@
+%define	ver	0.7.96
+%define	plev	2
 %include	/usr/lib/rpm/macros.perl
 Summary:	Irssi is a IRC client
-Summary(fr):	Irssi est un client IRC ecrit en GTK
+Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - klient IRC
 Name:		irssi
-Version:	0.7.28
-Release:	5
+Version:	%{ver}p%{plev}
+Release:	1
 Vendor:		Timo Sirainen <cras@irccrew.org>
 License:	GPL
-Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(pl):	Aplikacje/Sieciowe
-Source0:	http://xlife.dhs.org/irssi/files/%{name}-%{version}.tar.bz2
-Source1:	http://xlife.dhs.org/irssi/%{name}-icon.png
-BuildRequires:	libPropList-devel >= 0.9.1-2
+Group:		Applications/Communications
+Group(pl):	Aplikacje/Komunikacja
+Source0:	http://www.irssi.org/files/irssi-%{ver}-%{plev}.tar.bz2
 BuildRequires:	ncurses-devel >= 5.0
-BuildRequires:	imlib-devel
-BuildRequires:	gtk+-devel
-BuildRequires:	gnome-libs-devel
 BuildRequires:	gettext-devel
-BuildRequires:	mysql-devel
-URL:		http://xlife.dhs.org/irssi/
+BuildRequires:	glib-devel >= 1.2.0
+BuildRequires:	perl
+Obsoletes:	%{name}-speech
+Obsoletes:	%{name}-sql
+URL:		http://www.irssi.org/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-%define		_sysconfdir	/etc/X11/GNOME
-
 %description
-Irssi is a textUI IRC client with IPv6 support by Timo Sirainen
-<cras@irccrew.org>.
+Irssi is a textUI IRC client with IPv6 support.
 
 %description -l fr
-Irssi est client IRC écrit en GTK.
+Irssi est client IRC.
 
 %description -l pl
-Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6. Napisany
-zosta³ przez Timo Strainen <cras@irccrew.org>.
-
-%package GNOME
-Summary:	GNOME version of irssi IRC client
-Summary(pl):	Wersja dla ¶rodowiska GNOME klienta IRC irssi
-Group:		X11/Applications/Networking
-Group(de):	X11/Applikationen/Netzwerkwesen
-Group(pl):	X11/Aplikacje/Sieciowe
-Requires:	%{name} = %{version}
-
-%description GNOME
-Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support by
-Timo Sirainen <cras@irccrew.org>.
-
-%description -l pl GNOME
-Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
-¶rodowisku GNOME. Napisany zosta³ przez Timo Sirainen
-<cras@irccrew.org>.
-
-%package sql
-Summary:	MySQL plugin to Irssi
-Summary(pl):	Wtyczka MySQL dla Irssi
-Group:		Applications/Communications
-Group(de):	Applikationen/Kommunikation
-Group(pl):	Aplikacje/Komunikacja
-Requires:	%{name} = %{version}
-
-%description sql
-MySQL plugin to Irssi.
-
-%description sql -l pl
-Wtyczka MySQL dla Irssi.
-
-%package speech
-Summary:	speech plugin to Irssi
-Summary(pl):	Wtyczka syntezatora mowy dla Irssi
-Group:		Applications/Communications
-Group(de):	Applikationen/Kommunikation
-Group(pl):	Aplikacje/Komunikacja
-Requires:	%{name} = %{version}
-Requires:	festival
-
-%description speech
-Speech plugin to Irssi.
-
-%description speech -l pl
-Wtyczka syntezatora mowy dla Irssi.
+Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %prep
-%setup  -q
+%setup -q -n %{name}-%{ver}
 
 %build
-gettextize --copy --force
 NOCONFIGURE=1 ./autogen.sh
-CPPFLAGS="-I%{_includedir}"; export CPPFLAGS
 %configure \
-	--with-gnome \
-	--disable-static \
-	--with-gnome-panel \
-	--with-imlib \
-	--enable-ipv6 \
-	--with-textui=ncurses \
-	--with-proplist=/usr \
 	--without-socks \
-	--with-plugins \
-	--with-mysql \
-	--enable-perl
+	--with-textui=ncurses \
+	--with-bot \
+	--with-proxy \
+	--with-modules \
+	--enable-perl=yes \
+	--enable-curses-windows \
+	--enable-ipv6 \
+	--enable-nls
+	
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}/pixmaps
+install -d $RPM_BUILD_ROOT%{perl_sitearch}/
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	desktopdir=%{_applnkdir}/Network/IRC
-	
-install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/pixmaps/irssi-icon.png
+	docdir=%{_datadir}/%{name}-%{version}
 
+mv $RPM_BUILD_ROOT%{_prefix}/*-pld-*/* $RPM_BUILD_ROOT%{perl_sitearch}/
+
+(
+  for name in Irssi Irssi/Irc; do
+  cd $RPM_BUILD_ROOT%{perl_sitearch}/auto/${name}
+  sed -e "s#$RPM_BUILD_ROOT##" .packlist >.packlist.new
+  mv .packlist.new .packlist
+  done
+)
+      
 gzip -9nf AUTHORS ChangeLog README TODO NEWS
 
 %find_lang %{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc {AUTHORS,ChangeLog,README,TODO,NEWS}.gz
-
-%attr(755,root,root) %{_bindir}/irssi-text
-
-%dir %{_sysconfdir}/irssi
+%doc *.gz
+%attr(755,root,root) %{_bindir}/*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/irssi/*
+%dir %{_sysconfdir}/irssi
+%{_datadir}/irssi
 
 %dir %{_libdir}/irssi
-%dir %{_libdir}/irssi/plugins
-%attr(755,root,root) %{_libdir}/irssi/plugins/libbot.so.*.*
-%attr(755,root,root) %{_libdir}/irssi/plugins/libbot.so
-%attr(755,root,root) %{_libdir}/irssi/plugins/libexternal.so.*.*
-%attr(755,root,root) %{_libdir}/irssi/plugins/libexternal.so
-%attr(755,root,root) %{_libdir}/irssi/plugins/libproxy.so.*.*
-%attr(755,root,root) %{_libdir}/irssi/plugins/libproxy.so
-%attr(755,root,root) %{_libdir}/irssi/plugins/libsound.so.*.*
-%attr(755,root,root) %{_libdir}/irssi/plugins/libsound.so
+%dir %{_libdir}/irssi/modules
+%attr(755,root,root) %{_libdir}/irssi/modules/*.so*
 
 %{perl_sitearch}/*.pm
 %dir %{perl_sitearch}/auto/Irssi
 %{perl_sitearch}/auto/Irssi/*.bs
 %attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
-
-%files GNOME
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/irssi
-
-%{_sysconfdir}/CORBA/servers/irssi.gnorba
-%{_applnkdir}/Network/IRC/irssi.desktop
-%{_datadir}/gnome/help/irssi
-%{_datadir}/pixmaps/*
-
-%files sql
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/irssi/plugins/libsql.so.*.*
-%attr(755,root,root) %{_libdir}/irssi/plugins/libsql.so
-
-%files speech
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/irssi/plugins/libspeech.so.*.*
-%attr(755,root,root) %{_libdir}/irssi/plugins/libspeech.so
