@@ -11,6 +11,8 @@ Group:		Applications/Communications
 Group(pl):	Aplikacje/Komunikacja
 Source0:	http://www.irssi.org/files/irssi-%{version}.tar.bz2
 Source1:	http://xlife.dhs.org/irssi/%{name}-icon.png
+Source2:	%{name}.desktop
+Source3:	%{name}.png
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	gettext-devel
 BuildRequires:	glib-devel >= 1.2.0
@@ -33,23 +35,6 @@ Irssi est client IRC.
 %description -l pl
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
-%package GNOME
-Summary:	GNOME version of irssi IRC client
-Summary(pl):	Wersja dla ¶rodowiska GNOME klienta IRC irssi
-Group:		X11/Applications/Networking
-Group(de):	X11/Applikationen/Netzwerkwesen
-Group(pl):	X11/Aplikacje/Sieciowe
-Requires:	%{name} = %{version}
-
-%description GNOME
-Irssi is a GTK based (with GNOME) GUI IRC client with IPv6 support by
-Timo Sirainen <cras@irccrew.org>.
-
-%description -l pl GNOME
-Irssi jest graficznym klientem IRC ze wsparciem dla IPv6 pracuj±cym w
-¶rodowisku GNOME. Napisany zosta³ przez Timo Sirainen
-<cras@irccrew.org>.
-
 %prep
 %setup -q
 
@@ -61,8 +46,6 @@ NOCONFIGURE=1 ./autogen.sh
 	--without-bot \
 	--with-proxy \
 	--with-modules \
-	%{?_with_gnome:--with-gnome} \
-	%{?_with_gnome:--with-gnome-panel} \
 	%{?!_without_perl:--enable-perl=yes} \
 	%{?_without_perl:--enable-perl=no} \
 	--enable-curses-windows \
@@ -73,14 +56,14 @@ NOCONFIGURE=1 ./autogen.sh
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{perl_sitearch},/usr/X11R6/share/pixmaps}
+install -d $RPM_BUILD_ROOT{%{perl_sitearch},%{_pixmapsdir},%{_applnkdir}/Network/Communications}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	docdir=%{_datadir}/%{name}-%{version} \
-	desktopdir=%{_applnkdir}/Network/Communications
+	docdir=%{_datadir}/%{name}-%{version}
 
-%{?!_with_gnome:#}install %{SOURCE1} $RPM_BUILD_ROOT/usr/X11R6/share/pixmaps/irssi-icon.png
+install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %{?_without_perl:#}mv $RPM_BUILD_ROOT%{_prefix}/*-pld-*/* $RPM_BUILD_ROOT%{perl_sitearch}/
 
@@ -110,17 +93,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/*.so*
+%{_applnkdir}/Network/Communications/irssi.desktop
+%{_pixmapsdir}/*
 
 %{?_without_perl:#}%{perl_sitearch}/*.pm
 %{?_without_perl:#}%dir %{perl_sitearch}/auto/Irssi
 %{?_without_perl:#}%{perl_sitearch}/auto/Irssi/*.bs
 %{?_without_perl:#}%attr(755,root,root) %{perl_sitearch}/auto/Irssi/*.so
-
-%{?!_with_gnome:#}%files GNOME
-%{?!_with_gnome:#}%defattr(644,root,root,755)
-%{?!_with_gnome:#}%attr(755,root,root) /usr/X11R6/bin/irssi
-
-%{?!_with_gnome:#}/etc/X11/GNOME/CORBA/servers/irssi.gnorba
-%{?!_with_gnome:#}%{_applnkdir}/Network/Communications/irssi.desktop
-%{?!_with_gnome:#}/usr/X11R6/share/gnome/help/irssi
-%{?!_with_gnome:#}/usr/X11R6/share/pixmaps/*
