@@ -10,7 +10,7 @@
  );
  
  chatnets = {
-@@ -54,12 +55,20 @@
+@@ -54,12 +55,21 @@
      max_msgs = "100";
    };
    SILC = { type = "SILC"; };
@@ -21,6 +21,7 @@
 +    max_msgs = "5";
 +    max_whois = "4";
 +    max_query_chans = "5";
++  };
  };
  
  channels = (
@@ -28,7 +29,7 @@
    { name = "#irssi"; chatnet = "opn"; autojoin = "No"; },
 -  { name = "#silc"; chatnet = "silc"; autojoin = "No"; }
 +  { name = "#silc"; chatnet = "silc"; autojoin = "No"; },
-+  { name = "#pldhelp"; chatnet = "pldnet"; autojoin = "No"; }
++  { name = "#pldhelp"; chatnet = "PLDNet"; autojoin = "No"; }
  );
  
  aliases = {
