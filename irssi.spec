@@ -3,6 +3,7 @@
 %bcond_without	perl	# without perl support
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
+%bcond_without	dynamic	# without dynamic libraries
 #
 %define		_snap		20050301
 %define		_rc		rc5
@@ -28,6 +29,7 @@ Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}.conf.patch
 Patch4:		%{name}-idea-listlen.patch
 Patch5:		%{name}-gcc4.patch
+Patch6:		%{name}-dynamic.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -73,6 +75,9 @@ Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%if %{with dynamic}
+%patch6 -p1
+%endif
 
 %build
 rm -f missing
@@ -131,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/libirc_proxy.so*
+%if %{with dynamic}
+%attr(755,root,root) %{_libdir}/libirssi*.so.*
+%endif
 %{_datadir}/%{name}
 %{_desktopdir}/irssi.desktop
 %{_pixmapsdir}/*
