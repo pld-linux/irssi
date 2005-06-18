@@ -95,7 +95,7 @@ diff -ur irssi-0.8.10-rc5-o/src/core/Makefile.am irssi-0.8.10-rc5/src/core/Makef
 -noinst_LIBRARIES = libcore.a
 +libirssi_core_LTLIBRARIES = libirssi_core.la
 +
-+libirssi_coredir = /usr/lib
++libirssi_coredir = $(libdir)
  
  INCLUDES = \
  	-I$(top_srcdir)/src \
@@ -284,7 +284,7 @@ diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-
 @@ -1,10 +1,11 @@
 -noinst_LIBRARIES = libirssi_config.a
 +libirssi_config_LTLIBRARIES = libirssi_config.la
-+libirssi_configdir = /usr/lib
++libirssi_configdir = ${libdir}
  
  INCLUDES = \
  	-I$(top_srcdir)/src \
