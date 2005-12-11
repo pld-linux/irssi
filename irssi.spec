@@ -3,10 +3,10 @@
 %bcond_without	perl	# without perl support
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
-%bcond_without	dynamic	# without dynamic libraries
+%bcond_with	dynamic	# without dynamic libraries
 #
-%define		_snap		20050301
-%define		_rc		rc5
+#define		_snap		20050301
+#define		_rc		rc5
 %define		_idea_ver	0.1.46
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
@@ -14,11 +14,12 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
-Release:	0.%{_snap}.1
+Release:	0.1
 License:	GPL
 Group:		Applications/Communications
-Source0:	http://real.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
-# Source0-md5:	f8da44dd0584857168b494f2365c6b2f
+#Source0:	http://irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
+Source0:	http://irssi.org/files/%{name}-%{version}.tar.gz
+# Source0-md5:	ed29412e86e1d5fbb71d24ae02edd462
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
@@ -68,7 +69,7 @@ This package contains IDEA Crypt plugin for Irssi.
 Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_rc} -a3
+%setup -q -a3
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
