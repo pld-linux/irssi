@@ -308,7 +308,7 @@ diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-
  
 -libperl_core_la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
 -libfe_perl_la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
-+libirssi_perl_core.la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
++libirssi_perl_core_la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
 +libirssife_perl_la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
  
  perl-core.c: perl-signals-list.h irssi-core.pl.h
