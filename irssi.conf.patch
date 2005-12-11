@@ -1,15 +1,16 @@
---- irssi-0.8.9/irssi.conf	2004-01-20 00:43:34.701543232 +0000
-+++ irssi-0.8.9/irssi.conf.orig	2004-01-20 00:43:37.746080392 +0000
-@@ -22,6 +22,7 @@
+diff -ur irssi-0.8.10/irssi.conf irssi-0.8.10.new/irssi.conf
+--- irssi-0.8.10/irssi.conf	2005-12-08 17:32:50.000000000 +0000
++++ irssi-0.8.10.new/irssi.conf	2005-12-11 14:33:31.237162000 +0000
+@@ -8,6 +8,7 @@
    },
-   { address = "irc.ptnet.org"; chatnet = "PTnet"; port = "6667"; },
-   { address = "irc.azzurra.org"; chatnet = "AzzurraNET"; port = "6667"; },
+   { address = "irc.dal.net"; chatnet = "DALnet"; port = "6667"; }, 
+   { address = "irc.quakenet.org"; chatnet = "QuakeNet"; port = "6667"; },
 +  { address = "irc.pld-linux.org"; chatnet = "PLDNet"; port = "6667"; },
    { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; }
  );
  
-@@ -104,11 +105,20 @@
-     max_msgs = "3";
+@@ -44,10 +45,19 @@
+     max_whois = "30";
    };
    SILC = { type = "SILC"; };
 +  PLDNet = {
@@ -24,7 +25,6 @@
  
  channels = (
    { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-   { name = "#irssi"; chatnet = "freenode"; autojoin = "No"; },
 +  { name = "#pldhelp"; chatnet = "PLDNet"; autojoin = "Yes"; },
    { name = "silc"; chatnet = "silc"; autojoin = "No"; }
  );
