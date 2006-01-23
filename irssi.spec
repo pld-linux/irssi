@@ -1,4 +1,18 @@
 #
+# TODO:
+#
+#	testcase: run & quit irssi on x86-64/th.
+#	*** glibc detected *** irssi: free(): invalid pointer: 0x000000000055f180 ***
+#	======= Backtrace: =========
+#	/lib64/libc.so.6[0x2aaaac8a660d]
+#	/lib64/libc.so.6(__libc_free+0x6c)[0x2aaaac8a7bec]
+#	/usr/lib64/libirssi_irc_dcc.so.0(dcc_chat_deinit+0x10)[0x2aaaab254c20]
+#	/usr/lib64/libirssi_irc_dcc.so.0(irc_dcc_deinit+0x25)[0x2aaaab2542e5]
+#	/usr/lib64/libirssi_irc.so.0(irc_deinit+0x13)[0x2aaaab02b933]
+#	irssi(main+0x28e)[0x41e6be]
+#	/lib64/libc.so.6(__libc_start_main+0xf4)[0x2aaaac85af94]
+#	irssi[0x40bc09]
+#
 # Conditional build:
 %bcond_without	perl	# without perl support
 %bcond_without	ipv6	# without IPv6 support
@@ -14,7 +28,7 @@ Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
-Release:	2
+Release:	2.1
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -42,6 +56,7 @@ BuildRequires:	ncurses-devel >= 5.0
 %{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
 BuildRequires:	pkgconfig
+BuildRequires:	popt-devel
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
