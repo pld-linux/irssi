@@ -17,7 +17,7 @@ License:	GPL
 Group:		Applications/Communications
 #Source0:	http://irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
 Source0:	http://irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	78140796205c6fa1c43e46d2e79e60aa
+# Source0-md5:	ed29412e86e1d5fbb71d24ae02edd462
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 %define		_idea_ver	0.1.46
