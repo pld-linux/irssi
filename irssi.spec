@@ -1,41 +1,26 @@
 #
-# TODO:
-#
-#	testcase: run & quit irssi on x86-64/th.
-#	*** glibc detected *** irssi: free(): invalid pointer: 0x000000000055f180 ***
-#	======= Backtrace: =========
-#	/lib64/libc.so.6[0x2aaaac8a660d]
-#	/lib64/libc.so.6(__libc_free+0x6c)[0x2aaaac8a7bec]
-#	/usr/lib64/libirssi_irc_dcc.so.0(dcc_chat_deinit+0x10)[0x2aaaab254c20]
-#	/usr/lib64/libirssi_irc_dcc.so.0(irc_dcc_deinit+0x25)[0x2aaaab2542e5]
-#	/usr/lib64/libirssi_irc.so.0(irc_deinit+0x13)[0x2aaaab02b933]
-#	irssi(main+0x28e)[0x41e6be]
-#	/lib64/libc.so.6(__libc_start_main+0xf4)[0x2aaaac85af94]
-#	irssi[0x40bc09]
-#
 # Conditional build:
 %bcond_without	perl	# without perl support
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
-#
-#define		_snap		20050301
-#define		_rc		rc5
-%define		_idea_ver	0.1.46
+
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
+
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
 Name:		irssi
 Version:	0.8.10
-Release:	2.1
+Release:	3
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
 Source0:	http://irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	ed29412e86e1d5fbb71d24ae02edd462
+# Source0-md5:	78140796205c6fa1c43e46d2e79e60aa
 Source1:	%{name}.desktop
 Source2:	%{name}.png
+%define		_idea_ver	0.1.46
 Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Patch0:		%{name}-dcc-send-limit.patch
@@ -45,11 +30,12 @@ Patch3:		%{name}.conf.patch
 Patch4:		%{name}-idea-listlen.patch
 Patch5:		%{name}-gcc4.patch
 Patch6:		%{name}-dynamic.patch
+Patch7:		%{name}-invalid_free.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
-BuildRequires:	glib-devel
+BuildRequires:	glib-devel >= 1:1.2.10-13
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
@@ -94,6 +80,7 @@ Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 %if %{with dynamic}
 %patch6 -p1
 %endif
+%patch7 -p1
 
 %build
 rm -f missing
