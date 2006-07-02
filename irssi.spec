@@ -43,6 +43,7 @@ BuildRequires:	ncurses-devel >= 5.0
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
+%{?with_perl:BuildRequires:	rpm-perlprov}
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
