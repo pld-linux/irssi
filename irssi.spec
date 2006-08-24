@@ -7,8 +7,6 @@
 
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 
-%define	no_build_with_as_needed	1
-
 Summary:	Irssi is a IRC client
 Summary(fr):	Irssi est un client IRC
 Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
@@ -46,10 +44,15 @@ BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
+BuildRequires:	rpmbuild(macros) >= 1.315
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	%{name}-speech
 Obsoletes:	%{name}-sql
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%if %{with dynamic}
+%define		filterout_ld	-Wl,--as-needed
+%endif
 
 %description
 Irssi is a textUI IRC client with IPv6 support.
