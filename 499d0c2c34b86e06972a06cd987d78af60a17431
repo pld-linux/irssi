@@ -1,0 +1,4 @@
+- updated to 0.7.98.3 (revison set to 1.9) imho no need to keep version
+  splitted into ver/plev because rest of places seems to be using it as one
+  string (so it may simplify spec)
+  builds ok at least on team/newboss
