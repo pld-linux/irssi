@@ -1,0 +1,2 @@
+- updated to 0.7.20,
+- added using %find_lang macro cause now irssi is fully gettextized.
