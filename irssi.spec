@@ -46,8 +46,8 @@ BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
 BuildRequires:	rpmbuild(macros) >= 1.315
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
-Obsoletes:	%{name}-speech
-Obsoletes:	%{name}-sql
+Obsoletes:	irssi-speech
+Obsoletes:	irssi-sql
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with dynamic}
@@ -67,7 +67,7 @@ Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 Summary:	Irssi plugin IDEA crypt
 Summary(pl):	Wtyczka do irssi do szyfrowania IDEA
 Group:		Applications/Communications
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description plugin-idea
 This package contains IDEA Crypt plugin for Irssi.
