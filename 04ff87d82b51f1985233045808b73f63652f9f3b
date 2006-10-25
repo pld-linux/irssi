@@ -1,0 +1,4 @@
+- release 2
+- use %configure2_13 macro
+- removed ac_am crappy patch
+- fixed perl modules file list
