@@ -1,0 +1,3 @@
+- Updated to 0.8.4 (Release 0.1 because it links with perl and I cannot test it
+  on i586 (it immidiatly ends working after loading any perl script - I haven't
+  chrooted builders for i586) - on i686 works fine)
