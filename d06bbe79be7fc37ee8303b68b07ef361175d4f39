@@ -1,0 +1,2 @@
+- killed gnome dependencies (the gtk version is obsolete afaik) + fixed
+  building on nest :)
