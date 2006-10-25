@@ -1,0 +1,3 @@
+- fixed including of perlmacros, disabled bot (cras said that will be removed)
+  not ready for to send to builders, (but at least once compiled succesfully,
+  with perl without gnome , with nonthreading perl, perl in irssi works)
