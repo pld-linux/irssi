@@ -72,7 +72,7 @@ Requires:	%{name} = %{version}-%{release}
 %description plugin-idea
 This package contains IDEA Crypt plugin for Irssi.
 
-%description plugin-idea
+%description plugin-idea -l pl
 Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
 
 %prep
