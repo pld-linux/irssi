@@ -8,8 +8,8 @@
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 
 Summary:	Irssi is a IRC client
-Summary(fr):	Irssi est un client IRC
-Summary(pl):	Irssi - wygodny w u¿yciu klient IRC
+Summary(fr.UTF-8):   Irssi est un client IRC
+Summary(pl.UTF-8):   Irssi - wygodny w uÅ¼yciu klient IRC
 Name:		irssi
 Version:	0.8.10a
 Release:	3
@@ -57,23 +57,23 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Irssi is a textUI IRC client with IPv6 support.
 
-%description -l fr
+%description -l fr.UTF-8
 Irssi est client IRC.
 
-%description -l pl
+%description -l pl.UTF-8
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
 
 %package plugin-idea
 Summary:	Irssi plugin IDEA crypt
-Summary(pl):	Wtyczka do irssi do szyfrowania IDEA
+Summary(pl.UTF-8):   Wtyczka do irssi do szyfrowania IDEA
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
 
 %description plugin-idea
 This package contains IDEA Crypt plugin for Irssi.
 
-%description plugin-idea -l pl
-Ten pakiet zawiera wtyczkê do Irssi z szyfrowaniem IDEA.
+%description plugin-idea -l pl.UTF-8
+Ten pakiet zawiera wtyczkÄ™ do Irssi z szyfrowaniem IDEA.
 
 %prep
 %setup -q -n %{name}-0.8.10 -a3
