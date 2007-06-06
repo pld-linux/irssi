@@ -35,7 +35,7 @@ URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
-BuildRequires:	glib-devel >= 1:1.2.10-13
+BuildRequires:	glib-devel >= 1:1.2.10
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
