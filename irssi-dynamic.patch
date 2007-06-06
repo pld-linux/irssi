@@ -12,15 +12,6 @@ diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
  
  AC_CHECK_FUNCS(mkfifo fcntl nl_langinfo)
  
-@@ -351,7 +355,7 @@
-     AC_MSG_RESULT([yes, using it])
- 
-     dnl * we have to do this at this point so we know what libs gmodule needs
--    if test ! -f $GLIB_DIR/.libs/libglib.a; then
-+    if test ! -f $GLIB_DIR/.libs/libglib.la; then
-       echo
-       echo "configuring GLib ..."
-       echo
 @@ -745,21 +749,21 @@
  			dnl * building with static perl support
  			dnl * all PERL_LDFLAGS linking is done in fe-text

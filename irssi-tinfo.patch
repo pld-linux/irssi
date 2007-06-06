@@ -1,38 +1,26 @@
---- irssi-0.8.5/curses.m4~	Sun Jul 29 01:10:02 2001
-+++ irssi-0.8.5/curses.m4	Sat Nov 23 04:31:32 2002
-@@ -131,7 +131,7 @@
- 	  if test x$withval = xno ; then
- 		search_ncurses=false
- 	  elif test x$withval != xyes ; then
--		AC_NCURSES($withval/include, ncurses.h, -L$withval/lib -lncurses, -I$withval/include, "ncurses on $withval/include")
-+		AC_NCURSES($withval/include, ncurses.h, -L$withval/lib -lncurses -ltinfo, -I$withval/include, "ncurses on $withval/include")
- 	  fi
- 	)
- 
---- irssi-0.8.5/curses.m4~	Sat Nov 23 04:32:37 2002
-+++ irssi-0.8.5/curses.m4	Sat Nov 23 04:35:46 2002
-@@ -232,16 +232,16 @@
+--- irssi-0.8.11/curses.m4.orig	2007-06-07 01:22:01.709666033 +0200
++++ irssi-0.8.11/curses.m4	2007-06-07 01:24:43.928073732 +0200
+@@ -232,17 +232,17 @@
  AC_DEFUN(AC_SEARCH_NCURSES, [
      AC_CHECKING("location of ncurses.h file")
  
--    AC_NCURSES(/usr/include, ncurses.h, -lncurses,, "ncurses on /usr/include")
--    AC_NCURSES(/usr/include/ncurses, ncurses.h, -lncurses, -I/usr/include/ncurses, "ncurses on /usr/include/ncurses")
--    AC_NCURSES(/usr/local/include, ncurses.h, -L/usr/local/lib -lncurses, -I/usr/local/include, "ncurses on /usr/local")
--    AC_NCURSES(/usr/pkg/include, ncurses.h, -L/usr/pkg/lib -lncurses, -I/usr/pkg/include, "ncurses on /usr/pkg")
--    AC_NCURSES(/usr/contrib/include, ncurses.h, -L/usr/contrib/lib -lncurses, -I/usr/contrib/include, "ncurses on /usr/contrib")
--    AC_NCURSES(/usr/local/include/ncurses, ncurses.h, -L/usr/local/lib -L/usr/local/lib/ncurses -lncurses, -I/usr/local/include/ncurses, "ncurses on /usr/local/include/ncurses")
-+    AC_NCURSES(/usr/include, ncurses.h, -lncurses -ltinfo,, "ncurses on /usr/include")
-+    AC_NCURSES(/usr/include/ncurses, ncurses.h, -lncurses -ltinfo, -I/usr/include/ncurses, "ncurses on /usr/include/ncurses")
-+    AC_NCURSES(/usr/local/include, ncurses.h, -L/usr/local/lib -lncurses -ltinfo, -I/usr/local/include, "ncurses on /usr/local")
-+    AC_NCURSES(/usr/pkg/include, ncurses.h, -L/usr/pkg/lib -lncurses -ltinfo, -I/usr/pkg/include, "ncurses on /usr/pkg")
-+    AC_NCURSES(/usr/contrib/include, ncurses.h, -L/usr/contrib/lib -lncurses -ltinfo, -I/usr/contrib/include, "ncurses on /usr/contrib")
-+    AC_NCURSES(/usr/local/include/ncurses, ncurses.h, -L/usr/local/lib -L/usr/local/lib/ncurses -lncurses -ltinfo, -I/usr/local/include/ncurses, "ncurses on /usr/local/include/ncurses")
- 
--    AC_NCURSES(/usr/local/include/ncurses, curses.h, -L/usr/local/lib -lncurses, -I/usr/local/include/ncurses -DRENAMED_NCURSES, "renamed ncurses on /usr/local/.../ncurses")
-+    AC_NCURSES(/usr/local/include/ncurses, curses.h, -L/usr/local/lib -lncurses -ltinfo, -I/usr/local/include/ncurses -DRENAMED_NCURSES, "renamed ncurses on /usr/local/.../ncurses")
- 
--    AC_NCURSES(/usr/include/ncurses, curses.h, -lncurses, -I/usr/include/ncurses -DRENAMED_NCURSES, "renamed ncurses on /usr/include/ncurses")
-+    AC_NCURSES(/usr/include/ncurses, curses.h, -lncurses -ltinfo, -I/usr/include/ncurses -DRENAMED_NCURSES, "renamed ncurses on /usr/include/ncurses")
+-    AC_NCURSES(/usr/include, ncurses.h, -lncurses,,
++    AC_NCURSES(/usr/include, ncurses.h, -lncurses -ltinfo,,
+ 	       [ncurses in /usr/include])
+-    AC_NCURSES(/usr/include/ncurses, ncurses.h, -lncurses, -I/usr/include/ncurses,
++    AC_NCURSES(/usr/include/ncurses, ncurses.h, -lncurses -ltinfo, -I/usr/include/ncurses,
+ 	       [ncurses in /usr/include/ncurses])
+-    AC_NCURSES(/usr/local/include, ncurses.h, -L/usr/local/lib -lncurses, -I/usr/local/include,
++    AC_NCURSES(/usr/local/include, ncurses.h, -L/usr/local/lib -lncurses -ltinfo, -I/usr/local/include,
+ 	       [ncurses in /usr/local/include])
+-    AC_NCURSES(/usr/local/include/ncurses, ncurses.h, -L/usr/local/lib -lncurses, -I/usr/local/include/ncurses,
++    AC_NCURSES(/usr/local/include/ncurses, ncurses.h, -L/usr/local/lib -lncurses -ltinfo, -I/usr/local/include/ncurses,
+ 	       [ncurses in /usr/local/include/ncurses])
+-    AC_NCURSES(/usr/local/include/ncurses, curses.h, -L/usr/local/lib -lncurses, -I/usr/local/include/ncurses -DRENAMED_NCURSES,
++    AC_NCURSES(/usr/local/include/ncurses, curses.h, -L/usr/local/lib -lncurses -ltinfo, -I/usr/local/include/ncurses -DRENAMED_NCURSES,
+ 	       [renamed ncurses in /usr/local/include/ncurses])
+-    AC_NCURSES(/usr/include/ncurses, curses.h, -lncurses, -I/usr/include/ncurses -DRENAMED_NCURSES,
++    AC_NCURSES(/usr/include/ncurses, curses.h, -lncurses -ltinfo, -I/usr/include/ncurses -DRENAMED_NCURSES,
+ 	       [renamed ncurses in /usr/include/ncurses])
  
      dnl
-     dnl We couldn't find ncurses, try SysV curses

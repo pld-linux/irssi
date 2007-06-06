@@ -1,4 +1,3 @@
-diff -Nru irssi-0.8.6.orig/src/core/core.c irssi-0.8.6/src/core/core.c
 --- irssi-0.8.6.orig/src/core/core.c	2002-10-19 20:00:06.000000000 +0200
 +++ irssi-0.8.6/src/core/core.c	2003-11-09 12:46:25.000000000 +0100
 @@ -193,7 +193,9 @@
@@ -11,28 +10,23 @@ diff -Nru irssi-0.8.6.orig/src/core/core.c irssi-0.8.6/src/core/core.c
 +			home = g_get_home_dir();
  		if (home == NULL)
  			home = ".";
- 
-diff -Nru irssi-0.8.9/src/core/log-away.c.orig irssi-0.8.9/src/core/log-away.c
---- irssi-0.8.9/src/core/log-away.c.orig	2002-12-28 19:00:03.000000000 +0100
-+++ irssi-0.8.9/src/core/log-away.c	2003-12-19 19:34:08.000000000 +0100
-@@ -102,7 +102,15 @@
- 	away_filepos = 0;
+
+--- irssi-0.8.11/src/core/log-away.c.orig	2007-04-25 20:13:56.000000000 +0200
++++ irssi-0.8.11/src/core/log-away.c	2007-06-07 01:31:08.951362144 +0200
+@@ -105,7 +105,12 @@
  	away_msgs = 0;
  
--	settings_add_str("log", "awaylog_file", IRSSI_DIR_SHORT"/away.log");
+ 	awaylog_file = g_strconcat(get_irssi_dir(), "/away.log", NULL);
+-	settings_add_str("log", "awaylog_file", awaylog_file);
 +	char *home_etc = getenv("HOME_ETC");
-+	
 +	if (home_etc) {
 +		char *log = g_strdup_printf("%s/.irssi/away.log", home_etc);
-+		
 +		settings_add_str("log", "awaylog_file", log);
 +	} else
-+		settings_add_str("log", "awaylog_file", IRSSI_DIR_SHORT"/away.log");
-+
++		settings_add_str("log", "awaylog_file", awaylog_file);
+ 	g_free(awaylog_file);
  	settings_add_level("log", "awaylog_level", "msgs hilight");
- 
- 	signal_add("log written", (SIGNAL_FUNC) sig_log_written);
-diff -Nru irssi-0.8.6.orig/src/lib-popt/poptconfig.c irssi-0.8.6/src/lib-popt/poptconfig.c
+
 --- irssi-0.8.6.orig/src/lib-popt/poptconfig.c	2002-01-27 21:45:58.000000000 +0100
 +++ irssi-0.8.6/src/lib-popt/poptconfig.c	2003-11-09 12:36:55.000000000 +0100
 @@ -130,7 +130,9 @@
@@ -45,4 +39,4 @@ diff -Nru irssi-0.8.6.orig/src/lib-popt/poptconfig.c irssi-0.8.6/src/lib-popt/po
 +    if (home) {
  	fn = malloc(strlen(home) + 20);
  	strcpy(fn, home);
- 	strcat(fn, "/.popt");
+ 	strcat(fn, "/.popt"); 
