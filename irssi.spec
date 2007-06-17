@@ -15,8 +15,8 @@ Version:	0.8.11
 Release:	1
 License:	GPL
 Group:		Applications/Communications
-#Source0:	http://irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
-Source0:	http://irssi.org/files/%{name}-%{version}.tar.gz
+#Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
+Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	ee23aa0f044e92c099c6acb116930e03
 Source1:	%{name}.desktop
 Source2:	%{name}.png
