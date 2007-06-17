@@ -21,7 +21,9 @@ Source0:	http://irssi.org/files/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 %define		idea_ver	0.1.46
-Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{idea_ver}.tar.gz
+# NXDOMAIN
+#Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{idea_ver}.tar.gz
+Source3:	%{name}-idea-%{idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-tinfo.patch
@@ -35,6 +37,7 @@ URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
+# for idea only
 BuildRequires:	glib-devel >= 1:1.2.10-13
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	libtool
@@ -45,7 +48,6 @@ BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
 BuildRequires:	rpmbuild(macros) >= 1.315
-Requires:	glib >= 1:1.2.10-13
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	irssi-speech
 Obsoletes:	irssi-sql
@@ -69,6 +71,7 @@ Summary:	Irssi plugin IDEA crypt
 Summary(pl.UTF-8):	Wtyczka do irssi do szyfrowania IDEA
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
+Requires:	glib >= 1:1.2.10-13
 
 %description plugin-idea
 This package contains IDEA Crypt plugin for Irssi.
@@ -88,6 +91,8 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %patch6 -p1
 %endif
 %patch7 -p1
+
+echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
 %build
 %{__libtoolize}
