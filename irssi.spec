@@ -4,7 +4,7 @@
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
-
+#
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 
 Summary:	Irssi is a IRC client
@@ -20,8 +20,8 @@ Source0:	http://irssi.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	ee23aa0f044e92c099c6acb116930e03
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-%define		_idea_ver	0.1.46
-Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{_idea_ver}.tar.gz
+%define		idea_ver	0.1.46
+Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-tinfo.patch
@@ -35,7 +35,7 @@ URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
-BuildRequires:	glib-devel >= 1:1.2.10
+BuildRequires:	glib-devel >= 1:1.2.10-13
 BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
 BuildRequires:	rpmbuild(macros) >= 1.315
+Requires:	glib >= 1:1.2.10-13
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	irssi-speech
 Obsoletes:	irssi-sql
@@ -89,7 +90,6 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %patch7 -p1
 
 %build
-rm -f missing
 %{__libtoolize}
 %{__aclocal} -I .
 %{__autoconf}
@@ -110,8 +110,7 @@ rm -f missing
 
 %{__make}
 
-cd irssi-idea-%{_idea_ver}
-rm -f missing
+cd irssi-idea-%{idea_ver}
 %{__libtoolize}
 %{__aclocal} -I .
 %{__autoconf}
@@ -132,7 +131,7 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-%{__make} -C irssi-idea-%{_idea_ver} install \
+%{__make} -C irssi-idea-%{idea_ver} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
