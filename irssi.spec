@@ -11,13 +11,13 @@ Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	0.8.11
+Version:	0.8.12
 Release:	1
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
 Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	ee23aa0f044e92c099c6acb116930e03
+# Source0-md5:	ddf717a430e1c13a272f528c4f529430
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 %define		idea_ver	0.1.46
@@ -115,6 +115,8 @@ echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
 %{__make}
 
+# to fool idea configure script
+touch irssi-config
 cd irssi-idea-%{idea_ver}
 %{__libtoolize}
 %{__aclocal} -I .
