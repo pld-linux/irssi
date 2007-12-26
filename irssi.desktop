@@ -1,11 +1,10 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=Irssi
 Comment=Irssi is a IRC client
 Comment[fr]=Irssi est un client IRC
 Comment[pl]=Irssi - klient IRC
 Exec=irssi
-Icon=irssi.png
+Icon=irssi
 Terminal=true
 Type=Application
 Categories=ConsoleOnly;Network;IRCClient;
