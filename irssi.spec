@@ -12,7 +12,7 @@ Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.12
-Release:	4
+Release:	5
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -43,7 +43,7 @@ BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
 %{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
-%{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
+%{?with_perl:BuildRequires:	perl-devel >= 1:5.10.0}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
