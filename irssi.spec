@@ -43,7 +43,7 @@ BuildRequires:	glib2-devel >= 2.1.0
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
 %{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
-%{?with_perl:BuildRequires:	perl-devel >= 1:5.10.0}
+%{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
