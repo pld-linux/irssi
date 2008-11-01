@@ -48,6 +48,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
 BuildRequires:	rpmbuild(macros) >= 1.315
+BuildRequires:	sed >= 4.0
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
 Obsoletes:	irssi-speech
 Obsoletes:	irssi-sql
