@@ -12,7 +12,7 @@ Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.12
-Release:	6
+Release:	7
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -33,6 +33,7 @@ Patch4:		%{name}-idea-listlen.patch
 Patch5:		%{name}-gcc4.patch
 Patch6:		%{name}-dynamic.patch
 Patch7:		%{name}-invalid_free.patch
+Patch8:		%{name}-color_support_for_gui_entry.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -92,6 +93,7 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %patch6 -p1
 %endif
 %patch7 -p1
+%patch8 -p0
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
