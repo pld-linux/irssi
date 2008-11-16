@@ -4,15 +4,15 @@
 %bcond_without	ipv6	# without IPv6 support
 %bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
-#
-%{?with_perl:%include	/usr/lib/rpm/macros.perl}
 
+%define	irssi_perl_version 20071006
+%{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.12
-Release:	7
+Release:	8
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -34,6 +34,7 @@ Patch5:		%{name}-gcc4.patch
 Patch6:		%{name}-dynamic.patch
 Patch7:		%{name}-invalid_free.patch
 Patch8:		%{name}-color_support_for_gui_entry.patch
+Patch9:		%{name}-libs-nopoison.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -51,6 +52,7 @@ BuildRequires:	popt-devel
 BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sed >= 4.0
 Requires:	perl(DynaLoader) = %(%{__perl} -MDynaLoader -e 'print DynaLoader->VERSION')
+Provides:	perl(Irssi) = %{irssi_perl_version}
 Obsoletes:	irssi-speech
 Obsoletes:	irssi-sql
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -94,13 +96,22 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %endif
 %patch7 -p1
 %patch8 -p0
+%patch9 -p1
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
+mv irssi-idea{-%{idea_ver},}
+
 # hack
-sed -i -e 's#\./libtool#%{_bindir}/libtool#g' configure.in
+%{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' configure.in
 
 %build
+ver=$(awk '/IRSSI_VERSION_DATE/{print $3}' irssi-version.h)
+if [ "$ver" != "%{irssi_perl_version}" ]; then
+	: update irssi_perl_version to $ver
+	exit 1
+fi
+
 %{__libtoolize}
 %{__aclocal} -I .
 %{__autoconf}
@@ -123,20 +134,17 @@ sed -i -e 's#\./libtool#%{_bindir}/libtool#g' configure.in
 
 # to fool idea configure script
 touch irssi-config
-cd irssi-idea-%{idea_ver}
+cd irssi-idea
 %{__libtoolize}
 %{__aclocal} -I .
 %{__autoconf}
 %{__automake}
 %configure
-
 %{__make}
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
@@ -144,7 +152,7 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-%{__make} -C irssi-idea-%{idea_ver} install \
+%{__make} -C irssi-idea install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
