@@ -1,0 +1,11 @@
+--- irssi-0.8.12/configure.in~	2008-11-16 19:24:07.000000000 +0200
++++ irssi-0.8.12/configure.in	2008-11-16 19:26:14.401917429 +0200
+@@ -511,7 +511,7 @@
+ 		AC_MSG_RESULT([not found, building without Perl])
+ 		want_perl=no
+ 	else
+-		PERL_LDFLAGS=`$perlpath -MExtUtils::Embed -e ldopts 2>/dev/null`
++		PERL_LDFLAGS=`$perlpath -MExtUtils::Embed -e ldopts 2>/dev/null | sed -e 's/-Wl,--as-needed//'`
+ 
+ 		dnl * Perl 5.004 and older use perl_xxx variables while
+ 		dnl * later use PL_perl_xxx variables ..
