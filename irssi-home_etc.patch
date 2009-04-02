@@ -27,16 +27,4 @@
  	g_free(awaylog_file);
  	settings_add_level("log", "awaylog_level", "msgs hilight");
 
---- irssi-0.8.6.orig/src/lib-popt/poptconfig.c	2002-01-27 21:45:58.000000000 +0100
-+++ irssi-0.8.6/src/lib-popt/poptconfig.c	2003-11-09 12:36:55.000000000 +0100
-@@ -130,7 +130,9 @@
-     if (getuid() != geteuid()) return 0;
- #endif
- 
--    if ((home = getenv("HOME"))) {
-+    home = getenv("HOME_ETC");
-+		if (!home) home = getenv("HOME");
-+    if (home) {
- 	fn = malloc(strlen(home) + 20);
- 	strcpy(fn, home);
- 	strcat(fn, "/.popt"); 
+
