@@ -5,7 +5,7 @@
 %bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
 
-%define	irssi_perl_version 20071006
+%define	irssi_perl_version 20090331
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
