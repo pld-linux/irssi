@@ -57,17 +57,16 @@ Index: src/fe-text/gui-entry.c
  	g_free(entry->prompt);
          g_free(entry);
  }
-@@ -227,7 +231,8 @@
+@@ -227,7 +231,7 @@
  static void gui_entry_draw_from(GUI_ENTRY_REC *entry, int pos)
  {
- 	const unichar *p;
+ 	int i;
 -	int xpos, end_xpos;
-+	const int *c;
 +	int xpos, end_xpos, color;
  
  	xpos = entry->xpos + entry->promptlen + 
  		pos2scrpos(entry, pos + entry->scrstart) - 
-@@ -237,12 +242,15 @@
+@@ -237,11 +242,13 @@
  	if (xpos > end_xpos)
                  return;
  
@@ -75,22 +74,19 @@ Index: src/fe-text/gui-entry.c
  	term_set_color(root_window, ATTR_RESET);
  	term_move(root_window, xpos, entry->ypos);
  
- 	p = entry->scrstart + pos < entry->text_len ?
- 		entry->text + entry->scrstart + pos : empty_str;
--	for (; *p != '\0'; p++) {
-+	c = entry->scrstart + pos < entry->text_len ?
-+		entry->colors + entry->scrstart + pos : 0;
-+	for (; *p != '\0'; p++, c++) {
+ 	for (i = entry->scrstart + pos; i < entry->text_len; i++) {
+ 		unichar c = entry->text[i];
++		int cc = entry->colors[i];
+ 
  		if (entry->hidden)
  			xpos++;
- 		else if (term_type == TERM_TYPE_BIG5)
 @@ -255,6 +263,11 @@
  		if (xpos > end_xpos)
  			break;
  
-+		if (*c != color) {
-+			term_set_color(root_window, *c);
-+			color = c;
++		if (cc != color) {
++			term_set_color(root_window, cc);
++			color = cc;
 +		}
 +			
  		if (entry->hidden)
@@ -99,7 +95,7 @@ Index: src/fe-text/gui-entry.c
 @@ -262,7 +275,7 @@
  		else {
  			term_set_color(root_window, ATTR_RESET|ATTR_REVERSE);
- 			term_addch(root_window, (*p & 127)+'A'-1);
+ 			term_addch(root_window, (c & 127)+'A'-1);
 -			term_set_color(root_window, ATTR_RESET);
 +			term_set_color(root_window, color);
  		}
