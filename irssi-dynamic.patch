@@ -18,7 +18,7 @@ diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
  			PERL_LINK_FLAGS="$PERL_LDFLAGS"
 -			PERL_LINK_LIBS="../perl/libperl_core_static.la"
 -			PERL_FE_LINK_LIBS="../perl/libfe_perl_static.la"
-+			PERL_LINK_LIBS="../perl/libirssiperl_core_static.la"
++			PERL_LINK_LIBS="../perl/libirssi_perl_core_static.la"
 +			PERL_FE_LINK_LIBS="../perl/libirssife_perl_static.la"
  			PERL_LDFLAGS=
  			AC_DEFINE(HAVE_STATIC_PERL)
@@ -28,13 +28,13 @@ diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
  			perl_module_fe_lib=
 -			perl_static_lib=libperl_core_static.la
 -			perl_static_fe_lib=libfe_perl_static.la
-+			perl_static_lib=libirssiperl_core_static.la
++			perl_static_lib=libirssi_perl_core_static.la
 +			perl_static_fe_lib=libirssife_perl_static.la
  		else
  			dnl * build dynamic library of perl module
 -			perl_module_lib=libperl_core.la
 -			perl_module_fe_lib=libfe_perl.la
-+			perl_module_lib=libirssiperl_core.la
++			perl_module_lib=libirssi_perl_core.la
 +			perl_module_fe_lib=libirssife_perl.la
  			perl_static_lib=
  			perl_static_fe_lib=
@@ -44,7 +44,7 @@ diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
  AC_SUBST(irc_MODULES)
  
 -CORE_LIBS="../core/libcore.a ../lib-config/libirssi_config.a"
-+CORE_LIBS="../core/libirssicore.a ../lib-config/libirssi_config.a"
++CORE_LIBS="../core/libirssi_core.la ../lib-config/libirssi_config.la"
  FE_COMMON_LIBS=""
  
  CHAT_LIBS=""
