@@ -5,7 +5,7 @@
  #define __MISC_H
  
 +#ifdef HAVE_CONFIG_H
-+#include "config.h"
++#include "irssi-config.h"
 +#endif
 +
  /* `str' should be type char[MAX_INT_STRLEN] */
@@ -17,7 +17,7 @@
  #include "common.h"
  
 +#ifdef HAVE_CONFIG_H
-+#include "config.h"
++#include "irssi-config.h"
 +#endif
 +
  #ifdef NEED_PERL_H
