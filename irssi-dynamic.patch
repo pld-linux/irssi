@@ -12,13 +12,13 @@ diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
  
  AC_CHECK_FUNCS(mkfifo fcntl nl_langinfo)
  
-@@ -745,21 +749,21 @@
+@@ -508,20 +508,20 @@
  			dnl * building with static perl support
  			dnl * all PERL_LDFLAGS linking is done in fe-text
  			PERL_LINK_FLAGS="$PERL_LDFLAGS"
 -			PERL_LINK_LIBS="../perl/libperl_core_static.la"
 -			PERL_FE_LINK_LIBS="../perl/libfe_perl_static.la"
-+			PERL_LINK_LIBS="../perl/libirssi_perl_core_static.la"
++			PERL_LINK_LIBS="../perl/libirssiperl_core_static.la"
 +			PERL_FE_LINK_LIBS="../perl/libirssife_perl_static.la"
  			PERL_LDFLAGS=
  			AC_DEFINE(HAVE_STATIC_PERL)
@@ -28,24 +28,23 @@ diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
  			perl_module_fe_lib=
 -			perl_static_lib=libperl_core_static.la
 -			perl_static_fe_lib=libfe_perl_static.la
-+			perl_static_lib=libirssi_perl_core_static.la
++			perl_static_lib=libirssiperl_core_static.la
 +			perl_static_fe_lib=libirssife_perl_static.la
- 			PERL_LIBTOOL='$(SHELL) $(top_builddir)/libtool'
  		else
  			dnl * build dynamic library of perl module
 -			perl_module_lib=libperl_core.la
 -			perl_module_fe_lib=libfe_perl.la
-+			perl_module_lib=libirssi_perl_core.la
++			perl_module_lib=libirssiperl_core.la
 +			perl_module_fe_lib=libirssife_perl.la
  			perl_static_lib=
  			perl_static_fe_lib=
- 			PERL_LIBTOOL='$(SHELL) $(top_builddir)/libtool'
-@@ -833,7 +837,7 @@
+ 		fi
+@@ -591,7 +591,7 @@
  AC_SUBST(CHAT_MODULES)
  AC_SUBST(irc_MODULES)
  
--CORE_LIBS="../core/libcore.a ../lib-config/libirssi_config.a ../lib-popt/libpopt.a"
-+CORE_LIBS="../core/libirssi_core.la ../lib-config/libirssi_config.la"
+-CORE_LIBS="../core/libcore.a ../lib-config/libirssi_config.a"
++CORE_LIBS="../core/libirssicore.a ../lib-config/libirssi_config.a"
  FE_COMMON_LIBS=""
  
  CHAT_LIBS=""
@@ -115,9 +114,9 @@ diff -ur irssi-0.8.10-rc5-o/src/fe-common/core/Makefile.am irssi-0.8.10-rc5/src/
  
 -libfe_common_core_a_SOURCES = \
 +libirssife_common_core_la_SOURCES = \
- 	autorun.c \
  	chat-completion.c \
  	command-history.c \
+ 	completion.c \
 diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/dcc/Makefile.am irssi-0.8.10-rc5/src/fe-common/irc/dcc/Makefile.am
 --- irssi-0.8.10-rc5-o/src/fe-common/irc/dcc/Makefile.am	2004-05-10 14:45:03.000000000 -0600
 +++ irssi-0.8.10-rc5/src/fe-common/irc/dcc/Makefile.am	2005-05-29 01:32:38.000000000 -0600
@@ -307,15 +306,6 @@ diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-
 diff -ur irssi-0.8.10-rc5-o/src/perl/Makefile.am irssi-0.8.10-rc5/src/perl/Makefile.am
 --- irssi-0.8.10-rc5-o/src/perl/Makefile.am	2003-11-16 11:30:02.000000000 -0700
 +++ irssi-0.8.10-rc5/src/perl/Makefile.am	2005-05-29 01:33:18.000000000 -0600
-@@ -44,7 +44,7 @@
- 	perl-signals.h \
- 	perl-sources.h
- 
--libperl_core_la_DEPENDENCIES = .libs/libperl_orig.a .libs/DynaLoader.a
-+libirssi_perl_core_la_DEPENDENCIES = .libs/libperl_orig.a .libs/DynaLoader.a
- 
- .libs/libperl_orig.a:
- 	if [ ! -d .libs ]; then mkdir .libs; fi
 @@ -55,16 +55,16 @@
  	rm -f .libs/DynaLoader.a
  	$(LN_S) $(DYNALOADER_A) .libs/DynaLoader.a
