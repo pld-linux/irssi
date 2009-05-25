@@ -5,14 +5,15 @@
 %bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
 
-%define	irssi_perl_version 20090331
+%define		idea_ver	0.1.46
+%define		irssi_perl_version 20090331
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.13
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -20,7 +21,6 @@ Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	226f194576895ff3075c164523806d06
 Source1:	%{name}.desktop
 Source2:	%{name}.png
-%define		idea_ver	0.1.46
 # NXDOMAIN
 #Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{idea_ver}.tar.gz
 Source3:	%{name}-idea-%{idea_ver}.tar.gz
@@ -149,8 +149,11 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/%{name}-%{version}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+# scripts packaged by irssi-scripts.spec
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/scripts/*
+
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %{__make} -C irssi-idea install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -158,6 +161,14 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 # -devel?
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.{so,la,a}
 rm -r $RPM_BUILD_ROOT%{_includedir}/irssi
+# cleanup
+rm $RPM_BUILD_ROOT%{_libdir}/irssi/modules/lib*.{la,a}
+rm $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/.packlist
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/Irc/.packlist
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/TextUI/.packlist
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/UI/.packlist
+rm -r $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -165,18 +176,22 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog README TODO NEWS docs/*.{txt,html}
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/botti
+%attr(755,root,root) %{_bindir}/irssi
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/libirc_proxy.so*
 %if %{with dynamic}
 %attr(755,root,root) %{_libdir}/libirssi*.so.*
 %endif
-%{_datadir}/%{name}
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/scripts
+%{_datadir}/%{name}/help
+%{_datadir}/%{name}/themes
 %{_desktopdir}/irssi.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/irssi.png
 %{_sysconfdir}/irssi.conf
-%{_mandir}/man1/*
+%{_mandir}/man1/irssi.1*
 
 %if %{with perl}
 %{perl_vendorarch}/*.pm
