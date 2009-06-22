@@ -36,6 +36,9 @@ Patch7:		%{name}-invalid_free.patch
 Patch8:		%{name}-color_support_for_gui_entry.patch
 Patch9:		%{name}-libs-nopoison.patch
 URL:		http://www.irssi.org/
+# http://xorl.wordpress.com/2009/05/28/irssi-event_wallops-off-by-one-readwrite/
+# fix released: r5068
+BuildRequires:	security(CVE-2009-1959)
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
