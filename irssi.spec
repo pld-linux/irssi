@@ -6,19 +6,19 @@
 %bcond_without	dynamic	# without dynamic libraries
 
 %define		idea_ver	0.1.46
-%define		irssi_perl_version 20090331
+%define		irssi_perl_version 20090728
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	0.8.13
-Release:	3
+Version:	0.8.14
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
 Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	226f194576895ff3075c164523806d06
+# Source0-md5:	7d9437f53209a61af4fe4c9c5528ffa7
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -35,7 +35,6 @@ Patch6:		%{name}-dynamic.patch
 Patch7:		%{name}-invalid_free.patch
 Patch8:		%{name}-color_support_for_gui_entry.patch
 Patch9:		%{name}-libs-nopoison.patch
-Patch10:	%{name}-CVE-2009-1959.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -98,7 +97,6 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %patch7 -p1
 %patch8 -p0
 %patch9 -p1
-%patch10 -p1
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
