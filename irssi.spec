@@ -163,11 +163,13 @@ rm $RPM_BUILD_ROOT%{_libdir}/lib*.{so,la,a}
 rm -r $RPM_BUILD_ROOT%{_includedir}/irssi
 # cleanup
 rm $RPM_BUILD_ROOT%{_libdir}/irssi/modules/lib*.{la,a}
+%if %{with perl}
 rm $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/.packlist
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/Irc/.packlist
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/TextUI/.packlist
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Irssi/UI/.packlist
+%endif
 rm -r $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
 
 %clean
