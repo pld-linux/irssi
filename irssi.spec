@@ -92,8 +92,8 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %patch5 -p1
 %endif
 %patch6 -p1
-%patch7 -p1
-%patch8 -p0
+%patch7 -p0
+%patch8 -p1
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
