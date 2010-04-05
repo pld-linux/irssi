@@ -67,7 +67,7 @@ Irssi is a textUI IRC client with IPv6 support.
 Irssi est client IRC.
 
 %description -l hu.UTF-8
-Irssi egy szöveges felületű IRC kliens IPv6 támogatással
+Irssi egy szöveges felületű IRC kliens IPv6 támogatással.
 
 %description -l pl.UTF-8
 Irssi jest tekstowym klientem IRC ze wsparciem dla IPv6.
