@@ -40,6 +40,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 # for idea only
+BuildRequires:	glib-devel
 BuildRequires:	glib2-devel >= 2.24.0
 BuildRequires:	libtool
 BuildRequires:	ncurses-devel >= 5.0
