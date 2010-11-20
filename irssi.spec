@@ -5,6 +5,8 @@
 %bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
 
+%define		no_install_post_check_so	1
+
 %define		idea_ver	0.1.46
 %define		irssi_perl_version 20100403
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
@@ -14,7 +16,7 @@ Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.15
-Release:	6
+Release:	7
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
