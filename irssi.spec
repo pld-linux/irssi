@@ -29,14 +29,13 @@ Source2:	%{name}.png
 Source3:	%{name}-idea-%{idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Patch0:		%{name}-dcc-send-limit.patch
-Patch1:		%{name}-tinfo.patch
-Patch2:		%{name}-home_etc.patch
-Patch3:		%{name}-idea-listlen.patch
-Patch4:		%{name}-gcc4.patch
-Patch5:		%{name}-dynamic.patch
-Patch6:		%{name}-invalid_free.patch
-Patch7:		%{name}-color_support_for_gui_entry.patch
-Patch8:		%{name}-libs-nopoison.patch
+Patch1:		%{name}-home_etc.patch
+Patch2:		%{name}-idea-listlen.patch
+Patch3:		%{name}-gcc4.patch
+Patch4:		%{name}-dynamic.patch
+Patch5:		%{name}-invalid_free.patch
+Patch6:		%{name}-color_support_for_gui_entry.patch
+Patch7:		%{name}-libs-nopoison.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -98,13 +97,12 @@ Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %if %{with dynamic}
-%patch5 -p1
+%patch4 -p1
 %endif
-%patch6 -p1
-%patch7 -p0
-%patch8 -p1
+%patch5 -p1
+%patch6 -p0
+%patch7 -p1
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
