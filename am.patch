@@ -1,0 +1,10 @@
+--- irssi-0.8.15/irssi-idea/configure.in~	2002-11-24 14:12:56.000000000 +0100
++++ irssi-0.8.15/irssi-idea/configure.in	2013-06-09 10:46:16.317003740 +0200
+@@ -1,6 +1,6 @@
+ AC_INIT(src)
+ 
+-AM_CONFIG_HEADER(config-plugin.h)
++AC_CONFIG_HEADERS(config-plugin.h)
+ AM_INIT_AUTOMAKE(irssi-idea, 0.1.46)
+ 
+ AM_MAINTAINER_MODE

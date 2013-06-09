@@ -18,7 +18,7 @@ Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.15
-Release:	12
+Release:	13
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -40,6 +40,7 @@ Patch4:		%{name}-dynamic.patch
 Patch5:		%{name}-invalid_free.patch
 Patch6:		%{name}-color_support_for_gui_entry.patch
 Patch7:		%{name}-libs-nopoison.patch
+Patch8:		am.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -125,6 +126,7 @@ echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
 mv irssi-idea{-%{idea_ver},}
 mv irssi-xmpp{-%{xmpp_ver},}
+%patch8 -p1
 
 # hack
 %{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.in'
