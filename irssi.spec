@@ -9,21 +9,21 @@
 %define		no_install_post_check_so	1
 
 %define		idea_ver	0.1.46
-%define		xmpp_ver	0.51
-%define		irssi_perl_version 20100403
+%define		xmpp_ver	0.52
+%define		irssi_perl_version 20140111
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	0.8.15
-Release:	13
+Version:	0.8.16
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
 Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	870db8e319f640c2bf446c30d0c24ef6
+# Source0-md5:	5a8ee7144b63fa01747d6f400c40ef34
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -31,7 +31,7 @@ Source2:	%{name}.png
 Source3:	%{name}-idea-%{idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Source4:	http://cybione.org/~irssi-xmpp/files/irssi-xmpp-%{xmpp_ver}.tar.gz
-# Source4-md5:	032f090f34614bd5ad768842abae6415
+# Source4-md5:	f48d66ddf6a6d8e4d04bfc44b83dc3c7
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-home_etc.patch
 Patch2:		%{name}-idea-listlen.patch
