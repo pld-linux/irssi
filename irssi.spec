@@ -18,7 +18,7 @@ Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	0.8.16
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
@@ -237,19 +237,15 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/Irssi/*.pm
 
 %dir %{perl_vendorarch}/auto/Irssi
-%{perl_vendorarch}/auto/Irssi/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Irssi/*.so
 
 %dir %{perl_vendorarch}/auto/Irssi/Irc
-%{perl_vendorarch}/auto/Irssi/Irc/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Irssi/Irc/*.so
 
 %dir %{perl_vendorarch}/auto/Irssi/TextUI
-%{perl_vendorarch}/auto/Irssi/TextUI/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Irssi/TextUI/*.so
 
 %dir %{perl_vendorarch}/auto/Irssi/UI
-%{perl_vendorarch}/auto/Irssi/UI/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Irssi/UI/*.so
 %endif
 
