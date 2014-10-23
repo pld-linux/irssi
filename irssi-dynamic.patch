@@ -1,6 +1,6 @@
-diff -ur irssi-0.8.10-rc5-o/configure.in irssi-0.8.10-rc5/configure.in
---- irssi-0.8.10-rc5-o/configure.in	2004-09-15 06:15:05.000000000 -0600
-+++ irssi-0.8.10-rc5/configure.in	2005-05-29 01:32:38.000000000 -0600
+diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
+--- irssi-0.8.10-rc5-o/configure.ac	2004-09-15 06:15:05.000000000 -0600
++++ irssi-0.8.10-rc5/configure.ac	2005-05-29 01:32:38.000000000 -0600
 @@ -236,6 +236,10 @@
      ;;
  esac
@@ -276,7 +276,7 @@ diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-
 +libirssi_config_LTLIBRARIES = libirssi_config.la
 +libirssi_configdir = $(libdir)
  
- INCLUDES = \
+ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src \
  	$(GLIB_CFLAGS)
  

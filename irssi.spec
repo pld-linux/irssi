@@ -10,20 +10,20 @@
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.52
-%define		irssi_perl_version 20140111
+%define		irssi_perl_version 20141011
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	0.8.16
-Release:	2
+Version:	0.8.17
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 #Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
 Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	5a8ee7144b63fa01747d6f400c40ef34
+# Source0-md5:	00cde2ba7ba37af9e3df451f430ecdea
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -129,7 +129,7 @@ mv irssi-xmpp{-%{xmpp_ver},}
 %patch8 -p1
 
 # hack
-%{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.in'
+%{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'
 
 %build
 ver=$(awk '/IRSSI_VERSION_DATE/{print $3}' irssi-version.h)
@@ -153,6 +153,7 @@ fi
 	%{?with_perl:--with-perl-lib=vendor} \
 	%{!?with_perl:--with-perl=no} \
 	%{?with_ipv6:--enable-ipv6} \
+	--enable-true-color \
 	--enable-nls \
 	--%{?with_ssl:en}%{!?with_ssl:dis}able-ssl
 
@@ -213,7 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README TODO NEWS docs/*.{txt,html}
+%doc AUTHORS ChangeLog README.md TODO NEWS docs/*.{txt,html}
 %attr(755,root,root) %{_bindir}/botti
 %attr(755,root,root) %{_bindir}/irssi
 %dir %{_libdir}/irssi
