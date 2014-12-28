@@ -44,7 +44,7 @@ Patch8:		am.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 # for idea only
 BuildRequires:	glib-devel
 BuildRequires:	glib2-devel >= 2.24.0
