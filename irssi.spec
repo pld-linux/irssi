@@ -10,20 +10,19 @@
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.52
-%define		irssi_perl_version 20141011
+%define		irssi_perl_version 20160323
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	0.8.17
-Release:	3
+Version:	0.8.19
+Release:	1
 License:	GPL
 Group:		Applications/Communications
-#Source0:	http://www.irssi.org/files/snapshots/%{name}-%{_snap}.tar.gz
-Source0:	http://www.irssi.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	00cde2ba7ba37af9e3df451f430ecdea
+Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	759af618f506e85bd66862f83d8a4f9a
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -157,7 +156,7 @@ fi
 	--enable-nls \
 	--%{?with_ssl:en}%{!?with_ssl:dis}able-ssl
 
-%{__make}
+%{__make} V=1
 
 # to fool idea configure script
 touch irssi-config
@@ -167,7 +166,7 @@ cd irssi-idea
 %{__autoconf}
 %{__automake}
 %configure
-%{__make}
+%{__make} V=1
 
 cd ..
 export IRSSI_INCLUDE=`pwd`
