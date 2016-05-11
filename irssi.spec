@@ -142,6 +142,7 @@ fi
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-silent-rules \
 	--without-socks \
 	--with-bot \
 	--with-textui \
@@ -156,7 +157,7 @@ fi
 	--enable-nls \
 	--%{?with_ssl:en}%{!?with_ssl:dis}able-ssl
 
-%{__make} V=1
+%{__make}
 
 # to fool idea configure script
 touch irssi-config
@@ -165,10 +166,11 @@ cd irssi-idea
 %{__aclocal} -I .
 %{__autoconf}
 %{__automake}
-%configure
-%{__make} V=1
-
+%configure \
+	--disable-silent-rules
+%{__make}
 cd ..
+
 export IRSSI_INCLUDE=`pwd`
 cd irssi-xmpp
 %{__make}
@@ -177,8 +179,8 @@ cd irssi-xmpp
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}}
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	docdir=%{_datadir}/%{name}-%{version}
+	docdir=%{_datadir}/%{name}-%{version} \
+	DESTDIR=$RPM_BUILD_ROOT
 
 # scripts packaged by irssi-scripts.spec
 rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/scripts/*
