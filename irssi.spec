@@ -1,28 +1,26 @@
 #
 # Conditional build:
 %bcond_without	perl	# without perl support
-%bcond_without	ipv6	# without IPv6 support
-%bcond_without	ssl	# without SSL  support
 %bcond_without	dynamic	# without dynamic libraries
 %bcond_without	xmpp	# without plugin
 
 %define		no_install_post_check_so	1
 
 %define		idea_ver	0.1.46
-%define		xmpp_ver	0.52
-%define		irssi_perl_version 20160914
+%define		xmpp_ver	0.53
+%define		irssi_perl_version 20170103
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	0.8.20
-Release:	2
+Version:	1.0.0
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2b00a0492f52571772d030d1af3a043a
+# Source0-md5:	0c702b85dbf8b45df0e618b5f8b06d31
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -30,7 +28,7 @@ Source2:	%{name}.png
 Source3:	%{name}-idea-%{idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
 Source4:	http://cybione.org/~irssi-xmpp/files/irssi-xmpp-%{xmpp_ver}.tar.gz
-# Source4-md5:	f48d66ddf6a6d8e4d04bfc44b83dc3c7
+# Source4-md5:	8c9906e4efbd6f3c8bd8420f0ac8fd91
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-home_etc.patch
 Patch2:		%{name}-idea-listlen.patch
@@ -40,6 +38,8 @@ Patch5:		%{name}-invalid_free.patch
 Patch6:		%{name}-color_support_for_gui_entry.patch
 Patch7:		%{name}-libs-nopoison.patch
 Patch8:		am.patch
+Patch9:		%{name}-idea-glib.patch
+Patch10:	%{name}-xmpp.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -50,7 +50,7 @@ BuildRequires:	glib2-devel >= 2.24.0
 BuildRequires:	libtool
 %{?with_xmpp:BuildRequires:	loudmouth-devel}
 BuildRequires:	ncurses-devel >= 5.0
-%{?with_ssl:BuildRequires:	openssl-devel >= 0.9.7d}
+BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
@@ -126,6 +126,8 @@ echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 mv irssi-idea{-%{idea_ver},}
 mv irssi-xmpp{-%{xmpp_ver},}
 %patch8 -p1
+%patch9 -p0
+%patch10 -p0
 
 # hack
 %{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'
@@ -147,15 +149,11 @@ fi
 	--with-bot \
 	--with-textui \
 	--with-proxy \
-	--with-terminfo \
 	--with-modules \
 	%{?with_perl:--with-perl=yes} \
 	%{?with_perl:--with-perl-lib=vendor} \
 	%{!?with_perl:--with-perl=no} \
-	%{?with_ipv6:--enable-ipv6} \
-	--enable-true-color \
-	--enable-nls \
-	--%{?with_ssl:en}%{!?with_ssl:dis}able-ssl
+	--enable-true-color
 
 %{__make}
 

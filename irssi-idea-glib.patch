@@ -1,0 +1,11 @@
+--- irssi-idea/configure.in~	2017-01-19 23:01:49.000000000 +0100
++++ irssi-idea/configure.in	2017-01-19 23:03:18.579834244 +0100
+@@ -40,7 +40,7 @@
+   AC_ERROR(Not irssi directory: $IRSSI_INCLUDE)
+ fi
+ 
+-AM_PATH_GLIB(1.2.0,,, gmodule)
++AM_PATH_GLIB_2_0(2.28.0,,, gmodule)
+ 
+ # gcc specific options
+ if test "x$ac_cv_prog_gcc" = "xyes"; then
