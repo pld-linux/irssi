@@ -8,3 +8,25 @@
  AM_INIT_AUTOMAKE(irssi-idea, 0.1.46)
  
  AM_MAINTAINER_MODE
+--- irssi-1.1.1/src/core/Makefile.am~	2018-02-17 19:16:24.000000000 +0100
++++ irssi-1.1.1/src/core/Makefile.am	2018-02-17 19:18:11.551980004 +0100
+@@ -59,7 +59,7 @@ libirssi_core_la_SOURCES = \
+ 	write-buffer.c
+ 
+ if HAVE_CAPSICUM
+-libcore_a_SOURCES += \
++libirssi_core_la_SOURCES += \
+ 	capsicum.c
+ endif
+ 
+--- irssi-1.1.1/src/fe-common/core/Makefile.am~	2018-02-17 19:18:41.000000000 +0100
++++ irssi-1.1.1/src/fe-common/core/Makefile.am	2018-02-17 19:19:45.501478551 +0100
+@@ -40,7 +40,7 @@ libirssife_common_core_la_SOURCES = \
+ 	fe-windows.c
+ 
+ if HAVE_CAPSICUM
+-libfe_common_core_a_SOURCES += \
++libirssife_common_core_la_SOURCES += \
+ 	fe-capsicum.c
+ endif
+ 
