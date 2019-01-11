@@ -8,19 +8,19 @@
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.53
-%define		irssi_perl_version 20180213
+%define		irssi_perl_version 20190108
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	1.1.1
-Release:	5
+Version:	1.1.2
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	8c2c494b2a7e3ab3ea6657f413ec890c
+# Source0-md5:	a408395850d29c9b7a721840c9708b94
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -34,7 +34,7 @@ Patch1:		%{name}-home_etc.patch
 Patch2:		%{name}-idea-listlen.patch
 Patch3:		%{name}-gcc4.patch
 Patch4:		%{name}-dynamic.patch
-Patch5:		%{name}-invalid_free.patch
+
 Patch6:		%{name}-color_support_for_gui_entry.patch
 Patch7:		%{name}-libs-nopoison.patch
 Patch8:		am.patch
@@ -117,7 +117,7 @@ Ten pakiet zawiera wtyczkę do Irssi z obsługą XMPP.
 %if %{with dynamic}
 %patch4 -p1
 %endif
-%patch5 -p1
+
 %patch6 -p0
 %patch7 -p1
 
