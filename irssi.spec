@@ -1,3 +1,5 @@
+# TODO:
+# - color_support_for_gui_entry needs update or to eb removed
 #
 # Conditional build:
 %bcond_without	perl	# without perl support
@@ -8,19 +10,19 @@
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.53
-%define		irssi_perl_version 20190108
+%define		irssi_perl_version 20190211
 %{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	1.1.2
+Version:	1.2.0
 Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	a408395850d29c9b7a721840c9708b94
+# Source0-md5:	28a6705b9c64db40072fac31ecf75372
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -47,7 +49,10 @@ BuildRequires:	gettext-tools
 # for idea only
 BuildRequires:	glib-devel
 BuildRequires:	glib2-devel >= 2.24.0
+BuildRequires:	libgcrypt-devel >= 1.2.0
+BuildRequires:	libotr-devel >= 4.1.0
 BuildRequires:	libtool
+BuildRequires:	libutf8proc-devel
 %{?with_xmpp:BuildRequires:	loudmouth-devel}
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	openssl-devel >= 0.9.7d
@@ -118,7 +123,7 @@ Ten pakiet zawiera wtyczkę do Irssi z obsługą XMPP.
 %patch4 -p1
 %endif
 
-%patch6 -p0
+#%patch6 -p0
 %patch7 -p1
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
@@ -150,6 +155,7 @@ fi
 	--with-textui \
 	--with-proxy \
 	--with-modules \
+	--with-otr \
 	%{?with_perl:--with-perl=yes} \
 	%{?with_perl:--with-perl-lib=vendor} \
 	%{!?with_perl:--with-perl=no} \
@@ -219,6 +225,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/irssi
 %dir %{_libdir}/irssi/modules
 %attr(755,root,root) %{_libdir}/irssi/modules/libirc_proxy.so*
+%attr(755,root,root) %{_libdir}/irssi/modules/libotr_core.so*
 %if %{with dynamic}
 %attr(755,root,root) %{_libdir}/libirssi*.so.*
 %endif
