@@ -11,7 +11,6 @@
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.53
 %define		irssi_perl_version 20190829
-%{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
