@@ -1,11 +1,12 @@
---- irssi-0.8.12/configure.ac~	2008-11-16 19:24:07.000000000 +0200
-+++ irssi-0.8.12/configure.ac	2008-11-16 19:26:14.401917429 +0200
-@@ -511,7 +511,7 @@
+diff -urNp -x '*.orig' irssi-1.2.2.org/configure.ac irssi-1.2.2/configure.ac
+--- irssi-1.2.2.org/configure.ac	2021-05-04 21:23:37.126601768 +0200
++++ irssi-1.2.2/configure.ac	2021-05-04 21:23:37.263275533 +0200
+@@ -431,7 +431,7 @@ if test "$want_perl" != "no"; then
  		AC_MSG_RESULT([not found, building without Perl])
  		want_perl=no
  	else
 -		PERL_LDFLAGS=`$perlpath -MExtUtils::Embed -e ldopts 2>/dev/null`
 +		PERL_LDFLAGS=`$perlpath -MExtUtils::Embed -e ldopts 2>/dev/null | sed -e 's/-Wl,--as-needed//'`
  
- 		dnl * Perl 5.004 and older use perl_xxx variables while
- 		dnl * later use PL_perl_xxx variables ..
+ 		dnl * remove all database stuffs
+ 		dnl * nsl is already in ldflags

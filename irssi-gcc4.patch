@@ -1,8 +1,9 @@
---- irssi-0.8.11/src/core/misc.h	2007-04-25 20:13:56.000000000 +0200
-+++ irssi-0.8.11/src/core/misc.h-new	2007-06-07 01:41:35.677176190 +0200
-@@ -1,6 +1,10 @@
- #ifndef __MISC_H
- #define __MISC_H
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/core/misc.h irssi-1.2.2/src/core/misc.h
+--- irssi-1.2.2.org/src/core/misc.h	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/core/misc.h	2021-05-04 21:22:59.014622440 +0200
+@@ -4,6 +4,10 @@
+ int g_input_add_poll(int fd, int priority, int condition,
+ 		     GInputFunction function, void *data);
  
 +#ifdef HAVE_CONFIG_H
 +#include "irssi-config.h"
@@ -11,8 +12,9 @@
  /* `str' should be type char[MAX_INT_STRLEN] */
  #define ltoa(str, num) \
  	g_snprintf(str, sizeof(str), "%d", num)
---- irssi-0.8.11/src/perl/module.h	2007-04-25 20:13:56.000000000 +0200
-+++ irssi-0.8.11/src/perl/module.h-new	2007-06-07 01:42:22.832959937 +0200
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/perl/module.h irssi-1.2.2/src/perl/module.h
+--- irssi-1.2.2.org/src/perl/module.h	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/perl/module.h	2021-05-04 21:22:59.017955947 +0200
 @@ -1,5 +1,9 @@
  #include "common.h"
  

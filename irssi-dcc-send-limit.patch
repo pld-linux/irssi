@@ -1,9 +1,9 @@
-diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h irssi-0.8.4/src/irc/dcc/dcc-rec.h
---- irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h	Mon Feb 19 04:40:06 2001
-+++ irssi-0.8.4/src/irc/dcc/dcc-rec.h	Thu Mar 14 02:20:25 2002
-@@ -20,6 +20,12 @@
- time_t starttime; /* transfer start time */
- uoff_t transfd; /* bytes transferred */
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/dcc/dcc-rec.h irssi-1.2.2/src/irc/dcc/dcc-rec.h
+--- irssi-1.2.2.org/src/irc/dcc/dcc-rec.h	2019-08-29 15:48:43.000000000 +0200
++++ irssi-1.2.2/src/irc/dcc/dcc-rec.h	2021-05-04 21:22:16.382408355 +0200
+@@ -22,6 +22,12 @@ uoff_t transfd; /* bytes transferred */
+ 
+ int pasv_id; /* DCC Id for passive DCCs. <0 means a passive DCC, >=0 means a standard DCC */
  
 +int timeout_tag;
 +
@@ -14,10 +14,10 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-rec.h irssi-0.8.4/src/irc/dcc/dcc-rec.
  unsigned int destroyed:1; /* We're about to destroy this DCC recond */
  
  GHashTable *module_data;
-diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-send.c
---- irssi-0.8.4.orig/src/irc/dcc/dcc-send.c	Sun Jan 20 04:10:27 2002
-+++ irssi-0.8.4/src/irc/dcc/dcc-send.c	Thu Mar 14 02:21:22 2002
-@@ -217,17 +217,87 @@
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/dcc/dcc-send.c irssi-1.2.2/src/irc/dcc/dcc-send.c
+--- irssi-1.2.2.org/src/irc/dcc/dcc-send.c	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/irc/dcc/dcc-send.c	2021-05-04 21:22:16.382408355 +0200
+@@ -250,17 +250,87 @@ static void sig_dcc_destroyed(SEND_DCC_R
  {
  	if (!IS_DCC_SEND(dcc)) return;
  
@@ -106,7 +106,7 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  
  	ret = read(dcc->fhandle, buffer, sizeof(buffer));
  	if (ret <= 0) {
-@@ -282,6 +352,7 @@
+@@ -316,6 +386,7 @@ static void dcc_send_connected(SEND_DCC_
          GIOChannel *handle;
  	IPADDR addr;
  	int port;
@@ -114,7 +114,7 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  
  	/* accept connection */
  	handle = net_accept(dcc->handle, &addr, &port);
-@@ -296,6 +366,13 @@
+@@ -330,6 +401,13 @@ static void dcc_send_connected(SEND_DCC_
  	g_source_remove(dcc->tagconn);
          dcc->tagconn = -1;
  
@@ -128,7 +128,7 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
  	dcc->starttime = time(NULL);
  	dcc->handle = handle;
  	memcpy(&dcc->addr, &addr, sizeof(IPADDR));
-@@ -429,6 +429,7 @@
+@@ -434,6 +512,7 @@ static int dcc_send_one_file(int queue,
  	dcc->size = st.st_size;
  	dcc->fhandle = hfile;
  	dcc->queue = queue;
@@ -136,11 +136,11 @@ diff -ur irssi-0.8.4.orig/src/irc/dcc/dcc-send.c irssi-0.8.4/src/irc/dcc/dcc-sen
          dcc->file_quoted = strchr(fname, ' ') != NULL;
  	if (!passive) {
  		dcc->tagconn = g_input_add(handle, G_INPUT_READ,
-@@ -412,6 +490,7 @@
+@@ -473,6 +552,7 @@ void dcc_send_init(void)
          dcc_register_type("SEND");
  	settings_add_str("dcc", "dcc_upload_path", "~");
  	settings_add_bool("dcc", "dcc_send_replace_space_with_underscore", FALSE);
 +	settings_add_int("dcc", "dcc_send_top_speed", 0);
  	signal_add("dcc destroyed", (SIGNAL_FUNC) sig_dcc_destroyed);
+ 	signal_add("dcc reply send pasv", (SIGNAL_FUNC) dcc_send_connect);
  	command_bind("dcc send", NULL, (SIGNAL_FUNC) cmd_dcc_send);
- 	command_set_options("dcc send", "append flush prepend rmhead rmtail");

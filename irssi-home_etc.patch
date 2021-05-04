@@ -1,7 +1,8 @@
---- irssi-0.8.6.orig/src/core/core.c	2002-10-19 20:00:06.000000000 +0200
-+++ irssi-0.8.6/src/core/core.c	2003-11-09 12:46:25.000000000 +0100
-@@ -193,7 +193,9 @@
- 	args_register(options);
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/core/core.c irssi-1.2.2/src/core/core.c
+--- irssi-1.2.2.org/src/core/core.c	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/core/core.c	2021-05-04 21:22:39.960299530 +0200
+@@ -193,7 +193,9 @@ void core_preinit(const char *path)
+ 	int len;
  
  	if (irssi_dir == NULL) {
 -		home = g_get_home_dir();
@@ -10,10 +11,11 @@
 +			home = g_get_home_dir();
  		if (home == NULL)
  			home = ".";
-
---- irssi-0.8.11/src/core/log-away.c.orig	2007-04-25 20:13:56.000000000 +0200
-+++ irssi-0.8.11/src/core/log-away.c	2007-06-07 01:31:08.951362144 +0200
-@@ -105,7 +105,12 @@
+ 
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/core/log-away.c irssi-1.2.2/src/core/log-away.c
+--- irssi-1.2.2.org/src/core/log-away.c	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/core/log-away.c	2021-05-04 21:22:39.960299530 +0200
+@@ -112,7 +112,12 @@ void log_away_init(void)
  	away_msgs = 0;
  
  	awaylog_file = g_strconcat(get_irssi_dir(), "/away.log", NULL);
@@ -26,5 +28,4 @@
 +		settings_add_str("log", "awaylog_file", awaylog_file);
  	g_free(awaylog_file);
  	settings_add_level("log", "awaylog_level", "msgs hilight");
-
-
+ 

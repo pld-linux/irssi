@@ -1,7 +1,7 @@
-diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
---- irssi-0.8.10-rc5-o/configure.ac	2004-09-15 06:15:05.000000000 -0600
-+++ irssi-0.8.10-rc5/configure.ac	2005-05-29 01:32:38.000000000 -0600
-@@ -236,6 +236,10 @@
+diff -urNp -x '*.orig' irssi-1.2.2.org/configure.ac irssi-1.2.2/configure.ac
+--- irssi-1.2.2.org/configure.ac	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/configure.ac	2021-05-04 21:23:17.308905879 +0200
+@@ -212,6 +212,10 @@ case "$host_os" in
      ;;
  esac
  
@@ -10,9 +10,9 @@ diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
 +])
 +
  
- AC_CHECK_FUNCS(mkfifo fcntl nl_langinfo)
+ AC_SEARCH_LIBS([socket], [network socket])
  
-@@ -508,20 +508,20 @@
+@@ -472,20 +476,20 @@ if test "$want_perl" != "no"; then
  			dnl * building with static perl support
  			dnl * all PERL_LDFLAGS linking is done in fe-text
  			PERL_LINK_FLAGS="$PERL_LDFLAGS"
@@ -39,7 +39,7 @@ diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
  			perl_static_lib=
  			perl_static_fe_lib=
  		fi
-@@ -591,7 +591,7 @@
+@@ -641,7 +645,7 @@ dnl ************************************
  AC_SUBST(CHAT_MODULES)
  AC_SUBST(irc_MODULES)
  
@@ -48,7 +48,7 @@ diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
  FE_COMMON_LIBS=""
  
  CHAT_LIBS=""
-@@ -842,16 +846,16 @@
+@@ -650,16 +654,16 @@ for c in $CHAT_MODULES; do
  	module_deinits=""
  	fe_module_inits=""
  	fe_module_deinits=""
@@ -69,7 +69,7 @@ diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
  			fe_module_inits="$fe_module_inits fe_${c}_${s}_init();"
  			fe_module_deinits="fe_${c}_${s}_deinit(); $fe_module_deinits"
  		fi
-@@ -879,7 +883,7 @@
+@@ -689,7 +693,7 @@ for c in $CHAT_MODULES; do
  	fi
  done
  
@@ -78,37 +78,37 @@ diff -ur irssi-0.8.10-rc5-o/configure.ac irssi-0.8.10-rc5/configure.ac
  
  dnl ** common libraries needed by frontends
  COMMON_NOUI_LIBS="$CHAT_LIBS $CORE_LIBS"
-diff -ur irssi-0.8.10-rc5-o/src/core/Makefile.am irssi-0.8.10-rc5/src/core/Makefile.am
---- irssi-0.8.10-rc5-o/src/core/Makefile.am	2004-08-19 18:10:01.000000000 -0600
-+++ irssi-0.8.10-rc5/src/core/Makefile.am	2005-05-29 01:32:38.000000000 -0600
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/core/Makefile.am irssi-1.2.2/src/core/Makefile.am
+--- irssi-1.2.2.org/src/core/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/core/Makefile.am	2021-05-04 21:23:17.308905879 +0200
 @@ -1,4 +1,6 @@
 -noinst_LIBRARIES = libcore.a
 +libirssi_core_LTLIBRARIES = libirssi_core.la
 +
 +libirssi_coredir = $(libdir)
  
- INCLUDES = \
+ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src \
-@@ -7,7 +9,7 @@
- 	-DSYSCONFDIR=\""$(sysconfdir)"\" \
- 	-DMODULEDIR=\""$(libdir)/irssi/modules"\"
+@@ -13,7 +15,7 @@ else
+ regex_impl=iregex-regexh.c
+ endif
  
 -libcore_a_SOURCES = \
 +libirssi_core_la_SOURCES = \
  	args.c \
  	channels.c \
  	channels-setup.c \
-diff -ur irssi-0.8.10-rc5-o/src/fe-common/core/Makefile.am irssi-0.8.10-rc5/src/fe-common/core/Makefile.am
---- irssi-0.8.10-rc5-o/src/fe-common/core/Makefile.am	2004-09-15 06:15:05.000000000 -0600
-+++ irssi-0.8.10-rc5/src/fe-common/core/Makefile.am	2005-05-29 01:32:38.000000000 -0600
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/fe-common/core/Makefile.am irssi-1.2.2/src/fe-common/core/Makefile.am
+--- irssi-1.2.2.org/src/fe-common/core/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/fe-common/core/Makefile.am	2021-05-04 21:23:17.308905879 +0200
 @@ -1,4 +1,5 @@
 -noinst_LIBRARIES = libfe_common_core.a
 +libirssife_common_core_LTLIBRARIES = libirssife_common_core.la
 +libirssife_common_coredir = $(libdir)
  
- INCLUDES = \
+ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src -I$(top_srcdir)/src/core/ \
-@@ -6,7 +7,7 @@
+@@ -6,7 +7,7 @@ AM_CPPFLAGS = \
  	-DHELPDIR=\""$(datadir)/irssi/help"\" \
  	-DTHEMESDIR=\""$(datadir)/irssi/themes"\"
  
@@ -117,28 +117,9 @@ diff -ur irssi-0.8.10-rc5-o/src/fe-common/core/Makefile.am irssi-0.8.10-rc5/src/
  	chat-completion.c \
  	command-history.c \
  	completion.c \
-diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/dcc/Makefile.am irssi-0.8.10-rc5/src/fe-common/irc/dcc/Makefile.am
---- irssi-0.8.10-rc5-o/src/fe-common/irc/dcc/Makefile.am	2004-05-10 14:45:03.000000000 -0600
-+++ irssi-0.8.10-rc5/src/fe-common/irc/dcc/Makefile.am	2005-05-29 01:32:38.000000000 -0600
-@@ -1,4 +1,5 @@
--noinst_LIBRARIES = libfe_irc_dcc.a
-+libirssife_irc_dcc_LTLIBRARIES = libirssife_irc_dcc.la
-+libirssife_irc_dccdir = $(libdir)
- 
- INCLUDES = \
- 	-I$(top_srcdir)/src \
-@@ -10,7 +11,7 @@
- 	-DHELPDIR=\""$(datadir)/irssi/help"\" \
- 	-DSYSCONFDIR=\""$(sysconfdir)"\"
- 
--libfe_irc_dcc_a_SOURCES = \
-+libirssife_irc_dcc_la_SOURCES = \
- 	fe-dcc.c \
- 	fe-dcc-chat.c \
- 	fe-dcc-chat-messages.c \
-diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/Makefile.am irssi-0.8.10-rc5/src/fe-common/irc/Makefile.am
---- irssi-0.8.10-rc5-o/src/fe-common/irc/Makefile.am	2004-07-11 09:45:03.000000000 -0600
-+++ irssi-0.8.10-rc5/src/fe-common/irc/Makefile.am	2005-05-29 01:32:38.000000000 -0600
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/fe-common/irc/Makefile.am irssi-1.2.2/src/fe-common/irc/Makefile.am
+--- irssi-1.2.2.org/src/fe-common/irc/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/fe-common/irc/Makefile.am	2021-05-04 21:23:17.308905879 +0200
 @@ -1,6 +1,7 @@
  SUBDIRS = dcc notifylist
  
@@ -146,9 +127,9 @@ diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/Makefile.am irssi-0.8.10-rc5/src/f
 +libirssife_common_irc_LTLIBRARIES = libirssife_common_irc.la
 +libirssife_common_ircdir = $(libdir)
  
- INCLUDES = \
+ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src \
-@@ -29,7 +30,7 @@
+@@ -31,7 +32,7 @@ real_sources = \
  	irc-completion.c \
  	module-formats.c 
  
@@ -157,17 +138,36 @@ diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/Makefile.am irssi-0.8.10-rc5/src/f
  	$(real_sources) \
          irc-modules.c
  
-diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/notifylist/Makefile.am irssi-0.8.10-rc5/src/fe-common/irc/notifylist/Makefile.am
---- irssi-0.8.10-rc5-o/src/fe-common/irc/notifylist/Makefile.am	2004-05-10 14:45:03.000000000 -0600
-+++ irssi-0.8.10-rc5/src/fe-common/irc/notifylist/Makefile.am	2005-05-29 01:32:38.000000000 -0600
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/fe-common/irc/dcc/Makefile.am irssi-1.2.2/src/fe-common/irc/dcc/Makefile.am
+--- irssi-1.2.2.org/src/fe-common/irc/dcc/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/fe-common/irc/dcc/Makefile.am	2021-05-04 21:23:17.308905879 +0200
+@@ -1,4 +1,5 @@
+-noinst_LIBRARIES = libfe_irc_dcc.a
++libirssife_irc_dcc_LTLIBRARIES = libirssife_irc_dcc.la
++libirssife_irc_dccdir = $(libdir)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src \
+@@ -10,7 +11,7 @@ AM_CPPFLAGS = \
+ 	-DHELPDIR=\""$(datadir)/irssi/help"\" \
+ 	-DSYSCONFDIR=\""$(sysconfdir)"\"
+ 
+-libfe_irc_dcc_a_SOURCES = \
++libirssife_irc_dcc_la_SOURCES = \
+ 	fe-dcc.c \
+ 	fe-dcc-chat.c \
+ 	fe-dcc-chat-messages.c \
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/fe-common/irc/notifylist/Makefile.am irssi-1.2.2/src/fe-common/irc/notifylist/Makefile.am
+--- irssi-1.2.2.org/src/fe-common/irc/notifylist/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/fe-common/irc/notifylist/Makefile.am	2021-05-04 21:23:17.308905879 +0200
 @@ -1,4 +1,5 @@
 -noinst_LIBRARIES = libfe_irc_notifylist.a
 +libirssife_irc_notifylist_LTLIBRARIES = libirssife_irc_notifylist.la
 +libirssife_irc_notifylistdir = $(libdir)
  
- INCLUDES = \
+ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src \
-@@ -9,7 +10,7 @@
+@@ -9,7 +10,7 @@ AM_CPPFLAGS = \
  	-DHELPDIR=\""$(datadir)/irssi/help"\" \
  	-DSYSCONFDIR=\""$(sysconfdir)"\"
  
@@ -176,67 +176,10 @@ diff -ur irssi-0.8.10-rc5-o/src/fe-common/irc/notifylist/Makefile.am irssi-0.8.1
  	fe-notifylist.c \
  	module-formats.c
  
-diff -ur irssi-0.8.10-rc5-o/src/irc/core/Makefile.am irssi-0.8.10-rc5/src/irc/core/Makefile.am
---- irssi-0.8.10-rc5-o/src/irc/core/Makefile.am	2004-05-10 14:45:04.000000000 -0600
-+++ irssi-0.8.10-rc5/src/irc/core/Makefile.am	2005-05-29 01:32:38.000000000 -0600
-@@ -1,4 +1,5 @@
--noinst_LIBRARIES = libirc_core.a
-+libirssi_irc_core_LTLIBRARIES = libirssi_irc_core.la
-+libirssi_irc_coredir = $(libdir)
- 
- INCLUDES = \
- 	-I$(top_srcdir)/src \
-@@ -6,7 +7,7 @@
- 	-DSYSCONFDIR=\""$(sysconfdir)"\" \
- 	$(GLIB_CFLAGS)
- 
--libirc_core_a_SOURCES = \
-+libirssi_irc_core_la_SOURCES = \
- 	bans.c \
-         ctcp.c \
-         channels-query.c \
-diff -ur irssi-0.8.10-rc5-o/src/irc/dcc/Makefile.am irssi-0.8.10-rc5/src/irc/dcc/Makefile.am
---- irssi-0.8.10-rc5-o/src/irc/dcc/Makefile.am	2004-05-10 14:45:04.000000000 -0600
-+++ irssi-0.8.10-rc5/src/irc/dcc/Makefile.am	2005-05-29 01:32:38.000000000 -0600
-@@ -1,4 +1,5 @@
--noinst_LIBRARIES = libirc_dcc.a
-+libirssi_irc_dcc_LTLIBRARIES = libirssi_irc_dcc.la
-+libirssi_irc_dccdir = $(libdir)
- 
- INCLUDES = \
- 	-I$(top_srcdir)/src \
-@@ -6,7 +7,7 @@
- 	-I$(top_srcdir)/src/irc/core/ \
- 	$(GLIB_CFLAGS)
- 
--libirc_dcc_a_SOURCES = \
-+libirssi_irc_dcc_la_SOURCES = \
- 	dcc.c \
- 	dcc-chat.c \
- 	dcc-get.c \
-diff -ur irssi-0.8.10-rc5-o/src/irc/flood/Makefile.am irssi-0.8.10-rc5/src/irc/flood/Makefile.am
---- irssi-0.8.10-rc5-o/src/irc/flood/Makefile.am	2004-05-10 14:45:04.000000000 -0600
-+++ irssi-0.8.10-rc5/src/irc/flood/Makefile.am	2005-05-29 01:32:38.000000000 -0600
-@@ -1,4 +1,5 @@
--noinst_LIBRARIES = libirc_flood.a
-+libirssi_irc_flood_LTLIBRARIES = libirssi_irc_flood.la
-+libirssi_irc_flooddir = $(libdir)
- 
- INCLUDES = \
- 	-I$(top_srcdir)/src \
-@@ -6,7 +7,7 @@
- 	-I$(top_srcdir)/src/irc/core/ \
- 	$(GLIB_CFLAGS)
- 
--libirc_flood_a_SOURCES = \
-+libirssi_irc_flood_la_SOURCES = \
- 	autoignore.c \
- 	flood.c
- 
-diff -ur irssi-0.8.10-rc5-o/src/irc/Makefile.am irssi-0.8.10-rc5/src/irc/Makefile.am
---- irssi-0.8.10-rc5-o/src/irc/Makefile.am	2002-03-15 14:07:19.000000000 -0700
-+++ irssi-0.8.10-rc5/src/irc/Makefile.am	2005-05-29 01:32:38.000000000 -0600
-@@ -4,9 +4,10 @@
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/Makefile.am irssi-1.2.2/src/irc/Makefile.am
+--- irssi-1.2.2.org/src/irc/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/irc/Makefile.am	2021-05-04 21:23:17.308905879 +0200
+@@ -4,9 +4,10 @@ endif
  
  SUBDIRS = core dcc flood notifylist $(PROXY)
  
@@ -249,17 +192,74 @@ diff -ur irssi-0.8.10-rc5-o/src/irc/Makefile.am irssi-0.8.10-rc5/src/irc/Makefil
  
  DISTFILES = $(DIST_COMMON) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
  
-diff -ur irssi-0.8.10-rc5-o/src/irc/notifylist/Makefile.am irssi-0.8.10-rc5/src/irc/notifylist/Makefile.am
---- irssi-0.8.10-rc5-o/src/irc/notifylist/Makefile.am	2004-05-10 14:45:04.000000000 -0600
-+++ irssi-0.8.10-rc5/src/irc/notifylist/Makefile.am	2005-05-29 01:32:38.000000000 -0600
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/core/Makefile.am irssi-1.2.2/src/irc/core/Makefile.am
+--- irssi-1.2.2.org/src/irc/core/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/irc/core/Makefile.am	2021-05-04 21:23:17.308905879 +0200
+@@ -1,4 +1,5 @@
+-noinst_LIBRARIES = libirc_core.a
++libirssi_irc_core_LTLIBRARIES = libirssi_irc_core.la
++libirssi_irc_coredir = $(libdir)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src \
+@@ -6,7 +7,7 @@ AM_CPPFLAGS = \
+ 	-DSYSCONFDIR=\""$(sysconfdir)"\" \
+ 	$(GLIB_CFLAGS)
+ 
+-libirc_core_a_SOURCES = \
++libirssi_irc_core_la_SOURCES = \
+ 	bans.c \
+         ctcp.c \
+         channels-query.c \
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/dcc/Makefile.am irssi-1.2.2/src/irc/dcc/Makefile.am
+--- irssi-1.2.2.org/src/irc/dcc/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/irc/dcc/Makefile.am	2021-05-04 21:23:17.308905879 +0200
+@@ -1,4 +1,5 @@
+-noinst_LIBRARIES = libirc_dcc.a
++libirssi_irc_dcc_LTLIBRARIES = libirssi_irc_dcc.la
++libirssi_irc_dccdir = $(libdir)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src \
+@@ -6,7 +7,7 @@ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src/irc/core/ \
+ 	$(GLIB_CFLAGS)
+ 
+-libirc_dcc_a_SOURCES = \
++libirssi_irc_dcc_la_SOURCES = \
+ 	dcc.c \
+ 	dcc-chat.c \
+ 	dcc-get.c \
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/flood/Makefile.am irssi-1.2.2/src/irc/flood/Makefile.am
+--- irssi-1.2.2.org/src/irc/flood/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/irc/flood/Makefile.am	2021-05-04 21:23:17.308905879 +0200
+@@ -1,4 +1,5 @@
+-noinst_LIBRARIES = libirc_flood.a
++libirssi_irc_flood_LTLIBRARIES = libirssi_irc_flood.la
++libirssi_irc_flooddir = $(libdir)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src \
+@@ -6,7 +7,7 @@ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src/irc/core/ \
+ 	$(GLIB_CFLAGS)
+ 
+-libirc_flood_a_SOURCES = \
++libirssi_irc_flood_la_SOURCES = \
+ 	autoignore.c \
+ 	flood.c
+ 
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/notifylist/Makefile.am irssi-1.2.2/src/irc/notifylist/Makefile.am
+--- irssi-1.2.2.org/src/irc/notifylist/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/irc/notifylist/Makefile.am	2021-05-04 21:23:17.308905879 +0200
 @@ -1,4 +1,5 @@
 -noinst_LIBRARIES = libirc_notifylist.a
 +libirssi_irc_notifylist_LTLIBRARIES = libirssi_irc_notifylist.la
 +libirssi_irc_notifylistdir = $(libdir)
  
- INCLUDES = \
+ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src \
-@@ -6,7 +7,7 @@
+@@ -6,7 +7,7 @@ AM_CPPFLAGS = \
  	-I$(top_srcdir)/src/irc/core/ \
  	$(GLIB_CFLAGS)
  
@@ -268,9 +268,9 @@ diff -ur irssi-0.8.10-rc5-o/src/irc/notifylist/Makefile.am irssi-0.8.10-rc5/src/
  	notifylist.c \
  	notify-commands.c \
  	notify-ison.c \
-diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-config/Makefile.am
---- irssi-0.8.10-rc5-o/src/lib-config/Makefile.am	2004-05-10 14:45:04.000000000 -0600
-+++ irssi-0.8.10-rc5/src/lib-config/Makefile.am	2005-05-29 01:32:38.000000000 -0600
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/lib-config/Makefile.am irssi-1.2.2/src/lib-config/Makefile.am
+--- irssi-1.2.2.org/src/lib-config/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/lib-config/Makefile.am	2021-05-04 21:23:17.308905879 +0200
 @@ -1,10 +1,11 @@
 -noinst_LIBRARIES = libirssi_config.a
 +libirssi_config_LTLIBRARIES = libirssi_config.la
@@ -285,9 +285,10 @@ diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-
  	get.c \
  	set.c \
  	parse.c \
---- irssi-0.8.10/src/perl/Makefile.am~	2005-12-11 17:10:06.000000000 +0200
-+++ irssi-0.8.10/src/perl/Makefile.am	2005-12-11 17:12:01.000000000 +0200
-@@ -7,11 +7,11 @@
+diff -urNp -x '*.orig' irssi-1.2.2.org/src/perl/Makefile.am irssi-1.2.2/src/perl/Makefile.am
+--- irssi-1.2.2.org/src/perl/Makefile.am	2019-08-29 15:48:46.000000000 +0200
++++ irssi-1.2.2/src/perl/Makefile.am	2021-05-04 21:23:17.308905879 +0200
+@@ -5,11 +5,11 @@ perl_dirs = common irc ui textui
  module_LTLIBRARIES = $(perl_module_lib) $(perl_module_fe_lib)
  noinst_LTLIBRARIES = $(perl_static_lib) $(perl_static_fe_lib)
  EXTRA_LTLIBRARIES = \
@@ -301,14 +302,11 @@ diff -ur irssi-0.8.10-rc5-o/src/lib-config/Makefile.am irssi-0.8.10-rc5/src/lib-
 +libirssi_perl_core_la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
 +libirssife_perl_la_LDFLAGS = -module -avoid-version -rpath $(moduledir)
  
- perl-core.c: perl-signals-list.h irssi-core.pl.h
- 
-diff -ur irssi-0.8.10-rc5-o/src/perl/Makefile.am irssi-0.8.10-rc5/src/perl/Makefile.am
---- irssi-0.8.10-rc5-o/src/perl/Makefile.am	2003-11-16 11:30:02.000000000 -0700
-+++ irssi-0.8.10-rc5/src/perl/Makefile.am	2005-05-29 01:33:18.000000000 -0600
-@@ -55,16 +55,16 @@
- 	rm -f .libs/DynaLoader.a
- 	$(LN_S) $(DYNALOADER_A) .libs/DynaLoader.a
+ perl-core.lo: irssi-core.pl.h
+ perl-signals.lo: perl-signals-list.h
+@@ -43,16 +43,16 @@ noinst_HEADERS = \
+ 	perl-signals.h \
+ 	perl-sources.h
  
 -libperl_core_la_SOURCES = \
 +libirssi_perl_core_la_SOURCES = \
@@ -327,7 +325,7 @@ diff -ur irssi-0.8.10-rc5-o/src/perl/Makefile.am irssi-0.8.10-rc5/src/perl/Makef
  	$(perl_fe_sources)
  
  perl-signals-list.h: $(top_srcdir)/docs/signals.txt $(srcdir)/get-signals.pl
-@@ -165,4 +165,4 @@
+@@ -162,4 +162,4 @@ distclean-generic:
  	  cd ..; \
  	done
  
