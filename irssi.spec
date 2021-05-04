@@ -3,25 +3,25 @@
 #
 # Conditional build:
 %bcond_without	perl	# without perl support
-%bcond_without	dynamic	# without dynamic libraries
+%bcond_with	dynamic	# without dynamic libraries
 %bcond_without	xmpp	# without plugin
 
 %define		no_install_post_check_so	1
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.53
-%define		irssi_perl_version 20190829
+%define		irssi_perl_version 20210409
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	1.2.2
-Release:	2
+Version:	1.2.3
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	062049c73ad2dd54b614e80d0137b737
+# Source0-md5:	ebbf455d8e9c847fc8106591088024ab
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -129,7 +129,9 @@ echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
 mv irssi-idea{-%{idea_ver},}
 mv irssi-xmpp{-%{xmpp_ver},}
+%if %{with dynamic}
 %patch8 -p1
+%endif
 %patch9 -p0
 %patch10 -p0
 
@@ -200,7 +202,9 @@ cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 	DESTDIR=$RPM_BUILD_ROOT
 
 # -devel?
+%if %{with dynamic}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.{so,la,a}
+%endif
 rm -r $RPM_BUILD_ROOT%{_includedir}/irssi
 # cleanup
 rm $RPM_BUILD_ROOT%{_libdir}/irssi/modules/lib*.{la,a}
