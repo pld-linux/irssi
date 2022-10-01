@@ -69,7 +69,7 @@ diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/dcc/dcc-send.c irssi-1.2.2/src/ir
 +		g_source_remove(dcc->timeout_tag);
 +	dcc->timeout_tag = -1;
 +	
-+	dcc->tagwrite = g_input_add(dcc->handle, G_INPUT_WRITE,
++	dcc->tagwrite = i_input_add(dcc->handle, I_INPUT_WRITE,
 +				    (GInputFunction) dcc_send_data, dcc);
 +
 +	return;
@@ -135,7 +135,7 @@ diff -urNp -x '*.orig' irssi-1.2.2.org/src/irc/dcc/dcc-send.c irssi-1.2.2/src/ir
 +	dcc->timeout_tag = -1;
          dcc->file_quoted = strchr(fname, ' ') != NULL;
  	if (!passive) {
- 		dcc->tagconn = g_input_add(handle, G_INPUT_READ,
+ 		dcc->tagconn =
 @@ -473,6 +552,7 @@ void dcc_send_init(void)
          dcc_register_type("SEND");
  	settings_add_str("dcc", "dcc_upload_path", "~");

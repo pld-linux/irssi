@@ -10,18 +10,18 @@
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.53
-%define		irssi_perl_version 20210409
+%define		irssi_perl_version 20220717
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	1.2.3
-Release:	5
+Version:	1.4.2
+Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ebbf455d8e9c847fc8106591088024ab
+# Source0-md5:	8bf8aa19e6c08553d9bd05b89158df71
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
@@ -33,9 +33,9 @@ Source4:	http://cybione.org/~irssi-xmpp/files/irssi-xmpp-%{xmpp_ver}.tar.gz
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-home_etc.patch
 Patch2:		%{name}-idea-listlen.patch
-Patch3:		%{name}-gcc4.patch
+Patch3:         bug-1374.patch
 Patch4:		%{name}-dynamic.patch
-
+Patch5:         gtimeval-build-fix.patch
 Patch6:		%{name}-color_support_for_gui_entry.patch
 Patch7:		%{name}-libs-nopoison.patch
 Patch8:		am.patch
@@ -118,6 +118,7 @@ Ten pakiet zawiera wtyczkę do Irssi z obsługą XMPP.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+
 %if %{with dynamic}
 %patch4 -p1
 %endif
@@ -129,6 +130,11 @@ echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
 mv irssi-idea{-%{idea_ver},}
 mv irssi-xmpp{-%{xmpp_ver},}
+
+cd irssi-xmpp
+%patch5 -p1
+cd ..
+
 %if %{with dynamic}
 %patch8 -p1
 %endif
