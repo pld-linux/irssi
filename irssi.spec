@@ -10,18 +10,18 @@
 
 %define		idea_ver	0.1.46
 %define		xmpp_ver	0.53
-%define		irssi_perl_version 20221031
+%define		irssi_perl_version 20230331
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
 Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
-Version:	1.4.3
+Version:	1.4.4
 Release:	1
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	681cc755c5f3f0d73c33fffcf271ba9d
+# Source0-md5:	6b81d43094d0e67a2800be160044ff75
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 # NXDOMAIN
