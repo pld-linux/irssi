@@ -144,6 +144,8 @@ cd ..
 # hack
 %{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'
 
+%{__rm} m4/libgcrypt.m4
+
 %build
 ver=$(awk '/IRSSI_VERSION_DATE/{print $3}' irssi-version.h)
 if [ "$ver" != "%{irssi_perl_version}" ]; then
