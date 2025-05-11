@@ -1,0 +1,52 @@
+--- irssi-1.4.5/irssi-idea/src/plugin.c.orig	2002-05-17 08:57:32.000000000 +0200
++++ irssi-1.4.5/irssi-idea/src/plugin.c	2025-05-11 18:51:48.686520033 +0200
+@@ -96,6 +96,7 @@
+         const char *nickmode;
+ 	int for_me, print_channel, level;
+ 	char *color, *freemsg = NULL;
++	HILIGHT_REC *hilight;
+ 
+ 	g_return_if_fail(msg != NULL);
+ 
+@@ -108,8 +109,9 @@
+ 		msg = freemsg = expand_emphasis((WI_ITEM_REC *) chanrec, msg);
+ 
+ 	for_me = nick_match_msg(chanrec, msg, server->nick);
+-	color = for_me ? NULL :
++	hilight = for_me ? NULL :
+ 		hilight_match_nick(server, target, nick, address, MSGLEVEL_PUBLIC, msg);
++	color = (hilight == NULL) ? NULL : hilight_get_color(hilight);
+ 	nickmode = channel_get_nickmode(chanrec, server->nick);
+ 
+ 	level = MSGLEVEL_PUBLIC | (for_me || color != NULL ?
+--- irssi-1.4.5/irssi-idea/src/irc_api.c.orig	2025-05-11 18:54:29.972868221 +0200
++++ irssi-1.4.5/irssi-idea/src/irc_api.c	2025-05-11 18:58:08.103424787 +0200
+@@ -60,7 +60,7 @@
+ 	list = g_strsplit(msg, "|", -1);
+         ret = 0;
+ 
+-	if (strarray_length(list) == 7 && strcmp(list[1], "*E*") == 0) {
++	if (g_strv_length(list) == 7 && strcmp(list[1], "*E*") == 0) {
+ 		if (type != NULL)
+ 			*type = g_strdup(list[2]);
+ 
+@@ -371,7 +371,7 @@
+ 
+ 	// nick + \001 + %08lx(time) + \001 + message
+ 	list = g_strsplit(buf, "\001", -1);
+-	if (strarray_length(list) != 3) {
++	if (g_strv_length(list) != 3) {
+ 		g_strfreev(list);
+ 
+ 		if (message)
+--- irssi-1.4.5/irssi-xmpp/src/fe-common/xmpp-completion.c.orig	2016-03-18 15:07:32.000000000 +0100
++++ irssi-1.4.5/irssi-xmpp/src/fe-common/xmpp-completion.c	2025-05-11 19:01:06.516714276 +0200
+@@ -287,7 +287,7 @@
+ 		    chat_type, XMPP_PROTOCOL_NAME)
+ 		    || *channel_setup->name != '#')
+ 		    && g_ascii_strncasecmp(channel_setup->name, word, len) == 0
+-		    && glist_find_string(list, channel_setup->name) == NULL)
++		    && i_list_find_string(list, channel_setup->name) == NULL)
+ 			list = g_list_append(list,
+ 			    g_strdup(channel_setup->name));
+ 	}

@@ -41,6 +41,7 @@ Patch7:		%{name}-libs-nopoison.patch
 Patch8:		am.patch
 Patch9:		%{name}-idea-glib.patch
 Patch10:	%{name}-xmpp.patch
+Patch11:	types.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -140,6 +141,7 @@ cd ..
 %endif
 %patch -P9 -p0
 %patch -P10 -p0
+%patch -P11 -p1
 
 # hack
 %{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'
