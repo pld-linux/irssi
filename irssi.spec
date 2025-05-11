@@ -114,17 +114,17 @@ Ten pakiet zawiera wtyczkę do Irssi z obsługą XMPP.
 
 %prep
 %setup -q -a3 -a4
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
 
 %if %{with dynamic}
-%patch4 -p1
+%patch -P4 -p1
 %endif
 
-#%patch6 -p0
-%patch7 -p1
+#%%patch -P6 -p0
+%patch -P7 -p1
 
 echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
 
@@ -132,14 +132,14 @@ mv irssi-idea{-%{idea_ver},}
 mv irssi-xmpp{-%{xmpp_ver},}
 
 cd irssi-xmpp
-%patch5 -p1
+%patch -P5 -p1
 cd ..
 
 %if %{with dynamic}
-%patch8 -p1
+%patch -P8 -p1
 %endif
-%patch9 -p0
-%patch10 -p0
+%patch -P9 -p0
+%patch -P10 -p0
 
 # hack
 %{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'
