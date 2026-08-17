@@ -17,7 +17,7 @@ Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	1.4.5
-Release:	5
+Release:	6
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
@@ -42,6 +42,13 @@ Patch8:		am.patch
 Patch9:		%{name}-idea-glib.patch
 Patch10:	%{name}-xmpp.patch
 Patch11:	types.patch
+Patch12:	glib-log-domains-level.patch
+Patch13:	glib-log-no-debug.patch
+Patch14:	sasl-multiple-cap-ack.patch
+Patch15:	openssl3-deprecated-ec.patch
+Patch16:	chatnet-slash-unix-socket.patch
+Patch17:	gethostbyname-eai-noname.patch
+Patch18:	tls-verify-proxy-hostname.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -142,6 +149,13 @@ cd ..
 %patch -P9 -p0
 %patch -P10 -p0
 %patch -P11 -p1
+%patch -P12 -p1
+%patch -P13 -p1
+%patch -P14 -p1
+%patch -P15 -p1
+%patch -P16 -p1
+%patch -P17 -p1
+%patch -P18 -p1
 
 # hack
 %{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'

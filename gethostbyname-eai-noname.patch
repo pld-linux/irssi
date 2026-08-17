@@ -1,0 +1,26 @@
+From f24d859c801b58068eb1121157f637f28f16249c Mon Sep 17 00:00:00 2001
+From: Jonas 'Sortie' Termansen <sortie@maxsi.org>
+Date: Fri, 1 Nov 2024 22:23:46 +0100
+Subject: [PATCH] Fix using HOST_NOT_FOUND instead of EAI_NONAME.
+
+HOST_NOT_FOUND is a gethostbyname(3) error condition rather than a
+getaddrinfo(3) error condition and cannot be passed to net_gethosterror
+as documented as it calls gai_strerror(3). EAI_NONAME is the appropriate
+similar error condition as standardized by POSIX for getaddrinfo(3).
+---
+ src/core/network.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/core/network.c b/src/core/network.c
+index 85fe98963..01ce00b54 100644
+--- a/src/core/network.c
++++ b/src/core/network.c
+@@ -430,7 +430,7 @@ int net_gethostbyname(const char *addr, IPADDR *ip4, IPADDR *ip6)
+ 	}
+ 
+ 	if (count_v4 == 0 && count_v6 == 0)
+-		return HOST_NOT_FOUND; /* shouldn't happen? */
++		return EAI_NONAME; /* shouldn't happen? */
+ 
+ 	/* if there are multiple addresses, return random one */
+ 	use_v4 = count_v4 <= 1 ? 0 : rand() % count_v4;

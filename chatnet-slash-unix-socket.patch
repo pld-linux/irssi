@@ -1,0 +1,33 @@
+From e295caa86691fe1172b5a9048da511655fb9e03e Mon Sep 17 00:00:00 2001
+From: Andrej Kacian <andrej@kacian.sk>
+Date: Mon, 1 Apr 2024 01:44:08 +0200
+Subject: [PATCH] Fix github issue #1504 - irssi switches to af_unix if network
+ name contains /
+
+In addition to looking for a /, we also check if the network name is
+known.
+---
+ src/core/chat-commands.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/core/chat-commands.c b/src/core/chat-commands.c
+index faeec4519..10da0d2c0 100644
+--- a/src/core/chat-commands.c
++++ b/src/core/chat-commands.c
+@@ -30,6 +30,7 @@
+ #include <irssi/src/core/servers-setup.h>
+ #include <irssi/src/core/servers-reconnect.h>
+ #include <irssi/src/core/channels.h>
++#include <irssi/src/core/chatnets.h>
+ #include <irssi/src/core/queries.h>
+ #include <irssi/src/core/window-item-def.h>
+ #include <irssi/src/core/rawlog.h>
+@@ -91,7 +92,7 @@ static SERVER_CONNECT_REC *get_server_connect(const char *data, int *plus_addr,
+ 		return NULL;
+ 	}
+ 
+-	if (strchr(addr, '/') != NULL)
++	if (strchr(addr, '/') != NULL && chatnet_find(addr) == NULL)
+ 		conn->unix_socket = TRUE;
+ 
+ 	/* TLS options are handled in server_create_conn_opt ... -> server_setup_fill_optlist */

@@ -1,0 +1,22 @@
+Description: fix SSL CN check for proxy setup
+Origin: Ubuntu, https://bugs.launchpad.net/ubuntu/+source/irssi/+bug/565182
+Author: Steve Langasek
+
+With use_proxy the TLS handshake runs right after the TCP connect to the
+proxy, and proxy_string ("CONNECT %s %d") is only sent inside the finished
+encrypted stream, so the TLS peer is the proxy - but irssi verifies the
+certificate against the target server name. Upstream master still does this.
+SNI (SSL_set_tlsext_host_name) is left on the target name by this patch.
+
+--- a/src/core/network-openssl.c
++++ b/src/core/network-openssl.c
+@@ -236,6 +236,9 @@
+ {
+ 	long result;
+ 
++	if (server->connrec->proxy != NULL)
++		hostname = server->connrec->proxy;
++
+ 	result = SSL_get_verify_result(ssl);
+ 	if (result != X509_V_OK) {
+ 		g_warning("Could not verify TLS servers certificate: %s", X509_verify_cert_error_string(result));

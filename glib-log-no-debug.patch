@@ -1,0 +1,18 @@
+GLib logs at debug level things that are none of the user's business,
+e.g. "pidfd_open(1234) failed with error: Function not implemented" once
+per forked child on kernels without pidfd, right after it has already
+fallen back to SIGCHLD. irssi replaces GLib's default log handler, which
+would have dropped debug/info unless G_MESSAGES_DEBUG asked for them, so
+that noise ends up in the window. irssi itself never calls g_debug().
+
+--- irssi-1.4.5/src/fe-common/core/fe-common-core.c.orig
++++ irssi-1.4.5/src/fe-common/core/fe-common-core.c
+@@ -166,7 +166,7 @@
+ 	settings_add_bool("lookandfeel", "use_msgs_window", FALSE);
+ 	g_get_charset(&str);
+ 	settings_add_str("lookandfeel", "term_charset", str);
+-	settings_add_str("lookandfeel", "glib_log_domains", "all -glib-gio:debug");
++	settings_add_str("lookandfeel", "glib_log_domains", "all -*:debug");
+ 	themes_init();
+         theme_register(fecommon_core_formats);
+ 

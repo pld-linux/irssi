@@ -1,0 +1,29 @@
+From 49d7302e986dc41724f6ee9dfba97d950d3ce555 Mon Sep 17 00:00:00 2001
+From: steering7253 <steering7253@proton.me>
+Date: Mon, 7 Apr 2025 13:53:39 -0600
+Subject: [PATCH] fix irssi SASL negotiation with multiple CAP ACK
+
+when attempting SASL, if multiple CAP ACK were received (for example,
+because a script sent an additional CAP REQ), then any not containing
+`sasl` would cause SASL to fail (immediately aborting the connection
+with no message, depending on sasl_disconnect_on_failure setting)
+
+check not only if SASL is set in this line, but also if we've already
+seen it in a previous line.
+---
+ src/irc/core/irc-cap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/irc/core/irc-cap.c b/src/irc/core/irc-cap.c
+index ce7e16165..2c2df7f9b 100644
+--- a/src/irc/core/irc-cap.c
++++ b/src/irc/core/irc-cap.c
+@@ -234,7 +234,7 @@ static void event_cap (IRC_SERVER_REC *server, char *args, char *nick, char *add
+ 		}
+ 	}
+ 	else if (!g_ascii_strcasecmp(evt, "ACK")) {
+-		int got_sasl = FALSE;
++		int got_sasl = (i_slist_find_string(server->cap_active, "sasl") != NULL);
+ 
+ 		/* Emit a signal for every ack'd cap */
+ 		for (i = 0; i < caps_length; i++) {
