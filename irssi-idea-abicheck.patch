@@ -1,0 +1,14 @@
+irssi >= 0.8.18 refuses modules without <name>_abicheck():
+"idea/idea is ABI version 0 but Irssi is version 46, cannot load"
+
+--- irssi-1.4.5/irssi-idea/src/plugin.c.orig	2026-11-19 22:09:21.917321957 +0100
++++ irssi-1.4.5/irssi-idea/src/plugin.c	2026-11-19 22:09:21.924286595 +0100
+@@ -528,3 +528,8 @@
+ 
+         g_string_free(tmpstr, TRUE);
+ }
++
++void idea_abicheck(int *version)
++{
++	*version = IRSSI_ABI_VERSION;
++}

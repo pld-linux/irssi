@@ -39,14 +39,3 @@
  		g_strfreev(list);
  
  		if (message)
---- irssi-1.4.5/irssi-xmpp/src/fe-common/xmpp-completion.c.orig	2016-03-18 15:07:32.000000000 +0100
-+++ irssi-1.4.5/irssi-xmpp/src/fe-common/xmpp-completion.c	2025-05-11 19:01:06.516714276 +0200
-@@ -287,7 +287,7 @@
- 		    chat_type, XMPP_PROTOCOL_NAME)
- 		    || *channel_setup->name != '#')
- 		    && g_ascii_strncasecmp(channel_setup->name, word, len) == 0
--		    && glist_find_string(list, channel_setup->name) == NULL)
-+		    && i_list_find_string(list, channel_setup->name) == NULL)
- 			list = g_list_append(list,
- 			    g_strdup(channel_setup->name));
- 	}

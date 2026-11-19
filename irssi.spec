@@ -9,7 +9,7 @@
 %define		no_install_post_check_so	1
 
 %define		idea_ver	0.1.46
-%define		xmpp_ver	0.53
+%define		xmpp_ver	0.54
 %define		irssi_perl_version 20231003
 Summary:	Irssi is a IRC client
 Summary(fr.UTF-8):	Irssi est un client IRC
@@ -17,7 +17,7 @@ Summary(hu.UTF-8):	Irssi egy IRC kliens
 Summary(pl.UTF-8):	Irssi - wygodny w użyciu klient IRC
 Name:		irssi
 Version:	1.4.5
-Release:	6
+Release:	7
 License:	GPL
 Group:		Applications/Communications
 Source0:	https://github.com/irssi/irssi/releases/download/%{version}/%{name}-%{version}.tar.gz
@@ -28,8 +28,8 @@ Source2:	%{name}.png
 #Source3:	http://real.irssi.org/files/plugins/idea/%{name}-idea-%{idea_ver}.tar.gz
 Source3:	%{name}-idea-%{idea_ver}.tar.gz
 # Source3-md5:	c326efe317b8f67593a3cd46d5557280
-Source4:	http://cybione.org/~irssi-xmpp/files/irssi-xmpp-%{xmpp_ver}.tar.gz
-# Source4-md5:	8c9906e4efbd6f3c8bd8420f0ac8fd91
+Source4:	https://github.com/cdidier/irssi-xmpp/archive/v%{xmpp_ver}/irssi-xmpp-%{xmpp_ver}.tar.gz
+# Source4-md5:	41b6576056dc8097c605d1114ec15688
 Patch0:		%{name}-dcc-send-limit.patch
 Patch1:		%{name}-home_etc.patch
 Patch2:		%{name}-idea-listlen.patch
@@ -40,7 +40,6 @@ Patch6:		%{name}-color_support_for_gui_entry.patch
 Patch7:		%{name}-libs-nopoison.patch
 Patch8:		am.patch
 Patch9:		%{name}-idea-glib.patch
-Patch10:	%{name}-xmpp.patch
 Patch11:	types.patch
 Patch12:	glib-log-domains-level.patch
 Patch13:	glib-log-no-debug.patch
@@ -49,28 +48,26 @@ Patch15:	openssl3-deprecated-ec.patch
 Patch16:	chatnet-slash-unix-socket.patch
 Patch17:	gethostbyname-eai-noname.patch
 Patch18:	tls-verify-proxy-hostname.patch
+Patch19:	xmpp-connect-timeout.patch
+Patch20:	xmpp-i_list_find_string.patch
+Patch21:	%{name}-idea-abicheck.patch
 URL:		http://www.irssi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gettext-tools
-# for idea only
-BuildRequires:	glib-devel
-BuildRequires:	glib2-devel >= 2.24.0
+BuildRequires:	glib2-devel >= 2.32.0
 BuildRequires:	libgcrypt-devel >= 1.2.0
 BuildRequires:	libotr-devel >= 4.1.0
 BuildRequires:	libtool
-BuildRequires:	libutf8proc-devel
+BuildRequires:	utf8proc-devel
 %{?with_xmpp:BuildRequires:	loudmouth-devel}
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	openssl-devel >= 0.9.7d
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.4}
 BuildRequires:	pkgconfig
-BuildRequires:	popt-devel
 %{?with_perl:BuildRequires:	rpm-perlprov}
 BuildRequires:	rpmbuild(macros) >= 1.315
-BuildRequires:	sed >= 4.0
-Requires:	glib2 >= 2.24.0
-Provides:	perl(Irssi) = %{irssi_perl_version}
+Requires:	glib2 >= 2.32.0
+%{?with_perl:Provides:	perl(Irssi) = %{irssi_perl_version}}
 Obsoletes:	irssi-speech
 Obsoletes:	irssi-sql
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -97,7 +94,6 @@ Summary(hu.UTF-8):	Irssi IDEA plugin
 Summary(pl.UTF-8):	Wtyczka do irssi do szyfrowania IDEA
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib >= 1:1.2.10-13
 
 %description plugin-idea
 This package contains IDEA Crypt plugin for Irssi.
@@ -108,6 +104,7 @@ Ez a csomag tartalmazza az IDEA titkosítási plugint Irssi-hez.
 %description plugin-idea -l pl.UTF-8
 Ten pakiet zawiera wtyczkę do Irssi z szyfrowaniem IDEA.
 
+%if %{with xmpp}
 %package plugin-xmpp
 Summary:	Irssi XMPP support plugin
 Summary(pl.UTF-8):	Wtyczka do irssi do obsługi XMPP
@@ -119,9 +116,10 @@ This package contains XMPP support plugin for Irssi.
 
 %description plugin-xmpp -l pl.UTF-8
 Ten pakiet zawiera wtyczkę do Irssi z obsługą XMPP.
+%endif
 
 %prep
-%setup -q -a3 -a4
+%setup -q -a3 %{?with_xmpp:-a4}
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
@@ -134,21 +132,23 @@ Ten pakiet zawiera wtyczkę do Irssi z obsługą XMPP.
 #%%patch -P6 -p0
 %patch -P7 -p1
 
-echo 'AC_DEFUN([AM_PATH_GLIB],[:])' > glib1.m4
-
 mv irssi-idea{-%{idea_ver},}
-mv irssi-xmpp{-%{xmpp_ver},}
 
+%if %{with xmpp}
+mv irssi-xmpp{-%{xmpp_ver},}
 cd irssi-xmpp
 %patch -P5 -p1
+%patch -P19 -p1
+%patch -P20 -p1
 cd ..
+%endif
 
 %if %{with dynamic}
 %patch -P8 -p1
 %endif
 %patch -P9 -p0
-%patch -P10 -p0
 %patch -P11 -p1
+%patch -P21 -p1
 %patch -P12 -p1
 %patch -P13 -p1
 %patch -P14 -p1
@@ -156,9 +156,6 @@ cd ..
 %patch -P16 -p1
 %patch -P17 -p1
 %patch -P18 -p1
-
-# hack
-%{__sed} -i -e 's#\./libtool#%{_bindir}/libtool#g' 'configure.ac'
 
 %{__rm} m4/libgcrypt.m4
 
@@ -200,9 +197,10 @@ cd irssi-idea
 %{__make}
 cd ..
 
+%if %{with xmpp}
 export IRSSI_INCLUDE=`pwd`
-cd irssi-xmpp
-%{__make}
+%{__make} -C irssi-xmpp
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -220,16 +218,21 @@ cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{__make} -C irssi-idea install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%if %{with xmpp}
 %{__make} -C irssi-xmpp install \
 	PREFIX=%{_prefix} \
 	IRSSI_LIB=%{_libdir}/%{name} \
 	DESTDIR=$RPM_BUILD_ROOT
+# packaged as %doc
+rm -r $RPM_BUILD_ROOT%{_docdir}/%{name}/irssi-xmpp
+%endif
 
 # -devel?
 %if %{with dynamic}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.{so,la,a}
 %endif
 rm -r $RPM_BUILD_ROOT%{_includedir}/irssi
+rm $RPM_BUILD_ROOT%{_pkgconfigdir}/irssi-1.pc
 # cleanup
 rm $RPM_BUILD_ROOT%{_libdir}/irssi/modules/lib*.{la,a}
 %if %{with perl}
@@ -259,6 +262,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/scripts
 %{_datadir}/%{name}/help
+%if %{with xmpp}
+%exclude %{_datadir}/%{name}/help/{presence,roster,xmppconnect,xmppserver}
+%endif
 %{_datadir}/%{name}/themes
 %{_desktopdir}/irssi.desktop
 %{_pixmapsdir}/irssi.png
@@ -287,9 +293,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/irssi/modules/libidea.so
 
+%if %{with xmpp}
 %files plugin-xmpp
 %defattr(644,root,root,755)
-%doc irssi-xmpp/{docs/*,NEWS,README,TODO}
+%doc irssi-xmpp/{docs/*,NEWS,README.md,TODO}
 %attr(755,root,root) %{_libdir}/irssi/modules/libfe_xmpp.so
 %attr(755,root,root) %{_libdir}/irssi/modules/libtext_xmpp.so
 %attr(755,root,root) %{_libdir}/irssi/modules/libxmpp_core.so
+%{_datadir}/%{name}/help/presence
+%{_datadir}/%{name}/help/roster
+%{_datadir}/%{name}/help/xmppconnect
+%{_datadir}/%{name}/help/xmppserver
+%endif
